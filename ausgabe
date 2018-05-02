@@ -1,0 +1,63 @@
+
+ 38 13 7 24 10 11 21 8 33 44 51
+player0: raise 50
+player1: call 50
+player2: call 50
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+
+ 8 25 11 32 18 28 1 39 48 13 33
+player2: call 20
+player0: raise 50
+player1: call 50
+player2: call 50
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+ 43 16 29 44 8 19 49 36 25 41 10
+player2: call 20
+player0: raise 50
+player1: call 50
+player2: call 50
+player0: call 0
+player1: call 0
+player2: call 0
+player0: raise 50
+player1: call 50
+player2: call 50
+player0: raise 50
+player1: call 50
+player2: call 50
+ 16 30 29 9 44 24 11 18 36 20 34
+ 22 5 3 10 47 51 7 43 36 30 34
+player1: call 20
+player2: call 20
+ 37 8 30 19 33 45 27 14 11 10 50
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
