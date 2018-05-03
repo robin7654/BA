@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class PokerKI {
 	public JFrame frame;
@@ -37,6 +38,11 @@ public class PokerKI {
 	private JLabel lblBet_1 = new JLabel("Bet");
 	private JLabel lblBet_2 = new JLabel("Bet");
 	private JLabel lblPot = new JLabel("Pot");
+	
+	JButton btnFold;
+	JButton btnCall;
+	JButton btnRaise;
+	JButton btnStartGame;
 	
 	/**
 	 * Launch the application.
@@ -73,7 +79,7 @@ public class PokerKI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JButton btnFold = new JButton("Fold");
+		btnFold = new JButton("Fold");
 		btnFold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				gc.fold(gc.player0);
@@ -95,12 +101,13 @@ public class PokerKI {
 					updatePlayerBet();
 					updatePot();
 				}
+				
 			}
 		});
 		btnFold.setBounds(741, 664, 89, 23);
 		frame.getContentPane().add(btnFold);
 
-		JButton btnCall = new JButton("Call");
+		btnCall = new JButton("Call");
 		btnCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				gc.call(gc.player0);
@@ -125,7 +132,7 @@ public class PokerKI {
 		btnCall.setBounds(837, 664, 89, 23);
 		frame.getContentPane().add(btnCall);
 
-		JButton btnRaise = new JButton("Raise");
+		btnRaise = new JButton("Raise");
 		btnRaise.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int amount = Integer.parseInt(textField.getText());
@@ -182,7 +189,7 @@ public class PokerKI {
 		lblBoard_4.setBounds(680, 263, 83, 117);
 		frame.getContentPane().add(lblBoard_4);
 
-		JButton btnStartGame = new JButton("start game");
+		btnStartGame = new JButton("start game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -283,6 +290,8 @@ public class PokerKI {
 			timer.schedule(new TimerTask() {
 				public void run() {
 					
+					System.out.println(gc.getPlayer(0).balance + " " + gc.getPlayer(1).balance + " " + gc.getPlayer(2).balance);
+					
 					int[] winnerArray = gc.evaluate();
 					int max = gc.max(winnerArray);
 					
@@ -299,15 +308,17 @@ public class PokerKI {
 					else if(max == 1) {
 						System.out.println("SplitPot between 2 Players");
 						for(int i = 0; i < winnerArray.length; i++) {
-							if(winnerArray[i] == 1) System.out.println("Winner: Player" + i);
-							gc.getPlayer(i).balance += gc.pot/2;
+							if(winnerArray[i] == 1) { 
+								System.out.println("Winner: Player" + i);
+								gc.getPlayer(i).balance += gc.pot/2;
+							}
 						}
 						
 					}
 					else {
 						System.out.println("SplitPot between 3 Players");
 						for(int i = 0; i < winnerArray.length; i++) {
-							if(winnerArray[i] == 1) System.out.println("Winner: Player" + i);
+							System.out.println("Winner: Player" + i);
 							gc.getPlayer(i).balance += gc.pot/3;
 						}
 					}
@@ -316,17 +327,33 @@ public class PokerKI {
 					updatePlayerBalance();
 					updatePlayerBet();
 					updatePot();
+					
+					System.out.println(gc.getPlayer(0).balance + " " + gc.getPlayer(1).balance + " " + gc.getPlayer(2).balance);
+					
+					System.out.println(splitPot(winnerArray));
+					if(!splitPot(winnerArray)) {
+						btnStartGame.doClick();
+						btnCall.doClick();
+						btnCall.doClick();
+						btnCall.doClick();
+						btnCall.doClick();
+						btnCall.doClick();
+					}
 				}
-			}, 2000);
-			
-			
-			
-			//pot yuschieben
-			
+			}, 0);			
 			break;
 		}
 		
 	}
+	
+	
+	public boolean splitPot(int[] winnerArray) {
+		for(int i = 0; i < winnerArray.length; i++) {
+			if(winnerArray[i] == 2 || winnerArray[i] == 1) return false;
+		}
+		return true;
+	}
+	
 	public void setCardLabel(int x, int y){
 		switch (x) {
 		case 0: ImageIcon imgBoard = new ImageIcon("src/images/" + y + ".jpg");
