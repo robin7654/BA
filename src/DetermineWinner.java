@@ -47,21 +47,6 @@ public class DetermineWinner {
 		int p2c = 0;
 		int p3c = 0;
 		
-		if(compareTwo(p1, p2) == 1) {
-			if(compareTwo(p1,p3) == 1) 
-				array[0] = 0;
-			else if(compareTwo(p1,p3) == 0) {
-				array[0] = 0;
-				array[1] = 0;
-				array[2] = 1;
-			}
-			else {
-				array[0] = 1;
-				array[1] = 0;
-				array[2] = 2;
-			}
-		}
-		
 		if(compareTwo(p1,p2) == 1) array[0]++;
 		if(compareTwo(p1,p3) == 1) array[0]++;
 		if(compareTwo(p2,p1) == 1) array[1]++;
