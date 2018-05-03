@@ -4035,3 +4035,32 @@ player1: call 0
 player2: call 0
 player0: call 0
 player1: call 0
+ 2 21 4 7 47 36 31 34 23 40 18
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+ 8 22 38 3 42 27 7 21 49 31 24
+player0: call 20
+player1: call 20
+player2: call 20
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0

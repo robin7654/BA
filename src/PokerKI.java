@@ -287,9 +287,36 @@ public class PokerKI {
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				public void run() {
-					int winner = gc.evaluate();
-					System.out.println("Winner: Player" + winner);
-					gc.getPlayer(winner).balance = gc.getPlayer(winner).balance + gc.pot;
+					
+					int[] winnerArray = gc.evaluate();
+					int max = gc.max(winnerArray);
+					
+					if(max == 2) {
+						for(int i = 0; i < winnerArray.length; i++) {
+							if(winnerArray[i] == 2) {
+								System.out.println("Winner: Player" + i);
+								gc.getPlayer(i).balance += gc.pot;
+								return;
+							}
+						}
+						
+					}
+					else if(max == 1) {
+						System.out.println("SplitPot between 2 Players");
+						for(int i = 0; i < winnerArray.length; i++) {
+							if(winnerArray[i] == 1) System.out.println("Winner: Player" + i);
+							gc.getPlayer(i).balance += gc.pot/2;
+						}
+						
+					}
+					else {
+						System.out.println("SplitPot between 3 Players");
+						for(int i = 0; i < winnerArray.length; i++) {
+							if(winnerArray[i] == 1) System.out.println("Winner: Player" + i);
+							gc.getPlayer(i).balance += gc.pot/3;
+						}
+					}
+					
 					gc.pot = 0;
 					updatePlayerBalance();
 					updatePlayerBet();

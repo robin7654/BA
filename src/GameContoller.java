@@ -295,6 +295,14 @@ public int[] evaluate(){
 	
 }
 
+public int max(int[] array) {
+	int max = 0;
+	for(int i = 0; i < array.length; i++) {
+		if(array[i] > max) max = array[i];
+	}
+	return max;
+}
+
 public void writeAction(Player player, String action, int amount)throws IOException{
 	Writer output;
 	output = new BufferedWriter(new FileWriter("ausgabe", true));
