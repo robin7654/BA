@@ -281,7 +281,7 @@ public class PokerKI {
 			
 			try {
 				
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			//pot yuschieben
