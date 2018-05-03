@@ -296,7 +296,6 @@ public class PokerKI {
 							if(winnerArray[i] == 2) {
 								System.out.println("Winner: Player" + i);
 								gc.getPlayer(i).balance += gc.pot;
-								return;
 							}
 						}
 						
