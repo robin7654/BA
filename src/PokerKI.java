@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
 
 public class PokerKI {
 	public JFrame frame;
@@ -226,6 +227,8 @@ public class PokerKI {
 		
 		lblPot.setBounds(853, 370, 46, 14);
 		frame.getContentPane().add(lblPot);
+		
+		
 	}
 
 	 protected void updatePlayerBet() {
@@ -277,7 +280,7 @@ public class PokerKI {
 			setCardLabel(10,gc.karten[10]);
 			
 			try {
-				TimeUnit.SECONDS.sleep(2);
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -291,39 +294,38 @@ public class PokerKI {
 		
 	}
 	public void setCardLabel(int x, int y){
-	
 		switch (x) {
-		case 0: ImageIcon imgBoard = new ImageIcon("" + y + ".jpg");
+		case 0: ImageIcon imgBoard = new ImageIcon("src/images/" + y + ".jpg");
 		lblBoard.setIcon(imgBoard);
 		break;
-		case 1: ImageIcon imgBoard_1 = new ImageIcon("" + y + ".jpg");
+		case 1: ImageIcon imgBoard_1 = new ImageIcon("src/images/" + y + ".jpg");
 		lblBoard_1.setIcon(imgBoard_1);
 		break;
-		case 2: ImageIcon imgBoard_2 = new ImageIcon("" + y + ".jpg");
+		case 2: ImageIcon imgBoard_2 = new ImageIcon("src/images/" + y + ".jpg");
 		lblBoard_2.setIcon(imgBoard_2);
 		break;
-		case 3: ImageIcon imgBoard_3 = new ImageIcon("" + y + ".jpg");
+		case 3: ImageIcon imgBoard_3 = new ImageIcon("src/images/" + y + ".jpg");
 		lblBoard_3.setIcon(imgBoard_3);
 		break;
-		case 4: ImageIcon imgBoard_4 = new ImageIcon( "" + y + ".jpg");
+		case 4: ImageIcon imgBoard_4 = new ImageIcon("src/images/" + y + ".jpg");
 		lblBoard_4.setIcon(imgBoard_4);
 		break;
-		case 5: ImageIcon imgHole = new ImageIcon("" + y + ".jpg");
+		case 5: ImageIcon imgHole = new ImageIcon("src/images/" + y + ".jpg");
 		lblHole.setIcon(imgHole);
 		break;
-		case 6: ImageIcon imgHole_1 = new ImageIcon("" + y + ".jpg");
+		case 6: ImageIcon imgHole_1 = new ImageIcon("src/images/" + y + ".jpg");
 		lblHole_1.setIcon(imgHole_1);
 		break;
-		case 7: ImageIcon imgHole_2 = new ImageIcon("" + y + ".jpg");
+		case 7: ImageIcon imgHole_2 = new ImageIcon("src/images/" + y + ".jpg");
 		lblHole_2.setIcon(imgHole_2);
 		break;
-		case 8: ImageIcon imgHole_3 = new ImageIcon("" + y + ".jpg");
+		case 8: ImageIcon imgHole_3 = new ImageIcon("src/images/" + y + ".jpg");
 		lblHole_3.setIcon(imgHole_3);
 		break;
-		case 9: ImageIcon imgHole_4 = new ImageIcon("" + y + ".jpg");
+		case 9: ImageIcon imgHole_4 = new ImageIcon("src/images/" + y + ".jpg");
 		lblHole_4.setIcon(imgHole_4);
 		break;
-		case 10: ImageIcon imgHole_5 = new ImageIcon("" + y + ".jpg");
+		case 10: ImageIcon imgHole_5 = new ImageIcon("src/images/" + y + ".jpg");
 		lblHole_5.setIcon(imgHole_5);
 		break;
 		}
