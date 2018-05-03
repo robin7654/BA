@@ -250,16 +250,23 @@ public void fold(Player player){
 }
 
 //returnt index des gewinnenden spielers
-public int evaluate(){
+public int[] evaluate(){
 	int [] cards0 = {karten[0],karten[1],karten[2],karten[3],karten[4],karten[5],karten[6]};
 	int [] cards1 = {karten[0],karten[1],karten[2],karten[3],karten[4],karten[7],karten[8]};
 	int [] cards2 = {karten[0],karten[1],karten[2],karten[3],karten[4],karten[9],karten[10]};
-	int a = 0;
+	/*int a = 0;
 	int b = 0;
-	int c = 0;
+	int c = 0;*/
+	
+	int[] array = DetermineWinner.compareThree(cards0, cards1, cards2);
+	if(!player0.active) array[0] = -1;
+	if(!player1.active) array[1] = -1;
+	if(!player2.active) array[2] = -1;
+	
+	return array;
 
 	
-	if(player0.active & player1.active){
+	/*if(player0.active & player1.active){
 		int x = DetermineWinner.compareTwo(cards0, cards1);
 		System.out.println("0 " + x + " 1");
 		a = a + x;
@@ -283,7 +290,7 @@ public int evaluate(){
 	if (b >= a & b >= c){
 		return 1;
 	}
-	return 2;
+	return 2;*/
 	//todo split pot
 	
 }
