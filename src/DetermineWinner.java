@@ -14,8 +14,8 @@ public class DetermineWinner {
 		
 		
 		
-		System.out.println(Arrays.toString(a));
-		System.out.println(Arrays.toString(b));
+		//System.out.println(Arrays.toString(a));
+		//System.out.println(Arrays.toString(b));
 		
 		
 		for (int i = 0; i < 6; i++){
@@ -52,6 +52,10 @@ public class DetermineWinner {
 		if(compareTwo(p2,p3) == 1) array[1]++;
 		if(compareTwo(p3,p1) == 1) array[2]++;
 		if(compareTwo(p3,p2) == 1) array[2]++;
+		
+		System.out.println("Spieler 0 Platz: " + array[0] + " " + Arrays.toString(p1));
+		System.out.println("Spieler 0 Platz: " + array[1] + " " + Arrays.toString(p2));
+		System.out.println("Spieler 0 Platz: " + array[2] + " " + Arrays.toString(p3));
 		
 		
 		return array;
