@@ -10,11 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
 
 public class PokerKI {
 	public JFrame frame;
@@ -294,7 +289,8 @@ public class PokerKI {
 					if(max == 2) {
 						for(int i = 0; i < winnerArray.length; i++) {
 							if(winnerArray[i] == 2) {
-								System.out.println("Winner: Player" + i);
+								if(i == 0) System.out.println("Winner: Player");
+								else System.out.println("Winner: Enemy" + i);
 								gc.getPlayer(i).balance += gc.pot;
 							}
 						}
