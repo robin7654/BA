@@ -288,9 +288,12 @@ public class PokerKI {
 			timer.schedule(new TimerTask() {
 				public void run() {
 					int winner = gc.evaluate();
-					System.out.println("winner: " + winner);
+					System.out.println("Winner: Player" + winner);
 					gc.getPlayer(winner).balance = gc.getPlayer(winner).balance + gc.pot;
 					gc.pot = 0;
+					updatePlayerBalance();
+					updatePlayerBet();
+					updatePot();
 				}
 			}, 2000);
 			
