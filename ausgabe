@@ -61,3 +61,45 @@ player1: call 0
 player2: call 0
 player0: call 0
 player1: call 0
+ 26 50 4 35 24 16 46 30 23 18 5
+player2: call 20
+ 29 1 47 15 10 16 42 21 38 13 46
+ 3 13 48 41 8 28 26 42 16 6 35
+player2: call 20
+player0: fold 0
+player1: call 20
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+ 43 18 34 32 23 42 31 30 47 17 4
+ 14 40 43 10 13 19 1 47 29 34 35
+player1: call 20
+player2: call 20
+ 21 4 9 16 42 11 13 28 51 23 50
+ 33 6 2 24 46 8 41 37 17 50 32
+ 4 22 19 2 42 23 38 24 34 31 39
+player1: call 20
+player2: call 20
+ 38 51 11 15 25 49 34 50 29 22 24
+player1: call 20
+player2: call 20
+player0: fold 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+ 9 46 41 20 50 48 51 30 6 10 28
+player2: call 20
+ 5 2 10 24 45 38 17 44 29 33 30
+player2: call 20
