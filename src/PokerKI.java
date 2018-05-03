@@ -330,7 +330,7 @@ public class PokerKI {
 					
 					System.out.println(gc.getPlayer(0).balance + " " + gc.getPlayer(1).balance + " " + gc.getPlayer(2).balance);
 					
-					System.out.println(splitPot(winnerArray));
+					/*System.out.println(splitPot(winnerArray));
 					if(!splitPot(winnerArray)) {
 						btnStartGame.doClick();
 						btnCall.doClick();
@@ -338,7 +338,7 @@ public class PokerKI {
 						btnCall.doClick();
 						btnCall.doClick();
 						btnCall.doClick();
-					}
+					}*/
 				}
 			}, 0);			
 			break;
