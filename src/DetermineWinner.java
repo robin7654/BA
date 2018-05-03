@@ -31,7 +31,10 @@ public class DetermineWinner {
 	
 	public static int[] compareThree(int[] p1, int[] p2, int[] p3) {
 		int[] array = new int[3];
-		int first, second, third;
+		array[0] = 0;
+		array[1] = 0;
+		array[2] = 0;
+		
 		
 		int [] a = playersHand(p1);
 		int [] b = playersHand(p2);
@@ -42,10 +45,6 @@ public class DetermineWinner {
 			b[i] = (int) b[i] / 4;
 			c[i] = (int) c[i] / 4;
 		}
-		
-		int p1c = 0;
-		int p2c = 0;
-		int p3c = 0;
 		
 		if(compareTwo(p1,p2) == 1) array[0]++;
 		if(compareTwo(p1,p3) == 1) array[0]++;
