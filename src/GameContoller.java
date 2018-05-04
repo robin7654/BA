@@ -117,6 +117,13 @@ public void continueBetting(int acting) {
 	}
 }
 private void calculateMove(int acting) {
+	
+	if(gamestate == 0){
+		calculatePreflopMove(acting);
+	}
+	
+	
+	
 	Random randomGenerator = new Random();
 	int randomInt = randomGenerator.nextInt(10);
 	if (randomInt < 0){
@@ -128,6 +135,14 @@ private void calculateMove(int acting) {
 	} 
 	call(getPlayer(acting));
 	//to do
+}
+private void calculatePreflopMove(int acting) {
+	
+	
+	
+	
+	
+	
 }
 public int nextPlayer(int x){
 	switch(x){

@@ -42,6 +42,7 @@ public class PokerKI {
 	JButton btnFold;
 	JButton btnCall;
 	JButton btnRaise;
+	JButton btnStartNewHand;
 	JButton btnStartGame;
 	
 	/**
@@ -189,10 +190,9 @@ public class PokerKI {
 		lblBoard_4.setBounds(680, 263, 83, 117);
 		frame.getContentPane().add(lblBoard_4);
 
-		btnStartGame = new JButton("start game");
-		btnStartGame.addActionListener(new ActionListener() {
+		btnStartNewHand = new JButton("StartNewHand");
+		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				setCardLabel(0,53);
 				setCardLabel(1,53);
 				setCardLabel(2,53);
@@ -210,6 +210,21 @@ public class PokerKI {
 				setCardLabel(6,gc.karten[6]);
 				updatePlayerBalance();
 				updatePlayerBet();
+				
+			}
+		});
+		btnStartNewHand.setBounds(366, 664, 132, 23);
+		frame.getContentPane().add(btnStartNewHand);
+		
+		btnStartGame = new JButton("start game");
+		btnStartGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				
+				
+				
+				
 			}
 		});
 		btnStartGame.setBounds(42, 636, 200, 50);
@@ -338,7 +353,8 @@ public class PokerKI {
 						btnCall.doClick();
 						btnCall.doClick();
 						btnCall.doClick();
-					}*/
+					}
+					*/
 				}
 			}, 0);			
 			break;
