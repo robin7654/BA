@@ -199,7 +199,7 @@ public class PokerKI {
 				setCardLabel(3,53);
 				setCardLabel(4,53);
 				
-				gc.startGame();
+				gc.startHand();
 				placeButton(gc.button);
 				setCardLabel(7,52);
 				setCardLabel(8,52);

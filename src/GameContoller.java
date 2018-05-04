@@ -23,7 +23,14 @@ int highestBet;
 int gamestate = 0;
 int pot = 0;
 
-public void startGame(){
+public void startNewGame(){
+	button = 3;
+	player0 = new Player();
+	player1 = new Player();
+	player2 = new Player();
+}
+
+public void startHand(){
 	//button platzieren
 	gamestate = 0;
 	if (button>2){
