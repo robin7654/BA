@@ -219,8 +219,22 @@ public class PokerKI {
 		btnStartGame = new JButton("start game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setCardLabel(0,53);
+				setCardLabel(1,53);
+				setCardLabel(2,53);
+				setCardLabel(3,53);
+				setCardLabel(4,53);
+				gc.startNewGame();
+				placeButton(gc.button);
+				setCardLabel(7,52);
+				setCardLabel(8,52);
+				setCardLabel(9,52);
+				setCardLabel(10,52);
 				
-				
+				setCardLabel(5,gc.karten[5]);
+				setCardLabel(6,gc.karten[6]);
+				updatePlayerBalance();
+				updatePlayerBet();
 				
 				
 				
@@ -304,57 +318,80 @@ public class PokerKI {
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				public void run() {
-					
-					System.out.println(gc.getPlayer(0).balance + " " + gc.getPlayer(1).balance + " " + gc.getPlayer(2).balance);
-					
+
+					System.out.println(gc.getPlayer(0).balance + " "
+							+ gc.getPlayer(1).balance + " "
+							+ gc.getPlayer(2).balance);
+
 					int[] winnerArray = gc.evaluate();
 					int max = gc.max(winnerArray);
-					
-					if(max == 2) {
-						for(int i = 0; i < winnerArray.length; i++) {
-							if(winnerArray[i] == 2) {
-								if(i == 0) System.out.println("Winner: Player");
-								else System.out.println("Winner: Enemy" + i);
+
+					if (max == 2) {
+						for (int i = 0; i < winnerArray.length; i++) {
+							if (winnerArray[i] == 2) {
+								System.out.println("Winner: Player" + i);
 								gc.getPlayer(i).balance += gc.pot;
 							}
 						}
-						
-					}
-					else if(max == 1) {
-						System.out.println("SplitPot between 2 Players");
-						for(int i = 0; i < winnerArray.length; i++) {
-							if(winnerArray[i] == 1) { 
-								System.out.println("Winner: Player" + i);
-								gc.getPlayer(i).balance += gc.pot/2;
+
+					} else if (max == 1) {
+
+						if ((gc.player0.active == false
+								| gc.player1.active == false | gc.player2.active == false)
+								& winnerArray[0] + winnerArray[1]
+										+ winnerArray[2] == 0) {
+							for (int i = 0; i < winnerArray.length; i++) {
+								if (winnerArray[i] == 1) {
+									System.out.println("Winner: Player" + i);
+									gc.getPlayer(i).balance += gc.pot;
+								}
+							}
+
+						} else {
+							System.out.println("SplitPot between 2 Players");
+							for (int i = 0; i < winnerArray.length; i++) {
+								if (winnerArray[i] == 1) {
+									System.out.println("Winner: Player" + i);
+									gc.getPlayer(i).balance += gc.pot / 2;
+								}
 							}
 						}
-						
-					}
-					else {
-						System.out.println("SplitPot between 3 Players");
-						for(int i = 0; i < winnerArray.length; i++) {
-							System.out.println("Winner: Player" + i);
-							gc.getPlayer(i).balance += gc.pot/3;
+
+					} else {
+						if ((gc.player0.active == false
+								| gc.player1.active == false | gc.player2.active == false)
+								& winnerArray[0] + winnerArray[1]
+										+ winnerArray[2] == 0) {
+
+							for (int i = 0; i < winnerArray.length; i++) {
+								System.out.println("Winner: Player" + i);
+								gc.getPlayer(i).balance += gc.pot / 2;
+							}
+
+						} else {
+							System.out.println("SplitPot between 3 Players");
+							for (int i = 0; i < winnerArray.length; i++) {
+								System.out.println("Winner: Player" + i);
+								gc.getPlayer(i).balance += gc.pot / 3;
+							}
 						}
 					}
-					
+
 					gc.pot = 0;
 					updatePlayerBalance();
 					updatePlayerBet();
 					updatePot();
-					
-					System.out.println(gc.getPlayer(0).balance + " " + gc.getPlayer(1).balance + " " + gc.getPlayer(2).balance);
-					
-					/*System.out.println(splitPot(winnerArray));
-					if(!splitPot(winnerArray)) {
-						btnStartGame.doClick();
-						btnCall.doClick();
-						btnCall.doClick();
-						btnCall.doClick();
-						btnCall.doClick();
-						btnCall.doClick();
-					}
-					*/
+
+					System.out.println(gc.getPlayer(0).balance + " "
+							+ gc.getPlayer(1).balance + " "
+							+ gc.getPlayer(2).balance);
+
+					/*
+					 * System.out.println(splitPot(winnerArray));
+					 * if(!splitPot(winnerArray)) { btnStartGame.doClick();
+					 * btnCall.doClick(); btnCall.doClick(); btnCall.doClick();
+					 * btnCall.doClick(); btnCall.doClick(); }
+					 */
 				}
 			}, 0);			
 			break;

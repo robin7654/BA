@@ -54,8 +54,8 @@ public class DetermineWinner {
 		if(compareTwo(p3,p2) == 1) array[2]++;
 		
 		System.out.println("Player " + array[0] + " " + Arrays.toString(a));
-		System.out.println("Enemy1 " + array[1] + " " + Arrays.toString(b));
-		System.out.println("Enemy2 " + array[2] + " " + Arrays.toString(c));
+		System.out.println("Opponent1 " + array[1] + " " + Arrays.toString(b));
+		System.out.println("Opponent2 " + array[2] + " " + Arrays.toString(c));
 		
 		
 		return array;

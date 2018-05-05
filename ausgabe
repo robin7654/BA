@@ -15353,3 +15353,264 @@ player0: call 0
 player1: call 0
 player0: call 0
 player0: call 0
+ 12 34 31 1 11 48 43 30 23 18 14
+player2: call 20
+ 32 8 24 40 13 36 45 42 41 31 37
+player2: call 20
+ 46 45 12 38 7 40 32 50 2 24 25
+ 23 11 50 31 10 42 9 49 30 36 46
+player1: call 20
+player2: call 20
+ 11 30 18 49 27 47 19 10 22 15 50
+ 18 3 20 1 47 45 6 31 39 38 40
+ 22 44 36 32 24 27 35 28 23 43 11
+player1: call 20
+player2: call 20
+ 5 44 18 21 45 43 26 35 22 42 29
+ 28 1 25 36 38 19 40 42 3 4 50
+ 48 50 25 7 18 23 4 11 5 24 33
+player0: call 20
+player1: call 20
+player2: call 20
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 17 43 22 40 26 25 21 35 16 48 20
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 8 30 36 19 15 29 13 48 3 31 33
+player2: call 20
+player0: call 20
+player1: call 20
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 16 41 20 19 51 13 8 39 2 33 1
+player0: call 20
+player1: call 20
+player2: call 20
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+ 1 30 29 12 16 25 13 35 4 19 3
+player1: call 20
+player2: call 20
+ 47 1 27 2 22 10 46 44 33 39 26
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+ 3 11 18 15 12 10 20 2 23 49 22
+player0: call 20
+ 35 33 34 6 48 39 2 36 4 3 29
+player0: call 20
+ 23 51 49 20 48 34 36 16 31 8 50
+player2: call 20
+player0: call 20
+player1: call 20
+ 40 18 16 22 30 17 24 25 37 27 43
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+ 10 1 27 48 34 24 47 3 5 12 13
+player1: call 20
+player2: call 20
+player0: fold 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 44 51 3 45 33 37 35 32 49 40 46
+player2: call 20
+player0: call 20
+player1: call 20
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 47 30 42 15 51 17 28 34 3 25 7
+player0: fold 0
+player1: call 20
+player2: call 20
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 40 47 42 49 44 33 4 24 16 29 48
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+ 42 47 43 40 2 39 51 26 8 24 15
+player2: call 20
+player0: call 20
+player1: call 20
+player0: fold 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 45 24 33 27 19 7 22 4 20 44 35
+player1: call 20
+player2: call 20
+ 15 10 23 1 42 27 32 38 20 28 47
+ 15 36 26 13 7 22 30 11 19 41 43
+player2: call 20
+player0: call 20
+player1: call 20
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+ 30 21 28 27 29 4 34 45 7 6 46
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+ 28 38 11 26 33 21 15 51 12 37 41
+player0: fold 0
+player1: call 20
+player2: call 20
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 51 48 18 22 10 39 28 49 31 11 17
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 27 47 42 49 45 41 25 32 28 1 19
+player2: call 20
+player0: fold 0
+player1: call 20
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+player1: call 0
+player2: call 0
+ 28 21 47 7 20 40 22 48 36 32 8
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: call 0
+player1: call 0
+player2: call 0
+player0: fold 0
+player1: call 0
+player2: call 0

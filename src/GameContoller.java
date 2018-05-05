@@ -28,6 +28,8 @@ public void startNewGame(){
 	player0 = new Player();
 	player1 = new Player();
 	player2 = new Player();
+	startHand();
+	
 }
 
 public void startHand(){
@@ -51,6 +53,10 @@ public void startHand(){
 		blind(getPlayer(button),blind/2);
 		blind(getPlayer(nextPlayer(button)),blind);
 	}
+	player0.active = true;
+	player1.active = true;
+	player2.active = true;
+			
 	highestBet = blind;
 	playersTurn = button;
 	karten = deck.shuffleDeck();
