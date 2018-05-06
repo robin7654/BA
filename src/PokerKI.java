@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
@@ -16,6 +17,8 @@ public class PokerKI {
 	public JFrame frame;
 	private JTextField textField;
 	public static GameContoller gc = new GameContoller();
+	
+	
 	
 	
 	JLabel lblBoard = new JLabel("Board0");
@@ -39,11 +42,32 @@ public class PokerKI {
 	private JLabel lblBet_2 = new JLabel("Bet");
 	private JLabel lblPot = new JLabel("Pot");
 	
-	JButton btnFold;
-	JButton btnCall;
-	JButton btnRaise;
-	JButton btnStartNewHand;
-	JButton btnStartGame;
+	static JButton btnFold;
+	static JButton btnCall;
+	static JButton btnRaise;
+	static JButton btnStartNewHand;
+	static JButton btnStartGame;
+	
+	public static void setCCButton() {
+		if(gc.activeGame) btnCall.setBackground(Color.GREEN);
+		else btnCall.setBackground(Color.GRAY);
+		
+		if(gc.activeHand) btnCall.setBackground(Color.GREEN);
+		else btnCall.setBackground(Color.GRAY);
+		
+		if(gc.highestBet == gc.getPlayer(0).bet) btnCall.setText("Check");
+		else btnCall.setText("Call");
+	}
+	
+	public static void setStartNewHandButton() {
+		if(gc.activeHand) btnStartNewHand.setBackground(Color.GRAY);
+		else btnStartNewHand.setBackground(Color.GREEN);
+	}
+	
+	public static void setButtons() {
+		setCCButton();
+		setStartNewHandButton();
+	}
 	
 	/**
 	 * Launch the application.
@@ -76,7 +100,7 @@ public class PokerKI {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1247, 775);
+		frame.setBounds(0, 0, 1247, 775);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -193,6 +217,7 @@ public class PokerKI {
 		btnStartNewHand = new JButton("StartNewHand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(gc.gamestate < 4) return;
 				setCardLabel(0,53);
 				setCardLabel(1,53);
 				setCardLabel(2,53);

@@ -15,6 +15,18 @@ int [] karten;
 int button = 3;
 int playersTurn = 3;
 
+public boolean activeHand = false;
+public boolean activeGame = false;
+
+public void changeActiveHand(boolean b) {
+	activeHand = b;
+	PokerKI.setCCButton();
+}
+public void changeActiveGame(boolean b) {
+	activeGame = b;
+	PokerKI.setCCButton();
+}
+
 Player player0 = new Player();
 Player player1 = new Player();
 Player player2 = new Player();
@@ -28,11 +40,14 @@ public void startNewGame(){
 	player0 = new Player();
 	player1 = new Player();
 	player2 = new Player();
+	changeActiveGame(true);
+	changeActiveHand(true);
 	startHand();
 	
 }
 
 public void startHand(){
+	changeActiveHand(true);
 	//button platzieren
 	gamestate = 0;
 	if (button>2){
@@ -79,6 +94,7 @@ public void nextGameState(){
 	System.out.println("");
 	if (gamestate < 4){
 		gamestate ++;
+		if(gamestate == 4) {changeActiveHand(false); changeActiveGame(false);}
 		
 		System.out.println("gamestate changed to: " + gamestate);
 		continueBetting(nextPlayer(button));
@@ -88,6 +104,7 @@ public void nextGameState(){
 }
 
 public void continueBetting(int acting) {
+	PokerKI.setButtons();
 	if (acting == 0){
 		if (player0.active == false){
 			//letzer am zug
