@@ -35,7 +35,8 @@ public class MonteCarloSimulation {
 		return -1; 
 	}
 	public static int winProbabilityOnTurn(){
-		double winProb = 0
+		double winProb = 0;
+		return (int) winProb;
 	}
 	
 	
