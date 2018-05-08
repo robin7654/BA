@@ -42,9 +42,11 @@ public class PokerKI {
 	private JLabel lblBet0 = new JLabel("");
 	private JLabel lblBet1 = new JLabel("");
 	private JLabel lblBet2 = new JLabel("");
-	private JLabel lblPot = new JLabel("Test");
+	private JLabel lblPot = new JLabel("");
 	Font tFFont = new Font("SansSerif", Font.BOLD, 15);
 	Font mainFont = new Font("SansSerif", Font.BOLD, 15);
+	Font moneyFont = new Font("SansSerif", Font.BOLD, 25);
+	int moneyHeight = 20;
 	
 	static JButton btnFold;
 	static JButton btnCall;
@@ -121,7 +123,7 @@ public class PokerKI {
 		frame = new JFrame();
 		frame.setBounds(0, 0, 1000, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(null);
 		frame.getContentPane().setBackground(Color.decode("#555555"));
 		//frame.setContentPane(new JLabel(backGround));
 
@@ -178,8 +180,6 @@ public class PokerKI {
 				updatePlayerBalance();
 				updatePlayerBet();
 				updatePot();
-				
-				System.out.println(lblPot.getX() + " " + lblPot.getY());
 			}
 		});
 		btnCall.setBounds(textField.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
@@ -216,13 +216,6 @@ public class PokerKI {
 		btnFold.setBackground(Color.GRAY);
 		btnFold.setFont(mainFont);
 		frame.getContentPane().add(btnFold);
-
-		
-      
-		
-
-		
-
 		
 
 		lblBoard2.setBounds((frame.getWidth()/2) - 83/2, frame.getHeight()/2 - 117, 83, 117);
@@ -239,7 +232,6 @@ public class PokerKI {
 
 		lblBoard4.setBounds(lblBoard3.getX() + lblBoard3.getWidth() + 8, frame.getHeight()/2 - 117, 83, 117);
 		frame.getContentPane().add(lblBoard4);
-		
 		
 		
 		lblHole0.setBounds((frame.getWidth()/2 - 83 - 1), lblBoard2.getY() + 117 + 30, 83, 117);
@@ -338,37 +330,43 @@ public class PokerKI {
 		lblDealerButton.setForeground(Color.RED);
 		frame.getContentPane().add(lblDealerButton);
 		
-		lblBalancePlayer0.setBounds(lblHole0.getX(), lblHole0.getY() + 117 + 8, lblHole0.getWidth()*2 + 2, 14);
+		lblBalancePlayer0.setBounds(lblHole0.getX(), lblHole0.getY() + 117 + 8, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBalancePlayer0.setHorizontalAlignment(JLabel.CENTER);
 		lblBalancePlayer0.setForeground(Color.WHITE);
+		lblBalancePlayer0.setFont(moneyFont);
 		frame.getContentPane().add(lblBalancePlayer0);
 		
-		lblBalancePlayer1.setBounds(lblHole3.getX(), lblHole3.getY() - 14 - 8, lblHole0.getWidth()*2 + 2, 14);
+		lblBalancePlayer1.setBounds(lblHole3.getX(), lblHole3.getY() - 14 - 12, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBalancePlayer1.setHorizontalAlignment(JLabel.CENTER);
 		lblBalancePlayer1.setForeground(Color.WHITE);
+		lblBalancePlayer1.setFont(moneyFont);
 		frame.getContentPane().add(lblBalancePlayer1);
 		
-		lblBalancePlayer2.setBounds(lblHole4.getX(), lblHole4.getY() - 14 - 8, lblHole0.getWidth()*2 + 2, 14);
+		lblBalancePlayer2.setBounds(lblHole4.getX(), lblHole4.getY() - 14 - 12, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBalancePlayer2.setHorizontalAlignment(JLabel.CENTER);
 		lblBalancePlayer2.setForeground(Color.WHITE);
+		lblBalancePlayer2.setFont(moneyFont);
 		frame.getContentPane().add(lblBalancePlayer2);
 		
-		lblBet0.setBounds(lblBalancePlayer0.getX(), lblHole0.getY() - 14 - 8, lblHole0.getWidth()*2 + 2, 14);
+		lblBet0.setBounds(lblBalancePlayer0.getX(), lblHole0.getY() - 14 - 12, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBet0.setForeground(Color.WHITE);
 		lblBet0.setHorizontalAlignment(JLabel.CENTER);
+		lblBet0.setFont(moneyFont);
 		frame.getContentPane().add(lblBet0);
-		lblBet1.setBounds(lblHole2.getX() + lblHole2.getWidth() + 8, lblHole2.getY() + (lblHole2.getHeight()/2 - 14/2), 46, 14);
+		lblBet1.setBounds(lblHole2.getX() + lblHole2.getWidth() + 8, lblHole2.getY() + (lblHole2.getHeight()/2 - 14/2), 46, moneyHeight);
 		lblBet1.setForeground(Color.WHITE);
 		lblBet1.setHorizontalAlignment(JLabel.CENTER);
+		lblBet1.setFont(moneyFont);
 		frame.getContentPane().add(lblBet1);
-		lblBet2.setBounds(lblHole4.getX() - 8 - 46, lblHole4.getY() + (lblHole4.getHeight()/2 - 14/2), 46, 14);
+		lblBet2.setBounds(lblHole4.getX() - 8 - 46, lblHole4.getY() + (lblHole4.getHeight()/2 - 14/2), 46, moneyHeight);
 		lblBet2.setForeground(Color.WHITE);
 		lblBet2.setHorizontalAlignment(JLabel.CENTER);
+		lblBet2.setFont(moneyFont);
 		frame.getContentPane().add(lblBet2);
 		
-		lblPot.setBounds(lblBoard4.getX() + 8, lblBoard4.getY() + lblBoard4.getHeight()/2 - 14/2, 46, 14);
-		System.out.println(lblPot.getX() + " " + lblPot.getY());
+		lblPot.setBounds(lblBoard4.getX() + lblBoard4.getWidth() + 8, lblBoard4.getY() + lblBoard4.getHeight()/2 - 14/2, 46, moneyHeight);
 		lblPot.setForeground(Color.WHITE);
+		lblPot.setFont(moneyFont);
 		frame.getContentPane().add(lblPot);
 		
 		
