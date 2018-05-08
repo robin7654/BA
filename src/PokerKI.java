@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -34,13 +35,15 @@ public class PokerKI {
 	JLabel lblHole_5 = new JLabel("Hole6");
 	ImageIcon testimg = new ImageIcon("C:/Users/robin7654/Desktop/pokerkartenklein/" + 1 + ".jpg");
 	private JLabel lblD = new JLabel("D");
-	private JLabel lblBalance = new JLabel("x");
-	private JLabel lblBalance_1 = new JLabel("x");
-	private JLabel lblBalance_2 = new JLabel("x");
+	private JLabel lblBalance = new JLabel("$0");
+	private JLabel lblBalance_1 = new JLabel("$0");
+	private JLabel lblBalance_2 = new JLabel("$0");
 	private JLabel lblBet = new JLabel("Bet");
 	private JLabel lblBet_1 = new JLabel("Bet");
 	private JLabel lblBet_2 = new JLabel("Bet");
 	private JLabel lblPot = new JLabel("Pot");
+	Font tFFont = new Font("SansSerif", Font.BOLD, 15);
+	Font mainFont = new Font("SansSerif", Font.BOLD, 15);
 	
 	static JButton btnFold;
 	static JButton btnCall;
@@ -49,14 +52,29 @@ public class PokerKI {
 	static JButton btnStartGame;
 	
 	public static void setCCButton() {
-		if(gc.activeGame) btnCall.setBackground(Color.GREEN);
-		else btnCall.setBackground(Color.GRAY);
+		if(!gc.activeGame) {
+			btnCall.setBackground(Color.GRAY);
+			btnFold.setBackground(Color.GRAY);
+			btnRaise.setBackground(Color.GRAY);
+			btnStartNewHand.setBackground(Color.GRAY);
+			return;
+		}
 		
-		if(gc.activeHand) btnCall.setBackground(Color.GREEN);
-		else btnCall.setBackground(Color.GRAY);
+		if(gc.activeHand) {
+			btnCall.setBackground(Color.GREEN);
+			btnFold.setBackground(Color.GREEN);
+			btnRaise.setBackground(Color.GREEN);
+			btnStartNewHand.setBackground(Color.GRAY);
+		}
+		else{
+			btnCall.setBackground(Color.GRAY);
+			btnFold.setBackground(Color.GRAY);
+			btnRaise.setBackground(Color.GRAY);
+			btnStartNewHand.setBackground(Color.GREEN);
+		}
 		
 		if(gc.highestBet == gc.getPlayer(0).bet) btnCall.setText("Check");
-		else btnCall.setText("Call");
+		else btnCall.setText("Call $" + (gc.highestBet-gc.getPlayer(0).bet));
 	}
 	
 	public static void setStartNewHandButton() {
@@ -103,6 +121,7 @@ public class PokerKI {
 		frame.setBounds(0, 0, 1247, 775);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setBackground(Color.decode("#555555"));
 
 		btnFold = new JButton("Fold");
 		btnFold.addActionListener(new ActionListener() {
@@ -129,7 +148,9 @@ public class PokerKI {
 				
 			}
 		});
-		btnFold.setBounds(741, 664, 89, 23);
+		btnFold.setBounds(740, frame.getHeight()-120, 90, 24);
+		btnFold.setBackground(Color.GRAY);
+		btnFold.setFont(mainFont);
 		frame.getContentPane().add(btnFold);
 
 		btnCall = new JButton("Call");
@@ -154,7 +175,9 @@ public class PokerKI {
 				updatePot();
 			}
 		});
-		btnCall.setBounds(837, 664, 89, 23);
+		btnCall.setBounds(846, frame.getHeight()-120, 90, 24);
+		btnCall.setBackground(Color.GRAY);
+		btnCall.setFont(mainFont);
 		frame.getContentPane().add(btnCall);
 
 		btnRaise = new JButton("Raise");
@@ -173,13 +196,16 @@ public class PokerKI {
 				
 			}
 		});
-		btnRaise.setBounds(1032, 664, 89, 23);
+		btnRaise.setBounds(1058, frame.getHeight()-120, 90, 24);
+		btnRaise.setBackground(Color.GRAY);
+		btnRaise.setFont(mainFont);
 		frame.getContentPane().add(btnRaise);
 
 		textField = new JTextField();
-		textField.setBounds(936, 665, 86, 20);
+		textField.setBounds(952, frame.getHeight()-120, 90, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		textField.setFont(tFFont);
       
 		lblHole.setBounds(415, 455, 83, 117);
 		frame.getContentPane().add(lblHole);
@@ -214,7 +240,7 @@ public class PokerKI {
 		lblBoard_4.setBounds(680, 263, 83, 117);
 		frame.getContentPane().add(lblBoard_4);
 
-		btnStartNewHand = new JButton("StartNewHand");
+		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(gc.gamestate < 4) return;
@@ -239,10 +265,12 @@ public class PokerKI {
 				
 			}
 		});
-		btnStartNewHand.setBounds(366, 664, 132, 23);
+		btnStartNewHand.setBounds(366, frame.getHeight()-120, 120, 48);
+		btnStartNewHand.setBackground(Color.GRAY);
+		btnStartNewHand.setFont(mainFont);
 		frame.getContentPane().add(btnStartNewHand);
 		
-		btnStartGame = new JButton("start game");
+		btnStartGame = new JButton("Start New Game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setCardLabel(0,53);
@@ -268,7 +296,9 @@ public class PokerKI {
 				
 			}
 		});
-		btnStartGame.setBounds(42, 636, 200, 50);
+		btnStartGame.setBounds(42, frame.getHeight()-120, 180, 48);
+		btnStartGame.setBackground(Color.GREEN);
+		btnStartGame.setFont(mainFont);
 		frame.getContentPane().add(btnStartGame);
 		
 		lblD.setBounds(347, 506, 46, 14);
@@ -295,18 +325,18 @@ public class PokerKI {
 	}
 
 	 protected void updatePlayerBet() {
-		 lblBet.setText(Integer.toString(gc.player0.bet));
-		 lblBet_1.setText(Integer.toString(gc.player1.bet));
-		 lblBet_2.setText(Integer.toString(gc.player2.bet));
+		 lblBet.setText("$" + Integer.toString(gc.player0.bet));
+		 lblBet_1.setText("$" + Integer.toString(gc.player1.bet));
+		 lblBet_2.setText("$" + Integer.toString(gc.player2.bet));
 	}
 
 	protected void updatePlayerBalance() {
-		lblBalance.setText(Integer.toString(gc.player0.balance));
-		lblBalance_1.setText(Integer.toString(gc.player1.balance));
-		lblBalance_2.setText(Integer.toString(gc.player2.balance));
+		lblBalance.setText("$" + Integer.toString(gc.player0.balance));
+		lblBalance_1.setText("$" + Integer.toString(gc.player1.balance));
+		lblBalance_2.setText("$" + Integer.toString(gc.player2.balance));
 	}
 	protected void updatePot() {
-		lblPot.setText(Integer.toString(gc.pot));
+		lblPot.setText("$" + Integer.toString(gc.pot));
 	}
 	
 	
@@ -420,7 +450,7 @@ public class PokerKI {
 					 * btnCall.doClick(); btnCall.doClick(); }
 					 */
 				}
-			}, 0);			
+			}, 2000);
 			break;
 		}
 		
