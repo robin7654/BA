@@ -166,29 +166,21 @@ public class GameController {
 		if(gameState == 4) {
 			int[] winnerArray = evaluate();
 			int max = max(winnerArray);
+			int maxC = maxC(winnerArray, max);
 			
-			if(max == 2) {
-				for(int i = 0; i < winnerArray.length; i++) {
-					
-				}
-			}
+			givePot(winnerArray, max, maxC);
 			
-			Timer
+			
 		}
 	}
 	
-	public void givePot(int[] winnerArray, int max) {
-		if(max == 2) {
-			for(int i = 0; i < winnerArray.length; i++) {
-				if(winnerArray[i] == 2) {
-					System.out.println("Winner: Player" + i);
-					player[i].balance += pot;
-					
-					pki.setBalancePositive(i);
-				}
+	public void givePot(int[] winnerArray, int max, int maxC) {
+		for(int i = 0; i < winnerArray.length; i++) {
+			if(winnerArray[i] == max) {
+				System.out.println("Winner: Player" + i);
+				player[i].balance += pot/maxC;
+				pki.setBalancePositive(i);
 			}
-		}else if(max == 1) {
-			
 		}
 	}
 	
@@ -198,7 +190,18 @@ public class GameController {
 		return array;
 	}
 	public int max(int[] array) {
-		return 0;
+		int max = 0;
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] > max) max = array[i];
+		}
+		return max;
+	}
+	public int maxC(int[] array, int max) {
+		int maxC = 0;
+		for(int i = 0; i<array.length; i++) {
+			if(array[i] == max) maxC++;
+		}
+		return maxC;
 	}
 	
 	
