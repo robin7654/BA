@@ -96,7 +96,7 @@ public void nextGameState(){
 	System.out.println("");
 	if (gamestate < 4){
 		gamestate ++;
-		if(gamestate == 4) {changeActiveHand(false); changeActiveGame(false);}
+		if(gamestate == 4) {changeActiveHand(false);}
 		
 		System.out.println("gamestate changed to: " + gamestate);
 		continueBetting(nextPlayer(button));
