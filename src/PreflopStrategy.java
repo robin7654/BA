@@ -10,10 +10,12 @@ public class PreflopStrategy {
 	//7 raise 3x/c
 	//8 all in
 	//0 3-5bb
-
+	
+	public int preflopMove(int dealer, int player, int opponent, int blind){
+		return 0; 
+	}
 	
 	
-	int [][] order = 	{{0,0},{1,1}};
 	
 			
 	int[][] range1 = {
@@ -381,15 +383,7 @@ public class PreflopStrategy {
 			{8,2,1,1,1, 1,1,1,1,1, 1,1,8},
 			};
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }
 

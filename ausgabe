@@ -15180,3 +15180,39 @@ player2: call 0
 player0: call 0
 player1: call 0
 player2: call 0
+ 37 8 5 42 1 12 6 44 10 50 3
+player2: call 20
+player0: call 20
+player1: call 20
+player0: call 0
+69
+player1: call 0
+69
+player2: call 0
+69
+player0: call 0
+80
+player1: call 0
+80
+player2: call 0
+80
+player0: call 0
+player1: call 0
+player2: call 0
+ 2 31 4 12 51 25 43 19 3 1 26
+player1: call 20
+player2: call 20
+player0: call 20
+player2: call 0
+0
+player0: call 0
+0
+player1: call 0
+0
+player2: call 0
+0
+player0: call 0
+0
+player1: call 0
+0
+player2: call 0

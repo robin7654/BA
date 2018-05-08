@@ -220,7 +220,20 @@ public class DetermineWinner {
 		}
 		//ace included
 		if (values[0] == 0){
-			
+			values[0] = 13;
+			Arrays.sort(values);
+			for (int i = 0; i < arr.length-1; i++){
+				if (values[i] == values[i+1] -1){
+					straight[count+1] = arr[i+1];
+					count++;
+					if (count == 4){
+						return straight; 
+					}
+				} else if(values[i] != values[i+1]){
+					count = 0;
+					straight[0]=arr[i+1];
+				}
+			}
 		}
 		return null;
 	}
