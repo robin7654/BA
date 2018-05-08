@@ -73,7 +73,7 @@ public class PokerKI {
 			btnCall.setBackground(Color.GRAY);
 			btnFold.setBackground(Color.GRAY);
 			btnRaise.setBackground(Color.GRAY);
-			btnStartNewHand.setBackground(Color.GREEN);
+			if(gc.gamestate == 5) btnStartNewHand.setBackground(Color.GREEN);
 		}
 		
 		if(gc.highestBet == gc.getPlayer(0).bet) btnCall.setText("Check");
@@ -82,7 +82,7 @@ public class PokerKI {
 	
 	public static void setStartNewHandButton() {
 		if(gc.activeHand) btnStartNewHand.setBackground(Color.GRAY);
-		else btnStartNewHand.setBackground(Color.GREEN);
+		else if(gc.gamestate == 5) btnStartNewHand.setBackground(Color.GREEN);
 	}
 	
 	public static void setButtons() {
@@ -136,6 +136,7 @@ public class PokerKI {
 		btnRaise = new JButton("Raise");
 		btnRaise.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(gc.gamestate > 3) return;
 				int amount = Integer.parseInt(textField.getText());
 				gc.raise(gc.player0, amount);
 				gc.continueBetting(gc.nextPlayer(0));
@@ -163,6 +164,7 @@ public class PokerKI {
 		btnCall = new JButton("Call");
 		btnCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(gc.gamestate > 3) return;
 				gc.call(gc.player0);
 				
 				if(gc.button != 0 ){
@@ -190,6 +192,7 @@ public class PokerKI {
 		btnFold = new JButton("Fold");
 		btnFold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(gc.gamestate > 3) return;
 				gc.fold(gc.player0);
 				
 //				gc.continueBetting(gc.nextPlayer(0));
@@ -268,7 +271,7 @@ public class PokerKI {
 		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(gc.gamestate < 4) return;
+				if(gc.gamestate < 5) return;
 				setCardLabel(0,52);
 				setCardLabel(1,52);
 				setCardLabel(2,52);
@@ -506,6 +509,8 @@ public class PokerKI {
 					 * btnCall.doClick(); btnCall.doClick(); btnCall.doClick();
 					 * btnCall.doClick(); btnCall.doClick(); }
 					 */
+					
+					gc.nextGameState();
 				}
 			}, 2000);
 			break;

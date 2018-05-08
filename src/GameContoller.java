@@ -94,7 +94,7 @@ public void nextGameState(){
 	player2.bet = 0;
 	highestBet = 0;
 	System.out.println("");
-	if (gamestate < 4){
+	if (gamestate < 5){
 		gamestate ++;
 		if(gamestate == 4) {changeActiveHand(false);}
 		
