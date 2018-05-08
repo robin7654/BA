@@ -35,7 +35,7 @@ public class PokerKI {
 	JLabel lblHole4 = new JLabel("Hole5");
 	JLabel lblHole5 = new JLabel("Hole6");
 	ImageIcon testimg = new ImageIcon("C:/Users/robin7654/Desktop/pokerkartenklein/" + 1 + ".jpg");
-	private JLabel lblDealerButton = new JLabel("D");
+	private JLabel lblDealerButton = new JLabel("");
 	private JLabel lblBalancePlayer0 = new JLabel("$0");
 	private JLabel lblBalancePlayer1 = new JLabel("$0");
 	private JLabel lblBalancePlayer2 = new JLabel("$0");
@@ -305,6 +305,7 @@ public class PokerKI {
 				setCardLabel(4,52);
 				gc.startNewGame();
 				placeButton(gc.button);
+				
 				setCardLabel(7,52);
 				setCardLabel(8,52);
 				setCardLabel(9,52);
@@ -326,8 +327,9 @@ public class PokerKI {
 		btnStartNewGame.setFont(mainFont);
 		frame.getContentPane().add(btnStartNewGame);
 		
-		lblDealerButton.setBounds(347, 506, 46, 14);
+		lblDealerButton.setBounds(347, 506, 46, moneyHeight);
 		lblDealerButton.setForeground(Color.RED);
+		lblDealerButton.setFont(new Font("SansSerif", Font.BOLD, 22));
 		frame.getContentPane().add(lblDealerButton);
 		
 		lblBalancePlayer0.setBounds(lblHole0.getX(), lblHole0.getY() + 117 + 8, lblHole0.getWidth()*2 + 2, moneyHeight);
@@ -364,7 +366,7 @@ public class PokerKI {
 		lblBet2.setFont(moneyFont);
 		frame.getContentPane().add(lblBet2);
 		
-		lblPot.setBounds(lblBoard4.getX() + lblBoard4.getWidth() + 8, lblBoard4.getY() + lblBoard4.getHeight()/2 - 14/2, 46, moneyHeight);
+		lblPot.setBounds(lblBoard4.getX() + lblBoard4.getWidth() + 8, lblBoard4.getY() + lblBoard4.getHeight()/2 - 14/2, 100, moneyHeight);
 		lblPot.setForeground(Color.WHITE);
 		lblPot.setFont(moneyFont);
 		frame.getContentPane().add(lblPot);
@@ -395,12 +397,16 @@ public class PokerKI {
 	
 	
 	public void placeButton(int x) {
+		lblDealerButton.setText("D");
 		switch (x) {
-		case 0: lblDealerButton.setBounds(347, 506, 46, 14);
+		case 0: lblDealerButton.setBounds(lblHole1.getX() + lblHole1.getWidth() + 8, lblHole1.getY() - 14 - 8, lblDealerButton.getWidth(), lblDealerButton.getHeight());
+		lblDealerButton.setHorizontalAlignment(JLabel.LEFT);
 		break;
-		case 1: lblDealerButton.setBounds(81, 196, 46, 14);
+		case 1: lblDealerButton.setBounds(lblBet1.getX(), lblBet1.getY() + lblBet1.getHeight() + 8, lblDealerButton.getWidth(), lblDealerButton.getHeight());
+		lblDealerButton.setHorizontalAlignment(JLabel.LEFT);
 		break;
-		case 2: lblDealerButton.setBounds(565, 180, 46, 14);
+		case 2: lblDealerButton.setBounds(lblBet2.getX() + lblBet2.getWidth() - 46, lblBet2.getY() + lblBet2.getHeight() + 8, lblDealerButton.getWidth(), lblDealerButton.getHeight());
+		lblDealerButton.setHorizontalAlignment(JLabel.RIGHT);
 		break;
 		}
 	}
