@@ -16,6 +16,7 @@ public class MonteCarloSimulation {
 		}
 		return 0;
 	}
+	
 	public static int winProbabilityOnRiver(int cards[], int playerNumber, int opponent1, int opponent2){
 		int[] winners = gc.evaluate();
 		//verlierer
