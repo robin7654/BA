@@ -14,13 +14,17 @@ public class Player {
 	}
 	
 	public void raise(int n) {
-		if(balance >= n) bet = n; 
+		if(balance + bet > n) {
+			balance = balance - (n - bet);
+			bet = n;
+		}
 		else {
-			bet = balance;
+			bet += balance;
 			allIn = true;
 		}
-		
-		balance -= bet;
+	}
+	public void fold(){
+		activeInHand = false;
 	}
 	 
 }
