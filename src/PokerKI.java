@@ -140,9 +140,12 @@ public class PokerKI {
 				
 				gc.nextGameState();
 				openCards(gc.gamestate);
-				updatePlayerBalance();
-				updatePlayerBet();
-				updatePot();
+				
+				if(gc.gamestate < 4) {
+					updatePlayerBalance();
+					updatePlayerBet();
+					updatePot();
+				}
 				textField.setText("");
 				
 			}
@@ -176,9 +179,12 @@ public class PokerKI {
 				
 				gc.nextGameState();
 				openCards(gc.gamestate);
-				updatePlayerBalance();
-				updatePlayerBet();
-				updatePot();
+				
+				if(gc.gamestate < 4) {
+					updatePlayerBalance();
+					updatePlayerBet();
+					updatePot();
+				}
 			}
 		});
 		btnCall.setBounds(textField.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
@@ -205,9 +211,12 @@ public class PokerKI {
 					
 					gc.nextGameState();
 					openCards(gc.gamestate);
-					updatePlayerBalance();
-					updatePlayerBet();
-					updatePot();
+					
+					if(gc.gamestate < 4) {
+						updatePlayerBalance();
+						updatePlayerBet();
+						updatePot();
+					}
 				}
 				
 			}
@@ -444,7 +453,7 @@ public class PokerKI {
 			System.out.println(gc.getPlayer(0).balance + " "
 					+ gc.getPlayer(1).balance + " "
 					+ gc.getPlayer(2).balance);
-
+			
 			int[] winnerArray = gc.evaluate();
 			int max = gc.max(winnerArray);
 
@@ -527,6 +536,7 @@ public class PokerKI {
 			timer.schedule(new TimerTask() {
 				public void run() {
 
+					System.out.println("Timer läuft");
 					
 					updatePlayerBalance();
 					updatePlayerBet();
