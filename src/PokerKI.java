@@ -53,6 +53,7 @@ public class PokerKI {
 	static JButton btnRaise;
 	static JButton btnStartNewHand;
 	static JButton btnStartNewGame;
+	static JButton btnExit;
 	
 	public static void setCCButton() {
 		if(!gc.activeGame) {
@@ -121,16 +122,12 @@ public class PokerKI {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds(0, 0, 1000, 800);
+		frame.setBounds(0, 0, 1304, 799);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().setBackground(Color.decode("#555555"));
-		//frame.setContentPane(new JLabel(backGround));
-
-		
-
-		
-		
+		frame.setContentPane(new JLabel(new ImageIcon("src/images/pokertisch.jpg")));
 		
 
 		btnRaise = new JButton("Raise");
@@ -220,36 +217,47 @@ public class PokerKI {
 		btnFold.setFont(mainFont);
 		frame.getContentPane().add(btnFold);
 		
+		btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		btnExit.setBounds(frame.getWidth() - 100, frame.getHeight() - 48, 100, 48);
+		btnExit.setBackground(Color.RED);
+		btnExit.setFont(mainFont);
+		frame.getContentPane().add(btnExit);
+		
 
-		lblBoard2.setBounds((frame.getWidth()/2) - 83/2, frame.getHeight()/2 - 117, 83, 117);
+		lblBoard2.setBounds((frame.getWidth()/2) - 83/2, frame.getHeight()/4, 83, 117);
 		frame.getContentPane().add(lblBoard2);
 		
-		lblBoard1.setBounds(lblBoard2.getX() - lblBoard2.getWidth() - 2, frame.getHeight()/2 - 117, 83, 117);
+		lblBoard1.setBounds(lblBoard2.getX() - lblBoard2.getWidth() - 2, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard1);
 		
-		lblBoard0.setBounds(lblBoard1.getX() - lblBoard1.getWidth() - 2, frame.getHeight()/2 - 117, 83, 117);
+		lblBoard0.setBounds(lblBoard1.getX() - lblBoard1.getWidth() - 2, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard0);
 
-		lblBoard3.setBounds(lblBoard2.getX() + lblBoard2.getWidth() + 8, frame.getHeight()/2 - 117, 83, 117);
+		lblBoard3.setBounds(lblBoard2.getX() + lblBoard2.getWidth() + 8, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard3);
 
-		lblBoard4.setBounds(lblBoard3.getX() + lblBoard3.getWidth() + 8, frame.getHeight()/2 - 117, 83, 117);
+		lblBoard4.setBounds(lblBoard3.getX() + lblBoard3.getWidth() + 8, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard4);
 		
 		
-		lblHole0.setBounds((frame.getWidth()/2 - 83 - 1), lblBoard2.getY() + 117 + 30, 83, 117);
+		lblHole0.setBounds((frame.getWidth()/2 - 83 - 1), frame.getHeight()*4/7, 83, 117);
 		frame.getContentPane().add(lblHole0);
 		
-		lblHole1.setBounds((frame.getWidth()/2 + 1), lblBoard2.getY() + 117 + 30, 83, 117);
+		lblHole1.setBounds((frame.getWidth()/2 + 1), lblHole0.getY(), 83, 117);
 		frame.getContentPane().add(lblHole1);
 
-		lblHole2.setBounds(lblBoard0.getX() - 83/2, lblBoard2.getY() - 117 - 30, 83, 117);
+		lblHole2.setBounds(frame.getWidth()/5, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole2);
 
 		lblHole3.setBounds(lblHole2.getX() - 83 - 2, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole3);
 
-		lblHole4.setBounds(lblBoard4.getX() + 83/2, lblBoard2.getY() - 117 - 30, 83, 117);
+		lblHole4.setBounds(frame.getWidth()*5/7, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole4);
 
 		lblHole5.setBounds(lblHole4.getX() + 83 + 2, lblBoard2.getY() - 117 - 30, 83, 117);
@@ -293,7 +301,7 @@ public class PokerKI {
 				
 			}
 		});
-		btnStartNewHand.setBounds(50, frame.getHeight()-120, 120, 48);
+		btnStartNewHand.setBounds(btnRaise.getX() + btnRaise.getWidth() - 120, btnRaise.getY() - 48 - 12, 120, 48);
 		btnStartNewHand.setBackground(Color.GRAY);
 		btnStartNewHand.setFont(mainFont);
 		frame.getContentPane().add(btnStartNewHand);
@@ -325,7 +333,7 @@ public class PokerKI {
 				
 			}
 		});
-		btnStartNewGame.setBounds(0, 0, 180, 48);
+		btnStartNewGame.setBounds(0, frame.getHeight() - 48, 180, 48);
 		btnStartNewGame.setBackground(Color.GREEN);
 		btnStartNewGame.setFont(mainFont);
 		frame.getContentPane().add(btnStartNewGame);
@@ -369,8 +377,9 @@ public class PokerKI {
 		lblBet2.setFont(moneyFont);
 		frame.getContentPane().add(lblBet2);
 		
-		lblPot.setBounds(lblBoard4.getX() + lblBoard4.getWidth() + 8, lblBoard4.getY() + lblBoard4.getHeight()/2 - 14/2, 100, moneyHeight);
+		lblPot.setBounds(lblBoard0.getX(), lblBoard2.getY() + lblBoard2.getHeight() + 8, lblBoard0.getWidth()*5 + 2*2 + 2*8, moneyHeight);
 		lblPot.setForeground(Color.WHITE);
+		lblPot.setHorizontalAlignment(JLabel.CENTER);
 		lblPot.setFont(moneyFont);
 		frame.getContentPane().add(lblPot);
 		
@@ -432,69 +441,93 @@ public class PokerKI {
 			setCardLabel(9,gc.karten[9]);
 			setCardLabel(10,gc.karten[10]);
 			
+			System.out.println(gc.getPlayer(0).balance + " "
+					+ gc.getPlayer(1).balance + " "
+					+ gc.getPlayer(2).balance);
+
+			int[] winnerArray = gc.evaluate();
+			int max = gc.max(winnerArray);
+
+			if (max == 2) {
+				for (int i = 0; i < winnerArray.length; i++) {
+					if (winnerArray[i] == 2) {
+						System.out.println("Winner: Player" + i);
+						gc.getPlayer(i).balance += gc.pot;
+						
+						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
+						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
+						if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
+						}
+				}
+
+			} else if (max == 1) {
+
+				if ((gc.player0.active == false
+						| gc.player1.active == false | gc.player2.active == false)
+						& winnerArray[0] + winnerArray[1]
+								+ winnerArray[2] == 0) {
+					for (int i = 0; i < winnerArray.length; i++) {
+						if (winnerArray[i] == 1) {
+							System.out.println("Winner: Player" + i);
+							gc.getPlayer(i).balance += gc.pot;
+							
+							if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
+							if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
+							if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
+						}
+					}
+
+				} else {
+					System.out.println("SplitPot between 2 Players");
+					for (int i = 0; i < winnerArray.length; i++) {
+						if (winnerArray[i] == 1) {
+							System.out.println("Winner: Player" + i);
+							gc.getPlayer(i).balance += gc.pot / 2;
+							
+							if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
+							if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
+							if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
+						}
+					}
+				}
+
+			} else {
+				if ((gc.player0.active == false
+						| gc.player1.active == false | gc.player2.active == false)
+						& winnerArray[0] + winnerArray[1]
+								+ winnerArray[2] == 0) {
+
+					for (int i = 0; i < winnerArray.length; i++) {
+						System.out.println("Winner: Player" + i);
+						gc.getPlayer(i).balance += gc.pot / 2;
+						
+						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
+						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
+						if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
+					}
+
+				} else {
+					System.out.println("SplitPot between 3 Players");
+					for (int i = 0; i < winnerArray.length; i++) {
+						System.out.println("Winner: Player" + i);
+						gc.getPlayer(i).balance += gc.pot / 3;
+						
+						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
+						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
+						if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
+					}
+				}
+			}
+
+			gc.pot = 0;
+			
+			
+			
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				public void run() {
 
-					System.out.println(gc.getPlayer(0).balance + " "
-							+ gc.getPlayer(1).balance + " "
-							+ gc.getPlayer(2).balance);
-
-					int[] winnerArray = gc.evaluate();
-					int max = gc.max(winnerArray);
-
-					if (max == 2) {
-						for (int i = 0; i < winnerArray.length; i++) {
-							if (winnerArray[i] == 2) {
-								System.out.println("Winner: Player" + i);
-								gc.getPlayer(i).balance += gc.pot;
-							}
-						}
-
-					} else if (max == 1) {
-
-						if ((gc.player0.active == false
-								| gc.player1.active == false | gc.player2.active == false)
-								& winnerArray[0] + winnerArray[1]
-										+ winnerArray[2] == 0) {
-							for (int i = 0; i < winnerArray.length; i++) {
-								if (winnerArray[i] == 1) {
-									System.out.println("Winner: Player" + i);
-									gc.getPlayer(i).balance += gc.pot;
-								}
-							}
-
-						} else {
-							System.out.println("SplitPot between 2 Players");
-							for (int i = 0; i < winnerArray.length; i++) {
-								if (winnerArray[i] == 1) {
-									System.out.println("Winner: Player" + i);
-									gc.getPlayer(i).balance += gc.pot / 2;
-								}
-							}
-						}
-
-					} else {
-						if ((gc.player0.active == false
-								| gc.player1.active == false | gc.player2.active == false)
-								& winnerArray[0] + winnerArray[1]
-										+ winnerArray[2] == 0) {
-
-							for (int i = 0; i < winnerArray.length; i++) {
-								System.out.println("Winner: Player" + i);
-								gc.getPlayer(i).balance += gc.pot / 2;
-							}
-
-						} else {
-							System.out.println("SplitPot between 3 Players");
-							for (int i = 0; i < winnerArray.length; i++) {
-								System.out.println("Winner: Player" + i);
-								gc.getPlayer(i).balance += gc.pot / 3;
-							}
-						}
-					}
-
-					gc.pot = 0;
+					
 					updatePlayerBalance();
 					updatePlayerBet();
 					updatePot();
@@ -511,6 +544,10 @@ public class PokerKI {
 					 */
 					
 					gc.nextGameState();
+					
+					lblBalancePlayer0.setForeground(Color.WHITE);
+					lblBalancePlayer1.setForeground(Color.WHITE);
+					lblBalancePlayer2.setForeground(Color.WHITE);
 				}
 			}, 2000);
 			break;
