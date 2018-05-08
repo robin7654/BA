@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class PokerKI {
 	public JFrame frame;
 	private JTextField textField;
-	public static GameContoller gc = new GameContoller();
+	//public static GameContoller GameController = new GameContoller();
 	
 	
 	
@@ -55,8 +56,8 @@ public class PokerKI {
 	static JButton btnStartNewGame;
 	static JButton btnExit;
 	
-	public static void setCCButton() {
-		if(!gc.activeGame) {
+	public void setCCButton() {
+		if(!GameController.activeGame) {
 			btnCall.setBackground(Color.GRAY);
 			btnFold.setBackground(Color.GRAY);
 			btnRaise.setBackground(Color.GRAY);
@@ -64,7 +65,7 @@ public class PokerKI {
 			return;
 		}
 		
-		if(gc.activeHand) {
+		if(GameController.activeHand) {
 			btnCall.setBackground(Color.GREEN);
 			btnFold.setBackground(Color.GREEN);
 			btnRaise.setBackground(Color.GREEN);
@@ -74,19 +75,19 @@ public class PokerKI {
 			btnCall.setBackground(Color.GRAY);
 			btnFold.setBackground(Color.GRAY);
 			btnRaise.setBackground(Color.GRAY);
-			if(gc.gamestate == 5) btnStartNewHand.setBackground(Color.GREEN);
+			if(GameController.gameState == 5) btnStartNewHand.setBackground(Color.GREEN);
 		}
 		
-		if(gc.highestBet == gc.getPlayer(0).bet) btnCall.setText("Check");
-		else btnCall.setText("Call $" + (gc.highestBet-gc.getPlayer(0).bet));
+		if(GameController.highestBet == GameController.getPlayer(0).bet) btnCall.setText("Check");
+		else btnCall.setText("Call $" + (GameController.highestBet-GameController.getPlayer(0).bet));
 	}
 	
-	public static void setStartNewHandButton() {
-		if(gc.activeHand) btnStartNewHand.setBackground(Color.GRAY);
-		else if(gc.gamestate == 5) btnStartNewHand.setBackground(Color.GREEN);
+	public void setStartNewHandButton() {
+		if(GameController.activeHand) btnStartNewHand.setBackground(Color.GRAY);
+		else if(GameController.gameState == 5) btnStartNewHand.setBackground(Color.GREEN);
 	}
 	
-	public static void setButtons() {
+	public void setButtons() {
 		setCCButton();
 		setStartNewHandButton();
 	}
@@ -122,7 +123,7 @@ public class PokerKI {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds(0, 0, 1304, 799);
+		frame.setBounds((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - 1304/2, (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 - 799/2, 1304, 799);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.getContentPane().setLayout(null);
@@ -133,15 +134,17 @@ public class PokerKI {
 		btnRaise = new JButton("Raise");
 		btnRaise.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(gc.gamestate > 3) return;
+				if(GameController.gameState > 3) return;
 				int amount = Integer.parseInt(textField.getText());
-				gc.raise(gc.player0, amount);
-				gc.continueBetting(gc.nextPlayer(0));
+				GameController.raise(GameController.player0, amount);
+				GameController.continueBetting(GameController.nextPlayer(0));
+
 				
-				gc.nextGameState();
-				openCards(gc.gamestate);
+				if(GameController.player0.bet == GameController.player1.bet && GameController.player1.bet == GameController.player2.bet)
+				GameController.nextGameState();
+				openCards(GameController.gameState);
 				
-				if(gc.gamestate < 4) {
+				if(GameController.gameState < 4) {
 					updatePlayerBalance();
 					updatePlayerBet();
 					updatePot();
@@ -164,23 +167,23 @@ public class PokerKI {
 		btnCall = new JButton("Call");
 		btnCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(gc.gamestate > 3) return;
-				gc.call(gc.player0);
+				if(GameController.gameState > 3) return;
+				GameController.call(GameController.player0);
 				
-				if(gc.button != 0 ){
-					gc.continueBetting(gc.nextPlayer(0));
+				if(GameController.button != 0 ){
+					GameController.continueBetting(GameController.nextPlayer(0));
 				} else {
-					if (gc.player2.bet > gc.player1.bet & gc.player1.active == true & gc.player1.allin== false){
-						gc.continueBetting(gc.nextPlayer(0));
+					if (GameController.player2.bet > GameController.player1.bet & GameController.player1.active == true & GameController.player1.allin== false){
+						GameController.continueBetting(GameController.nextPlayer(0));
 					}
 				}
 				
 				
+				if(GameController.player0.bet == GameController.player1.bet && GameController.player1.bet == GameController.player2.bet)
+				GameController.nextGameState();
+				openCards(GameController.gameState);
 				
-				gc.nextGameState();
-				openCards(gc.gamestate);
-				
-				if(gc.gamestate < 4) {
+				if(GameController.gameState < 4) {
 					updatePlayerBalance();
 					updatePlayerBet();
 					updatePot();
@@ -195,8 +198,8 @@ public class PokerKI {
 		btnFold = new JButton("Fold");
 		btnFold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(gc.gamestate > 3) return;
-				gc.fold(gc.player0);
+				if(GameController.gameState > 3) return;
+				GameController.fold(GameController.player0);
 				
 //				gc.continueBetting(gc.nextPlayer(0));
 //		
@@ -206,13 +209,14 @@ public class PokerKI {
 //				updatePlayerBet();
 //				updatePot();
 				
-				while (gc.gamestate < 4){
-					gc.continueBetting(gc.nextPlayer(0));
+				while (GameController.gameState < 4){
+					GameController.continueBetting(GameController.nextPlayer(0));
 					
-					gc.nextGameState();
-					openCards(gc.gamestate);
+					if(GameController.player0.bet == GameController.player1.bet && GameController.player1.bet == GameController.player2.bet)
+					GameController.nextGameState();
+					openCards(GameController.gameState);
 					
-					if(gc.gamestate < 4) {
+					if(GameController.gameState < 4) {
 						updatePlayerBalance();
 						updatePlayerBet();
 						updatePot();
@@ -288,22 +292,22 @@ public class PokerKI {
 		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(gc.gamestate < 5) return;
+				if(GameController.gameState < 5) return;
 				setCardLabel(0,52);
 				setCardLabel(1,52);
 				setCardLabel(2,52);
 				setCardLabel(3,52);
 				setCardLabel(4,52);
 				
-				gc.startHand();
-				placeButton(gc.button);
+				GameController.startHand();
+				placeButton(GameController.button);
 				setCardLabel(7,52);
 				setCardLabel(8,52);
 				setCardLabel(9,52);
 				setCardLabel(10,52);
 				
-				setCardLabel(5,gc.karten[5]);
-				setCardLabel(6,gc.karten[6]);
+				setCardLabel(5,GameController.cardDeck[5]);
+				setCardLabel(6,GameController.cardDeck[6]);
 				updatePlayerBalance();
 				updatePlayerBet();
 				updatePot();
@@ -323,16 +327,16 @@ public class PokerKI {
 				setCardLabel(2,52);
 				setCardLabel(3,52);
 				setCardLabel(4,52);
-				gc.startNewGame();
-				placeButton(gc.button);
+				GameController.startNewGame();
+				placeButton(GameController.button);
 				
 				setCardLabel(7,52);
 				setCardLabel(8,52);
 				setCardLabel(9,52);
 				setCardLabel(10,52);
 				
-				setCardLabel(5,gc.karten[5]);
-				setCardLabel(6,gc.karten[6]);
+				setCardLabel(5,GameController.cardDeck[5]);
+				setCardLabel(6,GameController.cardDeck[6]);
 				updatePlayerBalance();
 				updatePlayerBet();
 				updatePot();
@@ -396,21 +400,21 @@ public class PokerKI {
 	}
 
 	 protected void updatePlayerBet() {
-		 if(gc.player0.bet == 0) lblBet0.setText("");
-		 else lblBet0.setText("$" + Integer.toString(gc.player0.bet));
-		 if(gc.player1.bet == 0) lblBet1.setText("");
-		 else lblBet1.setText("$" + Integer.toString(gc.player1.bet));
-		 if(gc.player2.bet == 0) lblBet2.setText("");
-		 else lblBet2.setText("$" + Integer.toString(gc.player2.bet));
+		 if(GameController.player0.bet == 0) lblBet0.setText("");
+		 else lblBet0.setText("$" + Integer.toString(GameController.player0.bet));
+		 if(GameController.player1.bet == 0) lblBet1.setText("");
+		 else lblBet1.setText("$" + Integer.toString(GameController.player1.bet));
+		 if(GameController.player2.bet == 0) lblBet2.setText("");
+		 else lblBet2.setText("$" + Integer.toString(GameController.player2.bet));
 	}
 
 	protected void updatePlayerBalance() {
-		lblBalancePlayer0.setText("$" + Integer.toString(gc.player0.balance));
-		lblBalancePlayer1.setText("$" + Integer.toString(gc.player1.balance));
-		lblBalancePlayer2.setText("$" + Integer.toString(gc.player2.balance));
+		lblBalancePlayer0.setText("$" + Integer.toString(GameController.player0.balance));
+		lblBalancePlayer1.setText("$" + Integer.toString(GameController.player1.balance));
+		lblBalancePlayer2.setText("$" + Integer.toString(GameController.player2.balance));
 	}
 	protected void updatePot() {
-		lblPot.setText("$" + Integer.toString(gc.pot));
+		lblPot.setText("$" + Integer.toString(GameController.pot));
 	}
 	
 	
@@ -434,34 +438,34 @@ public class PokerKI {
 	public void openCards(int x){
 		switch (x){
 		case 1: 
-			setCardLabel(0,gc.karten[0]);
-			setCardLabel(1,gc.karten[1]);
-			setCardLabel(2,gc.karten[2]);
+			setCardLabel(0,GameController.cardDeck[0]);
+			setCardLabel(1,GameController.cardDeck[1]);
+			setCardLabel(2,GameController.cardDeck[2]);
 			break;
 		case 2: 
-			setCardLabel(3,gc.karten[3]);
+			setCardLabel(3,GameController.cardDeck[3]);
 			break;
 		case 3:
-			setCardLabel(4,gc.karten[4]);
+			setCardLabel(4,GameController.cardDeck[4]);
 			break;
 		case 4:		
-			setCardLabel(7,gc.karten[7]);
-			setCardLabel(8,gc.karten[8]);
-			setCardLabel(9,gc.karten[9]);
-			setCardLabel(10,gc.karten[10]);
+			setCardLabel(7,GameController.cardDeck[7]);
+			setCardLabel(8,GameController.cardDeck[8]);
+			setCardLabel(9,GameController.cardDeck[9]);
+			setCardLabel(10,GameController.cardDeck[10]);
 			
-			System.out.println(gc.getPlayer(0).balance + " "
-					+ gc.getPlayer(1).balance + " "
-					+ gc.getPlayer(2).balance);
+			System.out.println(GameController.getPlayer(0).balance + " "
+					+ GameController.getPlayer(1).balance + " "
+					+ GameController.getPlayer(2).balance);
 			
-			int[] winnerArray = gc.evaluate();
-			int max = gc.max(winnerArray);
+			int[] winnerArray = GameController.evaluate();
+			int max = GameController.max(winnerArray);
 
 			if (max == 2) {
 				for (int i = 0; i < winnerArray.length; i++) {
 					if (winnerArray[i] == 2) {
 						System.out.println("Winner: Player" + i);
-						gc.getPlayer(i).balance += gc.pot;
+						GameController.getPlayer(i).balance += GameController.pot;
 						
 						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
 						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
@@ -471,14 +475,14 @@ public class PokerKI {
 
 			} else if (max == 1) {
 
-				if ((gc.player0.active == false
-						| gc.player1.active == false | gc.player2.active == false)
+				if ((GameController.player0.active == false
+						| GameController.player1.active == false | GameController.player2.active == false)
 						& winnerArray[0] + winnerArray[1]
 								+ winnerArray[2] == 0) {
 					for (int i = 0; i < winnerArray.length; i++) {
 						if (winnerArray[i] == 1) {
 							System.out.println("Winner: Player" + i);
-							gc.getPlayer(i).balance += gc.pot;
+							GameController.getPlayer(i).balance += GameController.pot;
 							
 							if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
 							if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
@@ -491,7 +495,7 @@ public class PokerKI {
 					for (int i = 0; i < winnerArray.length; i++) {
 						if (winnerArray[i] == 1) {
 							System.out.println("Winner: Player" + i);
-							gc.getPlayer(i).balance += gc.pot / 2;
+							GameController.getPlayer(i).balance += GameController.pot / 2;
 							
 							if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
 							if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
@@ -501,14 +505,14 @@ public class PokerKI {
 				}
 
 			} else {
-				if ((gc.player0.active == false
-						| gc.player1.active == false | gc.player2.active == false)
+				if ((GameController.player0.active == false
+						| GameController.player1.active == false | GameController.player2.active == false)
 						& winnerArray[0] + winnerArray[1]
 								+ winnerArray[2] == 0) {
 
 					for (int i = 0; i < winnerArray.length; i++) {
 						System.out.println("Winner: Player" + i);
-						gc.getPlayer(i).balance += gc.pot / 2;
+						GameController.getPlayer(i).balance += GameController.pot / 2;
 						
 						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
 						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
@@ -519,7 +523,7 @@ public class PokerKI {
 					System.out.println("SplitPot between 3 Players");
 					for (int i = 0; i < winnerArray.length; i++) {
 						System.out.println("Winner: Player" + i);
-						gc.getPlayer(i).balance += gc.pot / 3;
+						GameController.getPlayer(i).balance += GameController.pot / 3;
 						
 						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
 						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
@@ -528,7 +532,7 @@ public class PokerKI {
 				}
 			}
 
-			gc.pot = 0;
+			GameController.pot = 0;
 			
 			
 			
@@ -542,9 +546,9 @@ public class PokerKI {
 					updatePlayerBet();
 					updatePot();
 
-					System.out.println(gc.getPlayer(0).balance + " "
-							+ gc.getPlayer(1).balance + " "
-							+ gc.getPlayer(2).balance);
+					System.out.println(GameController.getPlayer(0).balance + " "
+							+ GameController.getPlayer(1).balance + " "
+							+ GameController.getPlayer(2).balance);
 
 					/*
 					 * System.out.println(splitPot(winnerArray));
@@ -553,7 +557,7 @@ public class PokerKI {
 					 * btnCall.doClick(); btnCall.doClick(); }
 					 */
 					
-					gc.nextGameState();
+					GameController.nextGameState();
 					
 					lblBalancePlayer0.setForeground(Color.WHITE);
 					lblBalancePlayer1.setForeground(Color.WHITE);

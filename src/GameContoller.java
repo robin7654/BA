@@ -12,7 +12,7 @@ public static String[] pokerkarten = {"AS","AH","AD","AC","KS","KH","KD","KC","Q
 public static Deck deck = new Deck();
 public static PokerKI pki = new PokerKI();
 public static MonteCarloSimulation mcs = new MonteCarloSimulation();
-int [] karten;
+int [] cardDeck;
 int button = 3;
 int playersTurn = 3;
 
