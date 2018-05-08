@@ -271,7 +271,7 @@ public void call(Player player){
 		player.balance = 0;
 		player.allin = true;
 	}
-	System.out.println(mcs.winProbabilityOnFlop(karten, 0, 1, 2));
+	
 	   try {
 		   writeAction(player, "call", player.bet);
 		   writeWinProbability(karten);

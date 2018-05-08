@@ -99,3 +99,9 @@ player2: call 0
  34 41 24 12 33 28 22 38 20 45 18
  31 15 47 41 36 40 37 6 30 7 17
  10 27 29 44 45 49 33 24 42 43 36
+ 26 6 37 31 5 48 20 7 39 12 49
+player0: call 20
+player1: call 20
+player2: call 20
+player1: call 0
+player2: call 0
