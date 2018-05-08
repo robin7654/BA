@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.Random;
 
 public class GameController {
@@ -18,36 +19,41 @@ public class GameController {
 	static int bigBlindPosition = -1;
 	static int activePlayer = -1;
 	static int blind;
+	static int startingBlind = 20;
 	static int highestBet;
 	static int gameState = -1;
 	static int pot = 0;
 	static int gamesTillLvChange = 9;
 	static int gamesTillLvChangeC = 0;
 	
+	static int activePlayers = 3;
+	static int activePlayerC = 0;
+	
 	
 	public void startNewGame() {
 		changeActiveHand(true);
 		changeActiveGame(true);
 		
-		setPot(0);
 		setBigBlindPosition(-1);
-		moveBigBlindToNextPosition();
-		gameState = 0;
-		for(int i = 0; i < 3; i++) {
-			player[i] = new Player();
-		}
+		player[0] = new Player(false);
+		player[1] = new Player(true);
+		player[2] = new Player(true);
+		resetBlinds();
 		startHand();
 	}
 	public void startHand() {
 		changeActiveHand(true);
-		gameState = 0;
-		setBigBlindPosition(-1);
+		setGameState(0);
 		moveBigBlindToNextPosition();
 		checkBlindChange();
-		highestBet = blind;
-		activePlayer = button;
+		setPot(0);
+		setHighestBet(blind);
 		cardDeck = deck.shuffleDeck();
+		
 		setBlinds();
+		changeActivePlayer();
+		
+		getNextMove();
 	}
 	
 	
@@ -68,6 +74,26 @@ public class GameController {
 	}
 	public void setPot(int n){
 		pot = n;
+	}
+	public void setGameState(int n) {
+		gameState = n;
+	}
+	public void resetBlinds() {
+		blind = startingBlind;
+		gamesTillLvChange = 0;
+	}
+	public void changeActivePlayer() {
+		if(activePlayer < 0) activePlayer = button;
+		else if(activePlayer == 2) activePlayer = 0;
+		else activePlayer += 1;
+		
+		if(!player[activePlayer].activeInGame) changeActivePlayer();
+	}
+	public void setActivePlayer(int n) {
+		activePlayer = n;
+	}
+	public void setHighestBet(int n) {
+		highestBet = n;
 	}
 	
 	public void setBigBlindPosition(int n) {
@@ -113,9 +139,69 @@ public class GameController {
 		if(n == 0) return 2;
 		else return n - 1;
 	}	
-
 	
+	public void getNextMove() {
+		
+		if(activePlayerC == activePlayer) {
+			changeGameState();
+			return;
+		}
+		
+		if(activeHand) {
+			if(player[activePlayer].bot) player[activePlayer].decideMove();
+		}
+	}
+	public void changeGameState() {
+		if(gameState < 4) {
+			pot = pot + player[0].bet + player[1].bet + player[2].bet;
+			player[0].setBet(0);
+			player[1].setBet(0);
+			player[2].setBet(0);
+			setHighestBet(0);
+			gameState++;
+			pki.openCards(gameState);
 			
+			System.out.println("gameState: " + gameState);
+		}
+		if(gameState == 4) {
+			int[] winnerArray = evaluate();
+			int max = max(winnerArray);
+			
+			if(max == 2) {
+				for(int i = 0; i < winnerArray.length; i++) {
+					
+				}
+			}
+			
+			Timer
+		}
+	}
+	
+	public void givePot(int[] winnerArray, int max) {
+		if(max == 2) {
+			for(int i = 0; i < winnerArray.length; i++) {
+				if(winnerArray[i] == 2) {
+					System.out.println("Winner: Player" + i);
+					player[i].balance += pot;
+					
+					pki.setBalancePositive(i);
+				}
+			}
+		}else if(max == 1) {
+			
+		}
+	}
+	
+	public int[] evaluate() {
+		//TODO
+		int[] array = new int[5];
+		return array;
+	}
+	public int max(int[] array) {
+		return 0;
+	}
+	
+	
 	public static void changeActiveHand(boolean b) {
 		activeHand = b;
 		pki.setButtons();
@@ -127,7 +213,6 @@ public class GameController {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

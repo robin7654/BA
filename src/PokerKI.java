@@ -36,18 +36,24 @@ public class PokerKI {
 	JLabel lblHole4 = new JLabel("Hole5");
 	JLabel lblHole5 = new JLabel("Hole6");
 	ImageIcon testimg = new ImageIcon("C:/Users/robin7654/Desktop/pokerkartenklein/" + 1 + ".jpg");
-	private JLabel lblDealerButton = new JLabel("");
-	private JLabel lblBalancePlayer0 = new JLabel("$0");
-	private JLabel lblBalancePlayer1 = new JLabel("$0");
-	private JLabel lblBalancePlayer2 = new JLabel("$0");
-	private JLabel lblBet0 = new JLabel("");
-	private JLabel lblBet1 = new JLabel("");
-	private JLabel lblBet2 = new JLabel("");
-	private JLabel lblPot = new JLabel("");
+	public JLabel lblDealerButton = new JLabel("");
+	public JLabel lblBalancePlayer0 = new JLabel("$0");
+	public JLabel lblBalancePlayer1 = new JLabel("$0");
+	public JLabel lblBalancePlayer2 = new JLabel("$0");
+	public JLabel lblBet0 = new JLabel("");
+	public JLabel lblBet1 = new JLabel("");
+	public JLabel lblBet2 = new JLabel("");
+	public JLabel lblPot = new JLabel("");
 	Font tFFont = new Font("SansSerif", Font.BOLD, 15);
 	Font mainFont = new Font("SansSerif", Font.BOLD, 15);
 	Font moneyFont = new Font("SansSerif", Font.BOLD, 25);
 	int moneyHeight = 20;
+	
+	public void setBalancePositive(int i) {
+		if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
+		if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
+		if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
+	}
 	
 	static JButton btnFold;
 	static JButton btnCall;
