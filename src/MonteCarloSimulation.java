@@ -76,6 +76,20 @@ public class MonteCarloSimulation {
 		}
 		return (int)  (100*wins/43) ;
 	}
+	public static int winProbabilityOnFlop(int cards[], int playerNumber, int opponent){
+		int [] cardsWithoutTurn = cards;
+		cardsWithoutTurn[4] = -1;
+		cardsWithoutTurn[3] = -1;
+		double wins = 0; 
+		for (int i = 0; i < 52; i++){
+			int a = i;
+			if (IntStream.of(cards).anyMatch(x -> x == a) == false){
+				cards[3]= i;
+				wins = wins + 1/winProbabilityOnTurn(cards, playerNumber, opponent);
+			}
+		}
+		return (int)  (100*wins/43) ;
+	}
 	
 	
 	
