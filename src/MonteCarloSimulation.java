@@ -2,12 +2,12 @@ import java.util.stream.IntStream;
 
 
 
-public class MonteCarloSimulation {
+public class MonteCarloSimulation extends GameContoller {
 
-	public static GameContoller gc = PokerKI.gc;
+	//public static GameContoller gc = PokerKI.gc();
 	
-	public static int winProbabilityOnRiver(int cards[], int playerNumber, int opponent){
-		int[] winners = gc.evaluate();
+	public int winProbabilityOnRiver(int cards[], int playerNumber, int opponent){
+		int[] winners = super.evaluate();
 		if (winners[playerNumber] > winners[opponent]){
 			return 1;
 		}
@@ -17,8 +17,8 @@ public class MonteCarloSimulation {
 		return 0;
 	}
 	
-	public static int winProbabilityOnRiver(int cards[], int playerNumber, int opponent1, int opponent2){
-		int[] winners = gc.evaluate();
+	public int winProbabilityOnRiver(int cards[], int playerNumber, int opponent1, int opponent2){
+		int[] winners = super.evaluate();
 		//verlierer
 		if (winners[playerNumber] < winners[opponent1] | winners[playerNumber] < winners[opponent2]){
 			return 0;
@@ -37,7 +37,7 @@ public class MonteCarloSimulation {
 		}
 		return -1; 
 	}
-	public static int winProbabilityOnTurn(int cards[], int playerNumber, int opponent1, int opponent2){
+	public int winProbabilityOnTurn(int cards[], int playerNumber, int opponent1, int opponent2){
 		int [] cardsWithoutRiver = cards;
 		cardsWithoutRiver[4] = -1;
 		double wins = 0; 
@@ -50,7 +50,7 @@ public class MonteCarloSimulation {
 		}
 		return (int)  (100*wins/42) ;
 	}
-	public static int winProbabilityOnTurn(int cards[], int playerNumber, int opponent){
+	public int winProbabilityOnTurn(int cards[], int playerNumber, int opponent){
 		int [] cardsWithoutRiver = cards;
 		cardsWithoutRiver[4] = -1;
 		double wins = 0; 
