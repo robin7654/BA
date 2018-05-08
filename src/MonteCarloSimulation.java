@@ -4,7 +4,7 @@ import java.util.stream.IntStream;
 
 public class MonteCarloSimulation {
 
-	public static GameContoller gc = new GameContoller();
+	public static GameContoller gc = PokerKI.gc;
 	
 	public static int winProbabilityOnRiver(int cards[], int playerNumber, int opponent){
 		int[] winners = gc.evaluate();
