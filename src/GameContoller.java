@@ -271,7 +271,6 @@ public void call(Player player){
 		player.balance = 0;
 		player.allin = true;
 	}
-	
 	   try {
 		   writeAction(player, "call", player.bet);
 		   writeWinProbability(karten);
@@ -305,9 +304,12 @@ public void fold(Player player){
 
 //returnt index des gewinnenden spielers
 public int[] evaluate(){
-	int [] cards0 = {karten[0],karten[1],karten[2],karten[3],karten[4],karten[5],karten[6]};
-	int [] cards1 = {karten[0],karten[1],karten[2],karten[3],karten[4],karten[7],karten[8]};
-	int [] cards2 = {karten[0],karten[1],karten[2],karten[3],karten[4],karten[9],karten[10]};
+	return evaluate(karten);
+}
+public int[] evaluate(int [] cards){
+	int [] cards0 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[5],cards[6]};
+	int [] cards1 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[7],cards[8]};
+	int [] cards2 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[9],cards[10]};
 	/*int a = 0;
 	int b = 0;
 	int c = 0;*/
@@ -389,11 +391,19 @@ public void writeCards(int[] cards)throws IOException{
 		if (gamestate == 1) {
 			Writer output;
 			output = new BufferedWriter(new FileWriter("ausgabe", true));
-			String cardsString = Integer.toString(mcs.winProbabilityOnFlop(cards, 0, 1, 2));
-			//System.out.println(cardsString);
-			output.append(cardsString);
+			String prob = Integer.toString(mcs.winProbabilityOnFlop(cards, 0, 1, 2));
+			System.out.println(prob);
+			output.append(prob);
 			output.write(System.lineSeparator());
-
+			output.close();
+		}
+		if (gamestate == 2) {
+			Writer output;
+			output = new BufferedWriter(new FileWriter("ausgabe", true));
+			String prob = Integer.toString(mcs.winProbabilityOnTurn(cards, 0, 1, 2));
+			System.out.println(prob);
+			output.append(prob);
+			output.write(System.lineSeparator());
 			output.close();
 		}
 }

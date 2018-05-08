@@ -14,8 +14,6 @@ public class DetermineWinner {
 		
 		
 		
-		//System.out.println(Arrays.toString(a));
-		//System.out.println(Arrays.toString(b));
 		
 		
 		for (int i = 0; i < 6; i++){
@@ -53,9 +51,9 @@ public class DetermineWinner {
 		if(compareTwo(p3,p1) == 1) array[2]++;
 		if(compareTwo(p3,p2) == 1) array[2]++;
 		
-		System.out.println("Player " + array[0] + " " + Arrays.toString(a));
-		System.out.println("Opponent1 " + array[1] + " " + Arrays.toString(b));
-		System.out.println("Opponent2 " + array[2] + " " + Arrays.toString(c));
+//		System.out.println("Player " + array[0] + " " + Arrays.toString(a));
+//		System.out.println("Opponent1 " + array[1] + " " + Arrays.toString(b));
+//		System.out.println("Opponent2 " + array[2] + " " + Arrays.toString(c));
 		
 		
 		return array;
@@ -82,10 +80,6 @@ public class DetermineWinner {
 //		isQuads(cards);
 
 
-
-		if (isPair(cards) != null){
-			//System.out.println(Arrays.toString(addKicker(cards,isPair(cards))));
-		}
 		return;
 	}
 	public static int bestCards(int[] cards0, int[] cards1){
@@ -108,7 +102,6 @@ public class DetermineWinner {
 		int[] playersHand = new int[6];
 				
 		if(isQuads(cards)!= null){
-			System.out.println("quads");
 			playersHand[0]=1;
 			int[] playersFive = addKicker(cards,isQuads(cards));
 			for(int i = 1; i < playersHand.length; i++){
@@ -198,7 +191,6 @@ public class DetermineWinner {
 					index++;
 				}
 			}
-			System.out.println("flush");
 			return flush;
 		}
 		return null;
@@ -219,7 +211,6 @@ public class DetermineWinner {
 				straight[count+1] = arr[i+1];
 				count++;
 				if (count == 4){
-					System.out.println("straight");
 					return straight; 
 				}
 			} else if(values[i] != values[i+1]){
@@ -390,7 +381,7 @@ public class DetermineWinner {
 		for (int i = 0; i < Math.min(5, arr.length); i++){
 			playingFive[i] = arr[i];
 		}
-		System.out.println(Arrays.toString(playingFive));
+		//System.out.println(Arrays.toString(playingFive));
 		return playingFive;
 	}
 
