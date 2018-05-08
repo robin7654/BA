@@ -36,6 +36,7 @@ int gamestate = 0;
 int pot = 0;
 
 public void startNewGame(){
+	pot = 0;
 	button = 3;
 	player0 = new Player();
 	player1 = new Player();

@@ -235,6 +235,7 @@ public class PokerKI {
 				setCardLabel(6,gc.karten[6]);
 				updatePlayerBalance();
 				updatePlayerBet();
+				updatePot();
 				
 			}
 		});
@@ -260,6 +261,7 @@ public class PokerKI {
 				setCardLabel(6,gc.karten[6]);
 				updatePlayerBalance();
 				updatePlayerBet();
+				updatePot();
 				
 				
 				
