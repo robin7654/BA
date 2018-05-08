@@ -4,10 +4,10 @@ import java.util.stream.IntStream;
 
 public class MonteCarloSimulation extends GameContoller {
 
-	//public static GameContoller gc = PokerKI.gc();
+	public static GameContoller gc = new GameContoller();
 	
 	public int winProbabilityOnRiver(int cards[], int playerNumber, int opponent){
-		int[] winners = super.evaluate();
+		int[] winners = gc.evaluate();
 		if (winners[playerNumber] > winners[opponent]){
 			return 1;
 		}
@@ -18,7 +18,7 @@ public class MonteCarloSimulation extends GameContoller {
 	}
 	
 	public int winProbabilityOnRiver(int cards[], int playerNumber, int opponent1, int opponent2){
-		int[] winners = super.evaluate();
+		int[] winners = gc.evaluate();
 		//verlierer
 		if (winners[playerNumber] < winners[opponent1] | winners[playerNumber] < winners[opponent2]){
 			return 0;

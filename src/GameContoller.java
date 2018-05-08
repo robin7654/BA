@@ -80,7 +80,7 @@ public void startHand(){
 	try {
 		   writeCards(karten);
 	    } catch (Exception e) {
-	        System.out.println("fehler");
+	        System.out.println("fehler 83");
 	    }
 	
 	continueBetting(playersTurn);
@@ -249,7 +249,7 @@ public void raise(Player player, int amount){
 	try {
 		   writeAction(player, "raise", amount);
 	    } catch (Exception e) {
-	        System.out.println("fehler");
+	        System.out.println("fehler 252");
 	    }
 }
 public void call(Player player){
@@ -277,7 +277,7 @@ public void call(Player player){
 		   writeWinProbability(karten);
 		   
 	    } catch (Exception e) {
-	        System.out.println("fehler");
+	        System.out.println(e + " 280");
 	    }
 	
 	
@@ -299,7 +299,7 @@ public void fold(Player player){
 	 try {
 		   writeAction(player, "fold", 0);
 	    } catch (Exception e) {
-	        System.out.println("fehler");
+	        System.out.println("fehler 302");
 	    }
 }
 
