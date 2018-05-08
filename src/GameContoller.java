@@ -11,6 +11,7 @@ public class GameContoller {
 public static String[] pokerkarten = {"AS","AH","AD","AC","KS","KH","KD","KC","QS","QH","QD","QC","JS","JH","JD","JC","TS","TH","TD","TC","9S","9H","9D","9C","8S","8H","8D","8C","7S","7H","7D","7C","6S","6H","6D","6C","5S","5H","5D","5C","4S","4H","4D","4C","3S","3H","3D","3C","2S","2H","2D","2C"};
 public static Deck deck = new Deck();
 public static PokerKI pki = new PokerKI();
+public static MonteCarloSimulation mcs = new MonteCarloSimulation();
 int [] karten;
 int button = 3;
 int playersTurn = 3;
@@ -240,6 +241,10 @@ public void raise(Player player, int amount){
 		player.allin = true;
 		highestBet = player.bet;
 	}
+
+	
+	
+	
 	
 	try {
 		   writeAction(player, "raise", amount);
@@ -266,8 +271,11 @@ public void call(Player player){
 		player.balance = 0;
 		player.allin = true;
 	}
+	System.out.println(mcs.winProbabilityOnFlop(karten, 0, 1, 2));
 	   try {
 		   writeAction(player, "call", player.bet);
+		   writeWinProbability(karten);
+		   
 	    } catch (Exception e) {
 	        System.out.println("fehler");
 	    }
@@ -369,13 +377,26 @@ public void writeAction(Player player, String action, int amount)throws IOExcept
 public void writeCards(int[] cards)throws IOException{
 	Writer output;
 	output = new BufferedWriter(new FileWriter("ausgabe", true));
-	String cardsstring = " " + cards[0] +" " + cards[1] +" " + cards[2] +" " + cards[3] +" " + cards[4] +" " + cards[5] +" " + cards[6] +" " + cards[7] +" " + cards[8] +" " + cards[9] +" " + cards[10] ;
-	output.append(cardsstring);
+	String cardsString = " " + cards[0] +" " + cards[1] +" " + cards[2] +" " + cards[3] +" " + cards[4] +" " + cards[5] +" " + cards[6] +" " + cards[7] +" " + cards[8] +" " + cards[9] +" " + cards[10] ;
+	output.append(cardsString);
 	output.write(System.lineSeparator());
 	
 	output.close();
 }
 
+
+	public void writeWinProbability(int[] cards)throws IOException{
+		if (gamestate == 1) {
+			Writer output;
+			output = new BufferedWriter(new FileWriter("ausgabe", true));
+			String cardsString = Integer.toString(mcs.winProbabilityOnFlop(cards, 0, 1, 2));
+			//System.out.println(cardsString);
+			output.append(cardsString);
+			output.write(System.lineSeparator());
+
+			output.close();
+		}
+}
 
 
 

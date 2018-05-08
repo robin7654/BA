@@ -62,7 +62,7 @@ public class MonteCarloSimulation {
 		}
 		return (int)  (100*wins/42) ;
 	}
-	public static int winProbabilityOnFlop(int cards[], int playerNumber, int opponent1, int opponent2){
+	public int winProbabilityOnFlop(int cards[], int playerNumber, int opponent1, int opponent2){
 		int [] cardsWithoutTurn = cards;
 		cardsWithoutTurn[4] = -1;
 		cardsWithoutTurn[3] = -1;
@@ -76,7 +76,7 @@ public class MonteCarloSimulation {
 		}
 		return (int)  (100*wins/43) ;
 	}
-	public static int winProbabilityOnFlop(int cards[], int playerNumber, int opponent){
+	public int winProbabilityOnFlop(int cards[], int playerNumber, int opponent){
 		int [] cardsWithoutTurn = cards;
 		cardsWithoutTurn[4] = -1;
 		cardsWithoutTurn[3] = -1;
@@ -87,7 +87,7 @@ public class MonteCarloSimulation {
 				cards[3]= i;
 				wins = wins + 1/winProbabilityOnTurn(cards, playerNumber, opponent);
 			}
-		}
+		} 
 		return (int)  (100*wins/43) ;
 	}
 	
