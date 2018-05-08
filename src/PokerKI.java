@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -22,26 +23,26 @@ public class PokerKI {
 	
 	
 	
-	JLabel lblBoard = new JLabel("Board0");
-	JLabel lblBoard_1 = new JLabel("Board1");
-	JLabel lblBoard_2 = new JLabel("Board2");
-	JLabel lblBoard_3 = new JLabel("Board3");
-	JLabel lblBoard_4 = new JLabel("Board4");
-	JLabel lblHole = new JLabel("Hole1");
-	JLabel lblHole_1 = new JLabel("Hole2");
-	JLabel lblHole_2 = new JLabel("Hole3");
-	JLabel lblHole_3 = new JLabel("Hole4");
-	JLabel lblHole_4 = new JLabel("Hole5");
-	JLabel lblHole_5 = new JLabel("Hole6");
+	JLabel lblBoard0 = new JLabel("Board0");
+	JLabel lblBoard1 = new JLabel("Board1");
+	JLabel lblBoard2 = new JLabel("Board2");
+	JLabel lblBoard3 = new JLabel("Board3");
+	JLabel lblBoard4 = new JLabel("Board4");
+	JLabel lblHole0 = new JLabel("Hole1");
+	JLabel lblHole1 = new JLabel("Hole2");
+	JLabel lblHole2 = new JLabel("Hole3");
+	JLabel lblHole3 = new JLabel("Hole4");
+	JLabel lblHole4 = new JLabel("Hole5");
+	JLabel lblHole5 = new JLabel("Hole6");
 	ImageIcon testimg = new ImageIcon("C:/Users/robin7654/Desktop/pokerkartenklein/" + 1 + ".jpg");
-	private JLabel lblD = new JLabel("D");
-	private JLabel lblBalance = new JLabel("$0");
-	private JLabel lblBalance_1 = new JLabel("$0");
-	private JLabel lblBalance_2 = new JLabel("$0");
-	private JLabel lblBet = new JLabel("Bet");
-	private JLabel lblBet_1 = new JLabel("Bet");
-	private JLabel lblBet_2 = new JLabel("Bet");
-	private JLabel lblPot = new JLabel("Pot");
+	private JLabel lblDealerButton = new JLabel("D");
+	private JLabel lblBalancePlayer0 = new JLabel("$0");
+	private JLabel lblBalancePlayer1 = new JLabel("$0");
+	private JLabel lblBalancePlayer2 = new JLabel("$0");
+	private JLabel lblBet0 = new JLabel("");
+	private JLabel lblBet1 = new JLabel("");
+	private JLabel lblBet2 = new JLabel("");
+	private JLabel lblPot = new JLabel("");
 	Font tFFont = new Font("SansSerif", Font.BOLD, 15);
 	Font mainFont = new Font("SansSerif", Font.BOLD, 15);
 	
@@ -49,7 +50,7 @@ public class PokerKI {
 	static JButton btnCall;
 	static JButton btnRaise;
 	static JButton btnStartNewHand;
-	static JButton btnStartGame;
+	static JButton btnStartNewGame;
 	
 	public static void setCCButton() {
 		if(!gc.activeGame) {
@@ -118,11 +119,72 @@ public class PokerKI {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds(0, 0, 1247, 775);
+		frame.setBounds(0, 0, 1000, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		//frame.getContentPane().setLayout(null);
 		frame.getContentPane().setBackground(Color.decode("#555555"));
+		frame.setContentPane(new JLabel(new ImageIcon("src/images/table.jpg")));
 
+		
+
+		
+		
+		
+
+		btnRaise = new JButton("Raise");
+		btnRaise.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int amount = Integer.parseInt(textField.getText());
+				gc.raise(gc.player0, amount);
+				gc.continueBetting(gc.nextPlayer(0));
+				
+				gc.nextGameState();
+				openCards(gc.gamestate);
+				updatePlayerBalance();
+				updatePlayerBet();
+				updatePot();
+				textField.setText("");
+				
+			}
+		});
+		btnRaise.setBounds(frame.getWidth() - 20 - 90, frame.getHeight()-120, 90, 24);
+		btnRaise.setBackground(Color.GRAY);
+		btnRaise.setFont(mainFont);
+		frame.getContentPane().add(btnRaise);
+		
+		textField = new JTextField();
+		textField.setBounds(btnRaise.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
+		textField.setColumns(10);
+		textField.setFont(tFFont);
+		frame.getContentPane().add(textField);
+		
+		btnCall = new JButton("Call");
+		btnCall.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				gc.call(gc.player0);
+				
+				if(gc.button != 0 ){
+					gc.continueBetting(gc.nextPlayer(0));
+				} else {
+					if (gc.player2.bet > gc.player1.bet & gc.player1.active == true & gc.player1.allin== false){
+						gc.continueBetting(gc.nextPlayer(0));
+					}
+				}
+				
+				
+				
+				gc.nextGameState();
+				openCards(gc.gamestate);
+				updatePlayerBalance();
+				updatePlayerBet();
+				updatePot();
+			}
+		});
+		btnCall.setBounds(textField.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
+		btnCall.setBackground(Color.GRAY);
+		btnCall.setFont(mainFont);
+		frame.getContentPane().add(btnCall);
+		
 		btnFold = new JButton("Fold");
 		btnFold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -148,107 +210,68 @@ public class PokerKI {
 				
 			}
 		});
-		btnFold.setBounds(740, frame.getHeight()-120, 90, 24);
+		btnFold.setBounds(btnCall.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
 		btnFold.setBackground(Color.GRAY);
 		btnFold.setFont(mainFont);
 		frame.getContentPane().add(btnFold);
 
-		btnCall = new JButton("Call");
-		btnCall.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				gc.call(gc.player0);
-				
-				if(gc.button != 0 ){
-					gc.continueBetting(gc.nextPlayer(0));
-				} else {
-					if (gc.player2.bet > gc.player1.bet & gc.player1.active == true & gc.player1.allin== false){
-						gc.continueBetting(gc.nextPlayer(0));
-					}
-				}
-				
-				
-				
-				gc.nextGameState();
-				openCards(gc.gamestate);
-				updatePlayerBalance();
-				updatePlayerBet();
-				updatePot();
-			}
-		});
-		btnCall.setBounds(846, frame.getHeight()-120, 90, 24);
-		btnCall.setBackground(Color.GRAY);
-		btnCall.setFont(mainFont);
-		frame.getContentPane().add(btnCall);
-
-		btnRaise = new JButton("Raise");
-		btnRaise.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int amount = Integer.parseInt(textField.getText());
-				gc.raise(gc.player0, amount);
-				gc.continueBetting(gc.nextPlayer(0));
-				
-				gc.nextGameState();
-				openCards(gc.gamestate);
-				updatePlayerBalance();
-				updatePlayerBet();
-				updatePot();
-				textField.setText("");
-				
-			}
-		});
-		btnRaise.setBounds(1058, frame.getHeight()-120, 90, 24);
-		btnRaise.setBackground(Color.GRAY);
-		btnRaise.setFont(mainFont);
-		frame.getContentPane().add(btnRaise);
-
-		textField = new JTextField();
-		textField.setBounds(952, frame.getHeight()-120, 90, 24);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		textField.setFont(tFFont);
-      
-		lblHole.setBounds(415, 455, 83, 117);
-		frame.getContentPane().add(lblHole);
 		
-		lblHole_1.setBounds(500, 455, 83, 117);
-		frame.getContentPane().add(lblHole_1);
+      
+		lblHole0.setBounds(415, 455, 83, 117);
+		frame.getContentPane().add(lblHole0);
+		
+		lblHole1.setBounds(500, 455, 83, 117);
+		frame.getContentPane().add(lblHole1);
 
-		lblHole_2.setBounds(150, 145, 83, 117);
-		frame.getContentPane().add(lblHole_2);
+		lblHole2.setBounds(150, 145, 83, 117);
+		frame.getContentPane().add(lblHole2);
 
-		lblHole_3.setBounds(235, 145, 83, 117);
-		frame.getContentPane().add(lblHole_3);
+		lblHole3.setBounds(235, 145, 83, 117);
+		frame.getContentPane().add(lblHole3);
 
-		lblHole_4.setBounds(645, 145, 83, 117);
-		frame.getContentPane().add(lblHole_4);
+		lblHole4.setBounds(645, 145, 83, 117);
+		frame.getContentPane().add(lblHole4);
 
-		lblHole_5.setBounds(730, 145, 83, 117);
-		frame.getContentPane().add(lblHole_5);
+		lblHole5.setBounds(730, 145, 83, 117);
+		frame.getContentPane().add(lblHole5);
 
-		lblBoard.setBounds(310, 263, 83, 117);
-		frame.getContentPane().add(lblBoard);
+		lblBoard0.setBounds(310, 263, 83, 117);
+		frame.getContentPane().add(lblBoard0);
 
-		lblBoard_1.setBounds(395, 263, 83, 117);
-		frame.getContentPane().add(lblBoard_1);
+		lblBoard1.setBounds(395, 263, 83, 117);
+		frame.getContentPane().add(lblBoard1);
 
-		lblBoard_2.setBounds(480, 263, 83, 117);
-		frame.getContentPane().add(lblBoard_2);
+		lblBoard2.setBounds(480, 263, 83, 117);
+		frame.getContentPane().add(lblBoard2);
 
-		lblBoard_3.setBounds(580, 263, 83, 117);
-		frame.getContentPane().add(lblBoard_3);
+		lblBoard3.setBounds(580, 263, 83, 117);
+		frame.getContentPane().add(lblBoard3);
 
-		lblBoard_4.setBounds(680, 263, 83, 117);
-		frame.getContentPane().add(lblBoard_4);
+		lblBoard4.setBounds(680, 263, 83, 117);
+		frame.getContentPane().add(lblBoard4);
+		
+		setCardLabel(0,52);
+		setCardLabel(1,52);
+		setCardLabel(2,52);
+		setCardLabel(3,52);
+		setCardLabel(4,52);
+		
+		setCardLabel(5,52);
+		setCardLabel(6,52);
+		setCardLabel(7,52);
+		setCardLabel(8,52);
+		setCardLabel(9,52);
+		setCardLabel(10,52);
 
 		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(gc.gamestate < 4) return;
-				setCardLabel(0,53);
-				setCardLabel(1,53);
-				setCardLabel(2,53);
-				setCardLabel(3,53);
-				setCardLabel(4,53);
+				setCardLabel(0,52);
+				setCardLabel(1,52);
+				setCardLabel(2,52);
+				setCardLabel(3,52);
+				setCardLabel(4,52);
 				
 				gc.startHand();
 				placeButton(gc.button);
@@ -265,19 +288,19 @@ public class PokerKI {
 				
 			}
 		});
-		btnStartNewHand.setBounds(366, frame.getHeight()-120, 120, 48);
+		btnStartNewHand.setBounds(50, frame.getHeight()-120, 120, 48);
 		btnStartNewHand.setBackground(Color.GRAY);
 		btnStartNewHand.setFont(mainFont);
 		frame.getContentPane().add(btnStartNewHand);
 		
-		btnStartGame = new JButton("Start New Game");
-		btnStartGame.addActionListener(new ActionListener() {
+		btnStartNewGame = new JButton("Start New Game");
+		btnStartNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setCardLabel(0,53);
-				setCardLabel(1,53);
-				setCardLabel(2,53);
-				setCardLabel(3,53);
-				setCardLabel(4,53);
+				setCardLabel(0,52);
+				setCardLabel(1,52);
+				setCardLabel(2,52);
+				setCardLabel(3,52);
+				setCardLabel(4,52);
 				gc.startNewGame();
 				placeButton(gc.button);
 				setCardLabel(7,52);
@@ -296,44 +319,55 @@ public class PokerKI {
 				
 			}
 		});
-		btnStartGame.setBounds(42, frame.getHeight()-120, 180, 48);
-		btnStartGame.setBackground(Color.GREEN);
-		btnStartGame.setFont(mainFont);
-		frame.getContentPane().add(btnStartGame);
+		btnStartNewGame.setBounds(50, 50, 180, 48);
+		btnStartNewGame.setBackground(Color.GREEN);
+		btnStartNewGame.setFont(mainFont);
+		frame.getContentPane().add(btnStartNewGame);
 		
-		lblD.setBounds(347, 506, 46, 14);
-		frame.getContentPane().add(lblD);
+		lblDealerButton.setBounds(347, 506, 46, 14);
+		lblDealerButton.setForeground(Color.RED);
+		frame.getContentPane().add(lblDealerButton);
 		
-		lblBalance.setBounds(444, 595, 46, 14);
-		frame.getContentPane().add(lblBalance);
-		lblBalance_1.setBounds(208, 120, 46, 14);
-		frame.getContentPane().add(lblBalance_1);
-		lblBalance_2.setBounds(680, 120, 46, 14);
-		frame.getContentPane().add(lblBalance_2);
+		lblBalancePlayer0.setBounds(444, 595, 46, 14);
+		lblBalancePlayer0.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblBalancePlayer0);
+		lblBalancePlayer1.setBounds(208, 120, 46, 14);
+		lblBalancePlayer1.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblBalancePlayer1);
+		lblBalancePlayer2.setBounds(680, 120, 46, 14);
+		lblBalancePlayer2.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblBalancePlayer2);
 		
-		lblBet.setBounds(444, 413, 46, 14);
-		frame.getContentPane().add(lblBet);
-		lblBet_1.setBounds(347, 233, 46, 14);
-		frame.getContentPane().add(lblBet_1);
-		lblBet_2.setBounds(543, 233, 46, 14);
-		frame.getContentPane().add(lblBet_2);
+		lblBet0.setBounds(444, 413, 46, 14);
+		lblBet0.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblBet0);
+		lblBet1.setBounds(347, 233, 46, 14);
+		lblBet1.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblBet1);
+		lblBet2.setBounds(543, 233, 46, 14);
+		lblBet2.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblBet2);
 		
 		lblPot.setBounds(853, 370, 46, 14);
+		lblPot.setForeground(Color.WHITE);
 		frame.getContentPane().add(lblPot);
 		
 		
 	}
 
 	 protected void updatePlayerBet() {
-		 lblBet.setText("$" + Integer.toString(gc.player0.bet));
-		 lblBet_1.setText("$" + Integer.toString(gc.player1.bet));
-		 lblBet_2.setText("$" + Integer.toString(gc.player2.bet));
+		 if(gc.player0.bet == 0) lblBet0.setText("");
+		 else lblBet0.setText("$" + Integer.toString(gc.player0.bet));
+		 if(gc.player1.bet == 0) lblBet1.setText("");
+		 else lblBet1.setText("$" + Integer.toString(gc.player1.bet));
+		 if(gc.player2.bet == 0) lblBet2.setText("");
+		 else lblBet2.setText("$" + Integer.toString(gc.player2.bet));
 	}
 
 	protected void updatePlayerBalance() {
-		lblBalance.setText("$" + Integer.toString(gc.player0.balance));
-		lblBalance_1.setText("$" + Integer.toString(gc.player1.balance));
-		lblBalance_2.setText("$" + Integer.toString(gc.player2.balance));
+		lblBalancePlayer0.setText("$" + Integer.toString(gc.player0.balance));
+		lblBalancePlayer1.setText("$" + Integer.toString(gc.player1.balance));
+		lblBalancePlayer2.setText("$" + Integer.toString(gc.player2.balance));
 	}
 	protected void updatePot() {
 		lblPot.setText("$" + Integer.toString(gc.pot));
@@ -345,11 +379,11 @@ public class PokerKI {
 	
 	public void placeButton(int x) {
 		switch (x) {
-		case 0: lblD.setBounds(347, 506, 46, 14);
+		case 0: lblDealerButton.setBounds(347, 506, 46, 14);
 		break;
-		case 1: lblD.setBounds(81, 196, 46, 14);
+		case 1: lblDealerButton.setBounds(81, 196, 46, 14);
 		break;
-		case 2: lblD.setBounds(565, 180, 46, 14);
+		case 2: lblDealerButton.setBounds(565, 180, 46, 14);
 		break;
 		}
 	}
@@ -467,37 +501,37 @@ public class PokerKI {
 	public void setCardLabel(int x, int y){
 		switch (x) {
 		case 0: ImageIcon imgBoard = new ImageIcon("src/images/" + y + ".jpg");
-		lblBoard.setIcon(imgBoard);
+		lblBoard0.setIcon(imgBoard);
 		break;
 		case 1: ImageIcon imgBoard_1 = new ImageIcon("src/images/" + y + ".jpg");
-		lblBoard_1.setIcon(imgBoard_1);
+		lblBoard1.setIcon(imgBoard_1);
 		break;
 		case 2: ImageIcon imgBoard_2 = new ImageIcon("src/images/" + y + ".jpg");
-		lblBoard_2.setIcon(imgBoard_2);
+		lblBoard2.setIcon(imgBoard_2);
 		break;
 		case 3: ImageIcon imgBoard_3 = new ImageIcon("src/images/" + y + ".jpg");
-		lblBoard_3.setIcon(imgBoard_3);
+		lblBoard3.setIcon(imgBoard_3);
 		break;
 		case 4: ImageIcon imgBoard_4 = new ImageIcon("src/images/" + y + ".jpg");
-		lblBoard_4.setIcon(imgBoard_4);
+		lblBoard4.setIcon(imgBoard_4);
 		break;
 		case 5: ImageIcon imgHole = new ImageIcon("src/images/" + y + ".jpg");
-		lblHole.setIcon(imgHole);
+		lblHole0.setIcon(imgHole);
 		break;
 		case 6: ImageIcon imgHole_1 = new ImageIcon("src/images/" + y + ".jpg");
-		lblHole_1.setIcon(imgHole_1);
+		lblHole1.setIcon(imgHole_1);
 		break;
 		case 7: ImageIcon imgHole_2 = new ImageIcon("src/images/" + y + ".jpg");
-		lblHole_2.setIcon(imgHole_2);
+		lblHole2.setIcon(imgHole_2);
 		break;
 		case 8: ImageIcon imgHole_3 = new ImageIcon("src/images/" + y + ".jpg");
-		lblHole_3.setIcon(imgHole_3);
+		lblHole3.setIcon(imgHole_3);
 		break;
 		case 9: ImageIcon imgHole_4 = new ImageIcon("src/images/" + y + ".jpg");
-		lblHole_4.setIcon(imgHole_4);
+		lblHole4.setIcon(imgHole_4);
 		break;
 		case 10: ImageIcon imgHole_5 = new ImageIcon("src/images/" + y + ".jpg");
-		lblHole_5.setIcon(imgHole_5);
+		lblHole5.setIcon(imgHole_5);
 		break;
 		}
 	}
