@@ -161,7 +161,7 @@ private void calculateMove(int acting) {
 	if (randomInt < 0){
 		fold(getPlayer(acting));
 		return;
-	} else if(randomInt < 0){
+	} else if(randomInt < 5){
 		raise(getPlayer(acting), blind);
 		return;
 	} 
