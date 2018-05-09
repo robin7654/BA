@@ -1,4 +1,4 @@
-import java.io.BufferedWriter;
+/*import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -312,7 +312,7 @@ public int[] evaluate(int [] cards){
 	int [] cards2 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[9],cards[10]};
 	/*int a = 0;
 	int b = 0;
-	int c = 0;*/
+	int c = 0;
 	
 	int[] array = DetermineWinner.compareThree(cards0, cards1, cards2);
 	if(!player0.active) array[0] = -1;
@@ -346,7 +346,7 @@ public int[] evaluate(int [] cards){
 	if (b >= a & b >= c){
 		return 1;
 	}
-	return 2;*/
+	return 2;
 	//todo split pot
 	
 }
@@ -418,4 +418,4 @@ public void writeCards(int[] cards)throws IOException{
 
 
 
-}
+}*/

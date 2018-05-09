@@ -1,5 +1,7 @@
-import java.awt.Color;
+import java.awt.EventQueue;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameController {
 	
@@ -13,7 +15,7 @@ public class GameController {
 	public static boolean activeGame = false;
 	
 	
-	Player[] player = new Player[3];
+	static Player[] player = new Player[3];
 	
 	static int button = -1;
 	static int bigBlindPosition = -1;
@@ -30,19 +32,21 @@ public class GameController {
 	static int activePlayerC = 0;
 	
 	
-	public void startNewGame() {
-		changeActiveHand(true);
-		changeActiveGame(true);
+	public static void startNewGame() {
+		player[0] = new Player(false, "Player");
+		player[1] = new Player(true, "Bot1");
+		player[2] = new Player(true, "Bot2");
+		
+		setActiveHand(true);
+		setActiveGame(true);
 		
 		setBigBlindPosition(-1);
-		player[0] = new Player(false);
-		player[1] = new Player(true);
-		player[2] = new Player(true);
+		
 		resetBlinds();
-		startHand();
+		startNewHand();
 	}
-	public void startHand() {
-		changeActiveHand(true);
+	public static void startNewHand() {
+		setActiveHand(true);
 		setGameState(0);
 		moveBigBlindToNextPosition();
 		checkBlindChange();
@@ -53,54 +57,61 @@ public class GameController {
 		setBlinds();
 		changeActivePlayer();
 		
+		pki.openCards(gameState);
+		pki.updateAll();
+		
 		getNextMove();
 	}
 	
 	
 	
-	public void setBlinds() {
-		player[bigBlindPosition].raise(blind);
-		
+	public static void setBlinds() {		
 		if(!player[getNextPlayerNum(bigBlindPosition)].activeInGame) 
 			setButton(getNextPlayerNum(getNextPlayerNum(bigBlindPosition)));
 		else setButton(getNextPlayerNum(bigBlindPosition));
 		
+		System.out.println("Button: " + button);
+		
 		if(!player[getPreviousPlayerNum(bigBlindPosition)].activeInGame)
-			player[getPreviousPlayerNum(getPreviousPlayerNum(bigBlindPosition))].raise(blind/2);
-		else player[getPreviousPlayerNum(bigBlindPosition)].raise(blind/2);	
+			player[getPreviousPlayerNum(getPreviousPlayerNum(bigBlindPosition))].setBlind(blind/2);
+		else player[getPreviousPlayerNum(bigBlindPosition)].setBlind(blind/2);	
+		
+		player[bigBlindPosition].setBlind(blind);
+		
+		System.out.println("Big Blind: " + bigBlindPosition);
 	}
-	public void setButton(int n) {
+	public static void setButton(int n) {
 		button = n;
 	}
-	public void setPot(int n){
+	public static void setPot(int n){
 		pot = n;
 	}
-	public void setGameState(int n) {
+	public static void setGameState(int n) {
 		gameState = n;
 	}
-	public void resetBlinds() {
+	public static void resetBlinds() {
 		blind = startingBlind;
 		gamesTillLvChange = 0;
 	}
-	public void changeActivePlayer() {
+	public static void changeActivePlayer() {
 		if(activePlayer < 0) activePlayer = button;
 		else if(activePlayer == 2) activePlayer = 0;
 		else activePlayer += 1;
 		
 		if(!player[activePlayer].activeInGame) changeActivePlayer();
 	}
-	public void setActivePlayer(int n) {
+	public static void setActivePlayer(int n) {
 		activePlayer = n;
 	}
-	public void setHighestBet(int n) {
+	public static void setHighestBet(int n) {
 		highestBet = n;
 	}
 	
-	public void setBigBlindPosition(int n) {
+	public static void setBigBlindPosition(int n) {
 		bigBlindPosition = n;
 	}
 
-	public void moveBigBlindToNextPosition() {
+	public static void moveBigBlindToNextPosition() {
 		if(bigBlindPosition == -1) {
 			Random randomGenerator = new Random();
 			setBigBlindPosition(randomGenerator.nextInt(3));
@@ -112,14 +123,14 @@ public class GameController {
 		
 		if(!player[bigBlindPosition].activeInGame) moveBigBlindToNextPosition();
 	}
-	public void calcPot() {//TODO: SidePot
+	public static void calcPot() {//TODO: SidePot
 		setPot(pot + player[0].bet + player[1].bet + player[2].bet);
 	}
-	public void checkBlindChange() {
+	public static void checkBlindChange() {
 		if(gamesTillLvChangeC == gamesTillLvChange) lvRaise();
 		gamesTillLvChangeC += 1;
 	}
-	public void lvRaise() {
+	public static void lvRaise() {
 		if(blind == 20) blind = 30;
 		else if(blind == 30) blind = 40;
 		else if(blind == 40) blind = 60;
@@ -131,72 +142,109 @@ public class GameController {
 		gamesTillLvChangeC = 0;
 	}
 	
-	public int getNextPlayerNum(int n) {
+	public static int getNextPlayerNum(int n) {
 		if(n == 2) return 0;
 		else return n + 1;
 	}
-	public int getPreviousPlayerNum(int n) {
+	public static int getPreviousPlayerNum(int n) {
 		if(n == 0) return 2;
 		else return n - 1;
 	}	
 	
-	public void getNextMove() {
-		
-		if(activePlayerC == activePlayer) {
+	static public void getNextMove() {
+		//System.out.println("ActivePlayerC: " + activePlayerC);
+		//System.out.println("ActtivePlayer: "+ activePlayer);
+		if(activePlayerC == activePlayers) {
 			changeGameState();
 			return;
 		}
 		
 		if(activeHand) {
-			if(player[activePlayer].bot) player[activePlayer].decideMove();
+			if(player[activePlayer].bot) {
+				player[activePlayer].decideMove();
+				getNextMove();
+			}
 		}
+		pki.updateAll();
+		
+		
+		
 	}
-	public void changeGameState() {
+	public static void changeGameState() {
 		if(gameState < 4) {
-			pot = pot + player[0].bet + player[1].bet + player[2].bet;
+			calcPot();
 			player[0].setBet(0);
 			player[1].setBet(0);
 			player[2].setBet(0);
 			setHighestBet(0);
 			gameState++;
 			pki.openCards(gameState);
+			pki.updateAll();
+			
+			GameController.activePlayerC = 0;
 			
 			System.out.println("gameState: " + gameState);
 		}
 		if(gameState == 4) {
+			setActiveHand(false);
 			int[] winnerArray = evaluate();
 			int max = max(winnerArray);
 			int maxC = maxC(winnerArray, max);
 			
 			givePot(winnerArray, max, maxC);
 			
-			
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				public void run() {
+					pki.updateAll();
+					
+					pki.setBalanceNeutral(0);
+					pki.setBalanceNeutral(1);
+					pki.setBalanceNeutral(2);
+					
+					pot = 0;
+					
+					gameState++;
+					changeGameState();
+				}
+			}, 2000);
+		}
+		else {
+			startNewHand();
 		}
 	}
 	
-	public void givePot(int[] winnerArray, int max, int maxC) {
+	public static void givePot(int[] winnerArray, int max, int maxC) {
 		for(int i = 0; i < winnerArray.length; i++) {
 			if(winnerArray[i] == max) {
 				System.out.println("Winner: Player" + i);
 				player[i].balance += pot/maxC;
+				if(player[i].balance == 0) player[i].activeInGame = false;
 				pki.setBalancePositive(i);
 			}
 		}
 	}
 	
-	public int[] evaluate() {
-		//TODO
-		int[] array = new int[5];
+	public static int[] evaluate() {
+		int [] cards0 = {cardDeck[0],cardDeck[1],cardDeck[2],cardDeck[3],cardDeck[4],cardDeck[5],cardDeck[6]};
+		int [] cards1 = {cardDeck[0],cardDeck[1],cardDeck[2],cardDeck[3],cardDeck[4],cardDeck[7],cardDeck[8]};
+		int [] cards2 = {cardDeck[0],cardDeck[1],cardDeck[2],cardDeck[3],cardDeck[4],cardDeck[9],cardDeck[10]};
+		
+		int[] array = DetermineWinner.compareThree(cards0, cards1, cards2);
+		if(!player[0].activeInHand) array[0] = -1;
+		if(!player[0].activeInHand) array[1] = -1;
+		if(!player[0].activeInHand) array[2] = -1;
+		
 		return array;
 	}
-	public int max(int[] array) {
+	public static int max(int[] array) {
 		int max = 0;
 		for(int i = 0; i < array.length; i++) {
 			if(array[i] > max) max = array[i];
 		}
 		return max;
 	}
-	public int maxC(int[] array, int max) {
+	public static int maxC(int[] array, int max) {
 		int maxC = 0;
 		for(int i = 0; i<array.length; i++) {
 			if(array[i] == max) maxC++;
@@ -204,17 +252,39 @@ public class GameController {
 		return maxC;
 	}
 	
+	public static int[] evaluate(int[] cards){
+		int [] cards0 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[5],cards[6]};
+		int [] cards1 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[7],cards[8]};
+		int [] cards2 = {cards[0],cards[1],cards[2],cards[3],cards[4],cards[9],cards[10]};
+		
+		int[] array = DetermineWinner.compareThree(cards0, cards1, cards2);
+		if(!player[0].activeInHand) array[0] = -1;
+		if(!player[1].activeInHand) array[1] = -1;
+		if(!player[2].activeInHand) array[2] = -1;
+		
+		return array;
+	}
 	
-	public static void changeActiveHand(boolean b) {
+	public static void setActiveHand(boolean b) {
 		activeHand = b;
 		pki.setButtons();
 	}
-	public void changeActiveGame(boolean b) {
+	public static void setActiveGame(boolean b) {
 		activeGame = b;
 		pki.setButtons();
 	}
 	
 	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					pki.frame.pack();
+					pki.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		// TODO Auto-generated method stub
 	}
 

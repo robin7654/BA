@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
@@ -19,10 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class PokerKI {
 	public JFrame frame;
 	private JTextField textField;
-	//public static GameContoller GameController = new GameContoller();
-	
-	
-	
 	
 	JLabel lblBoard0 = new JLabel("Board0");
 	JLabel lblBoard1 = new JLabel("Board1");
@@ -54,6 +51,11 @@ public class PokerKI {
 		if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
 		if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
 	}
+	public void setBalanceNeutral(int i) {
+		if(i == 0) lblBalancePlayer0.setForeground(Color.WHITE);
+		if(i == 1) lblBalancePlayer1.setForeground(Color.WHITE);
+		if(i == 2) lblBalancePlayer2.setForeground(Color.WHITE);
+	}
 	
 	static JButton btnFold;
 	static JButton btnCall;
@@ -84,10 +86,10 @@ public class PokerKI {
 			if(GameController.gameState == 5) btnStartNewHand.setBackground(Color.GREEN);
 		}
 		
-		if(GameController.highestBet == GameController.getPlayer(0).bet) btnCall.setText("Check");
-		else btnCall.setText("Call $" + (GameController.highestBet-GameController.getPlayer(0).bet));
+		if(GameController.highestBet == GameController.player[0].bet) btnCall.setText("Check");
+		else btnCall.setText("Call $" + (GameController.highestBet-GameController.player[0].bet));
 	}
-	
+
 	public void setStartNewHandButton() {
 		if(GameController.activeHand) btnStartNewHand.setBackground(Color.GRAY);
 		else if(GameController.gameState == 5) btnStartNewHand.setBackground(Color.GREEN);
@@ -101,7 +103,20 @@ public class PokerKI {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PokerKI window = new PokerKI();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}*/
+	
+	public void run() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -118,9 +133,7 @@ public class PokerKI {
 	 * Create the application.
 	 */
 	public PokerKI() {
-		initialize();
-		
-		
+		initialize();		
 	}
 
 	/**
@@ -135,26 +148,14 @@ public class PokerKI {
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().setBackground(Color.decode("#555555"));
 		frame.setContentPane(new JLabel(new ImageIcon("src/images/pokertisch.jpg")));
-		
 
 		btnRaise = new JButton("Raise");
 		btnRaise.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState > 3) return;
 				int amount = Integer.parseInt(textField.getText());
-				GameController.raise(GameController.player0, amount);
-				GameController.continueBetting(GameController.nextPlayer(0));
-
-				
-				if(GameController.player0.bet == GameController.player1.bet && GameController.player1.bet == GameController.player2.bet)
-				GameController.nextGameState();
-				openCards(GameController.gameState);
-				
-				if(GameController.gameState < 4) {
-					updatePlayerBalance();
-					updatePlayerBet();
-					updatePot();
-				}
+				GameController.player[0].raise(amount);
+				GameController.getNextMove();
 				textField.setText("");
 				
 			}
@@ -174,26 +175,8 @@ public class PokerKI {
 		btnCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState > 3) return;
-				GameController.call(GameController.player0);
-				
-				if(GameController.button != 0 ){
-					GameController.continueBetting(GameController.nextPlayer(0));
-				} else {
-					if (GameController.player2.bet > GameController.player1.bet & GameController.player1.active == true & GameController.player1.allin== false){
-						GameController.continueBetting(GameController.nextPlayer(0));
-					}
-				}
-				
-				
-				if(GameController.player0.bet == GameController.player1.bet && GameController.player1.bet == GameController.player2.bet)
-				GameController.nextGameState();
-				openCards(GameController.gameState);
-				
-				if(GameController.gameState < 4) {
-					updatePlayerBalance();
-					updatePlayerBet();
-					updatePot();
-				}
+				GameController.player[0].raise(GameController.highestBet);
+				GameController.getNextMove();
 			}
 		});
 		btnCall.setBounds(textField.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
@@ -205,30 +188,8 @@ public class PokerKI {
 		btnFold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState > 3) return;
-				GameController.fold(GameController.player0);
-				
-//				gc.continueBetting(gc.nextPlayer(0));
-//		
-//				gc.nextGameState();
-//				openCards(gc.gamestate);
-//				updatePlayerBalance();
-//				updatePlayerBet();
-//				updatePot();
-				
-				while (GameController.gameState < 4){
-					GameController.continueBetting(GameController.nextPlayer(0));
-					
-					if(GameController.player0.bet == GameController.player1.bet && GameController.player1.bet == GameController.player2.bet)
-					GameController.nextGameState();
-					openCards(GameController.gameState);
-					
-					if(GameController.gameState < 4) {
-						updatePlayerBalance();
-						updatePlayerBet();
-						updatePot();
-					}
-				}
-				
+				GameController.player[0].fold();
+				GameController.getNextMove();
 			}
 		});
 		btnFold.setBounds(btnCall.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
@@ -250,35 +211,25 @@ public class PokerKI {
 
 		lblBoard2.setBounds((frame.getWidth()/2) - 83/2, frame.getHeight()/4, 83, 117);
 		frame.getContentPane().add(lblBoard2);
-		
 		lblBoard1.setBounds(lblBoard2.getX() - lblBoard2.getWidth() - 2, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard1);
-		
 		lblBoard0.setBounds(lblBoard1.getX() - lblBoard1.getWidth() - 2, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard0);
-
 		lblBoard3.setBounds(lblBoard2.getX() + lblBoard2.getWidth() + 8, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard3);
-
 		lblBoard4.setBounds(lblBoard3.getX() + lblBoard3.getWidth() + 8, lblBoard2.getY(), 83, 117);
 		frame.getContentPane().add(lblBoard4);
 		
-		
 		lblHole0.setBounds((frame.getWidth()/2 - 83 - 1), frame.getHeight()*4/7, 83, 117);
 		frame.getContentPane().add(lblHole0);
-		
 		lblHole1.setBounds((frame.getWidth()/2 + 1), lblHole0.getY(), 83, 117);
 		frame.getContentPane().add(lblHole1);
-
 		lblHole2.setBounds(frame.getWidth()/5, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole2);
-
 		lblHole3.setBounds(lblHole2.getX() - 83 - 2, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole3);
-
 		lblHole4.setBounds(frame.getWidth()*5/7, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole4);
-
 		lblHole5.setBounds(lblHole4.getX() + 83 + 2, lblBoard2.getY() - 117 - 30, 83, 117);
 		frame.getContentPane().add(lblHole5);
 		
@@ -298,26 +249,9 @@ public class PokerKI {
 		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(GameController.gameState < 5) return;
-				setCardLabel(0,52);
-				setCardLabel(1,52);
-				setCardLabel(2,52);
-				setCardLabel(3,52);
-				setCardLabel(4,52);
-				
-				GameController.startHand();
+				if(GameController.gameState > 5) return;
+				GameController.startNewHand();
 				placeButton(GameController.button);
-				setCardLabel(7,52);
-				setCardLabel(8,52);
-				setCardLabel(9,52);
-				setCardLabel(10,52);
-				
-				setCardLabel(5,GameController.cardDeck[5]);
-				setCardLabel(6,GameController.cardDeck[6]);
-				updatePlayerBalance();
-				updatePlayerBet();
-				updatePot();
-				
 			}
 		});
 		btnStartNewHand.setBounds(btnRaise.getX() + btnRaise.getWidth() - 120, btnRaise.getY() - 48 - 12, 120, 48);
@@ -328,28 +262,8 @@ public class PokerKI {
 		btnStartNewGame = new JButton("Start New Game");
 		btnStartNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setCardLabel(0,52);
-				setCardLabel(1,52);
-				setCardLabel(2,52);
-				setCardLabel(3,52);
-				setCardLabel(4,52);
 				GameController.startNewGame();
 				placeButton(GameController.button);
-				
-				setCardLabel(7,52);
-				setCardLabel(8,52);
-				setCardLabel(9,52);
-				setCardLabel(10,52);
-				
-				setCardLabel(5,GameController.cardDeck[5]);
-				setCardLabel(6,GameController.cardDeck[6]);
-				updatePlayerBalance();
-				updatePlayerBet();
-				updatePot();
-				
-				
-				
-				
 			}
 		});
 		btnStartNewGame.setBounds(0, frame.getHeight() - 48, 180, 48);
@@ -385,11 +299,13 @@ public class PokerKI {
 		lblBet0.setHorizontalAlignment(JLabel.CENTER);
 		lblBet0.setFont(moneyFont);
 		frame.getContentPane().add(lblBet0);
+		
 		lblBet1.setBounds(lblHole2.getX() + lblHole2.getWidth() + 8, lblHole2.getY() + (lblHole2.getHeight()/2 - 14/2), 46, moneyHeight);
 		lblBet1.setForeground(Color.WHITE);
 		lblBet1.setHorizontalAlignment(JLabel.CENTER);
 		lblBet1.setFont(moneyFont);
 		frame.getContentPane().add(lblBet1);
+		
 		lblBet2.setBounds(lblHole4.getX() - 8 - 46, lblHole4.getY() + (lblHole4.getHeight()/2 - 14/2), 46, moneyHeight);
 		lblBet2.setForeground(Color.WHITE);
 		lblBet2.setHorizontalAlignment(JLabel.CENTER);
@@ -405,24 +321,31 @@ public class PokerKI {
 		
 	}
 
-	 protected void updatePlayerBet() {
-		 if(GameController.player0.bet == 0) lblBet0.setText("");
-		 else lblBet0.setText("$" + Integer.toString(GameController.player0.bet));
-		 if(GameController.player1.bet == 0) lblBet1.setText("");
-		 else lblBet1.setText("$" + Integer.toString(GameController.player1.bet));
-		 if(GameController.player2.bet == 0) lblBet2.setText("");
-		 else lblBet2.setText("$" + Integer.toString(GameController.player2.bet));
+	protected void updatePlayerBet() {
+		 /*if(GameController.player[0].bet == 0) lblBet0.setText("");
+		 else lblBet0.setText("$" + Integer.toString(GameController.player[0].bet));
+		 if(GameController.player[1].bet == 0) lblBet1.setText("");
+		 else lblBet1.setText("$" + Integer.toString(GameController.player[1].bet));
+		 if(GameController.player[2].bet == 0) lblBet2.setText("");
+		 else lblBet2.setText("$" + Integer.toString(GameController.player[2].bet));*/
+		 
+		 lblBet0.setText("$" + Integer.toString(GameController.player[0].bet));
+		 lblBet1.setText("$" + Integer.toString(GameController.player[1].bet));
+		 lblBet2.setText("$" + Integer.toString(GameController.player[2].bet));
 	}
-
 	protected void updatePlayerBalance() {
-		lblBalancePlayer0.setText("$" + Integer.toString(GameController.player0.balance));
-		lblBalancePlayer1.setText("$" + Integer.toString(GameController.player1.balance));
-		lblBalancePlayer2.setText("$" + Integer.toString(GameController.player2.balance));
+		lblBalancePlayer0.setText("$" + Integer.toString(GameController.player[0].balance));
+		lblBalancePlayer1.setText("$" + Integer.toString(GameController.player[1].balance));
+		lblBalancePlayer2.setText("$" + Integer.toString(GameController.player[2].balance));
 	}
 	protected void updatePot() {
 		lblPot.setText("$" + Integer.toString(GameController.pot));
 	}
-	
+	public void updateAll() {
+		updatePlayerBet();
+		updatePlayerBalance();
+		updatePot();
+	}
 	
 	
 	
@@ -443,146 +366,41 @@ public class PokerKI {
 	}
 	public void openCards(int x){
 		switch (x){
+		case 0:
+			setCardLabel(0,52);
+			setCardLabel(1,52);
+			setCardLabel(2,52);
+			setCardLabel(3,52);
+			setCardLabel(4,52);
+			
+			setCardLabel(5,52);
+			setCardLabel(6,52);
+			setCardLabel(7,52);
+			setCardLabel(8,52);
+			setCardLabel(9,52);
+			setCardLabel(10,52);
+			break;
 		case 1: 
-			setCardLabel(0,GameController.cardDeck[0]);
-			setCardLabel(1,GameController.cardDeck[1]);
-			setCardLabel(2,GameController.cardDeck[2]);
+			setCardLabel(0, GameController.cardDeck[0]);
+			setCardLabel(1, GameController.cardDeck[1]);
+			setCardLabel(2, GameController.cardDeck[2]);
 			break;
 		case 2: 
-			setCardLabel(3,GameController.cardDeck[3]);
+			setCardLabel(3, GameController.cardDeck[3]);
 			break;
 		case 3:
-			setCardLabel(4,GameController.cardDeck[4]);
+			setCardLabel(4, GameController.cardDeck[4]);
 			break;
 		case 4:		
-			setCardLabel(7,GameController.cardDeck[7]);
-			setCardLabel(8,GameController.cardDeck[8]);
-			setCardLabel(9,GameController.cardDeck[9]);
-			setCardLabel(10,GameController.cardDeck[10]);
-			
-			System.out.println(GameController.getPlayer(0).balance + " "
-					+ GameController.getPlayer(1).balance + " "
-					+ GameController.getPlayer(2).balance);
-			
-			int[] winnerArray = GameController.evaluate();
-			int max = GameController.max(winnerArray);
-
-			if (max == 2) {
-				for (int i = 0; i < winnerArray.length; i++) {
-					if (winnerArray[i] == 2) {
-						System.out.println("Winner: Player" + i);
-						GameController.getPlayer(i).balance += GameController.pot;
-						
-						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
-						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
-						if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
-						}
-				}
-
-			} else if (max == 1) {
-
-				if ((GameController.player0.active == false
-						| GameController.player1.active == false | GameController.player2.active == false)
-						& winnerArray[0] + winnerArray[1]
-								+ winnerArray[2] == 0) {
-					for (int i = 0; i < winnerArray.length; i++) {
-						if (winnerArray[i] == 1) {
-							System.out.println("Winner: Player" + i);
-							GameController.getPlayer(i).balance += GameController.pot;
-							
-							if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
-							if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
-							if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
-						}
-					}
-
-				} else {
-					System.out.println("SplitPot between 2 Players");
-					for (int i = 0; i < winnerArray.length; i++) {
-						if (winnerArray[i] == 1) {
-							System.out.println("Winner: Player" + i);
-							GameController.getPlayer(i).balance += GameController.pot / 2;
-							
-							if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
-							if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
-							if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
-						}
-					}
-				}
-
-			} else {
-				if ((GameController.player0.active == false
-						| GameController.player1.active == false | GameController.player2.active == false)
-						& winnerArray[0] + winnerArray[1]
-								+ winnerArray[2] == 0) {
-
-					for (int i = 0; i < winnerArray.length; i++) {
-						System.out.println("Winner: Player" + i);
-						GameController.getPlayer(i).balance += GameController.pot / 2;
-						
-						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
-						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
-						if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
-					}
-
-				} else {
-					System.out.println("SplitPot between 3 Players");
-					for (int i = 0; i < winnerArray.length; i++) {
-						System.out.println("Winner: Player" + i);
-						GameController.getPlayer(i).balance += GameController.pot / 3;
-						
-						if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
-						if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
-						if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
-					}
-				}
-			}
-
-			GameController.pot = 0;
-			
-			
-			
-			Timer timer = new Timer();
-			timer.schedule(new TimerTask() {
-				public void run() {
-
-					System.out.println("Timer läuft");
-					
-					updatePlayerBalance();
-					updatePlayerBet();
-					updatePot();
-
-					System.out.println(GameController.getPlayer(0).balance + " "
-							+ GameController.getPlayer(1).balance + " "
-							+ GameController.getPlayer(2).balance);
-
-					/*
-					 * System.out.println(splitPot(winnerArray));
-					 * if(!splitPot(winnerArray)) { btnStartGame.doClick();
-					 * btnCall.doClick(); btnCall.doClick(); btnCall.doClick();
-					 * btnCall.doClick(); btnCall.doClick(); }
-					 */
-					
-					GameController.nextGameState();
-					
-					lblBalancePlayer0.setForeground(Color.WHITE);
-					lblBalancePlayer1.setForeground(Color.WHITE);
-					lblBalancePlayer2.setForeground(Color.WHITE);
-				}
-			}, 2000);
+			setCardLabel(7, GameController.cardDeck[7]);
+			setCardLabel(8, GameController.cardDeck[8]);
+			setCardLabel(9, GameController.cardDeck[9]);
+			setCardLabel(10, GameController.cardDeck[10]);
 			break;
 		}
 		
 	}
-	
-	
-	public boolean splitPot(int[] winnerArray) {
-		for(int i = 0; i < winnerArray.length; i++) {
-			if(winnerArray[i] == 2 || winnerArray[i] == 1) return false;
-		}
-		return true;
-	}
-	
+
 	public void setCardLabel(int x, int y){
 		switch (x) {
 		case 0: ImageIcon imgBoard = new ImageIcon("src/images/" + y + ".jpg");

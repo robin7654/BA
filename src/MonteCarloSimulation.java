@@ -2,12 +2,10 @@ import java.util.stream.IntStream;
 
 
 
-public class MonteCarloSimulation extends GameContoller {
-
-	public static GameContoller gc = new GameContoller();
+public class MonteCarloSimulation {
 	
 	public int winProbabilityOnRiver(int cards[], int playerNumber, int opponent){
-		int[] winners = gc.evaluate(cards);
+		int[] winners = GameController.evaluate(cards);
 		if (winners[playerNumber] > winners[opponent]){
 			return 1;
 		}
@@ -18,7 +16,7 @@ public class MonteCarloSimulation extends GameContoller {
 	}
 	
 	public int winProbabilityOnRiver(int cards[], int playerNumber, int opponent1, int opponent2){
-		int[] winners = gc.evaluate(cards);
+		int[] winners = GameController.evaluate(cards);
 		//verlierer
 		if (winners[playerNumber] < winners[opponent1] | winners[playerNumber] < winners[opponent2]){
 			return 0;
