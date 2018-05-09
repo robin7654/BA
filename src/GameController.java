@@ -92,7 +92,7 @@ public class GameController {
 	}
 	public static void resetBlinds() {
 		blind = startingBlind;
-		gamesTillLvChange = 0;
+		gamesTillLvChangeC = 0;
 	}
 	public static void changeActivePlayer() {
 		if(activePlayer < 0) setActivePlayer(button);
@@ -156,9 +156,7 @@ public class GameController {
 	}	
 	
 	static public void getNextMove() {
-		System.out.println("ActivePlayerC: " + activePlayerC);
-		System.out.println("ActtivePlayer: "+ activePlayer);
-		if(activePlayerC == activePlayers) {
+		if(activePlayerC == activePlayers-1) {
 			changeGameState();
 			return;
 		}
@@ -182,6 +180,7 @@ public class GameController {
 			player[2].setBet(0);
 			setHighestBet(0);
 			gameState++;
+			System.out.println("GameState++");
 			pki.openCards(gameState);
 			pki.updateAll();
 			

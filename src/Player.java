@@ -33,6 +33,8 @@ public class Player {
 		
 		GameController.changeActivePlayer();
 		System.out.println(playerName + ": raise to " + bet);
+		System.out.println("aPC: " + GameController.activePlayerC);
+		System.out.println("aPS: " + GameController.activePlayers);
 	}
 	public void fold(){
 		activeInHand = false;
@@ -52,7 +54,7 @@ public class Player {
 			fold();
 			return;
 		}
-		else if(rand < 5) {
+		else if(rand < 0) {
 			raise(GameController.highestBet*2);
 			return;
 		}
