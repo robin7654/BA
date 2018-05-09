@@ -85,6 +85,7 @@ public class GameController {
 	}
 	public static void setPot(int n){
 		pot = n;
+		System.out.println("Pot: " + pot);
 	}
 	public static void setGameState(int n) {
 		gameState = n;
@@ -94,21 +95,24 @@ public class GameController {
 		gamesTillLvChange = 0;
 	}
 	public static void changeActivePlayer() {
-		if(activePlayer < 0) activePlayer = button;
-		else if(activePlayer == 2) activePlayer = 0;
-		else activePlayer += 1;
+		if(activePlayer < 0) setActivePlayer(button);
+		else if(activePlayer == 2) setActivePlayer(0);
+		else setActivePlayer(activePlayer + 1);
 		
 		if(!player[activePlayer].activeInGame) changeActivePlayer();
 	}
 	public static void setActivePlayer(int n) {
 		activePlayer = n;
+		System.out.println("ActivePlayer: " + activePlayer);
 	}
 	public static void setHighestBet(int n) {
 		highestBet = n;
+		System.out.println("highestBet: " + highestBet);
 	}
 	
 	public static void setBigBlindPosition(int n) {
 		bigBlindPosition = n;
+		System.out.println("bigBlindPosition: " + bigBlindPosition);
 	}
 
 	public static void moveBigBlindToNextPosition() {
@@ -152,8 +156,8 @@ public class GameController {
 	}	
 	
 	static public void getNextMove() {
-		//System.out.println("ActivePlayerC: " + activePlayerC);
-		//System.out.println("ActtivePlayer: "+ activePlayer);
+		System.out.println("ActivePlayerC: " + activePlayerC);
+		System.out.println("ActtivePlayer: "+ activePlayer);
 		if(activePlayerC == activePlayers) {
 			changeGameState();
 			return;

@@ -116,7 +116,7 @@ public class PokerKI {
 		});
 	}*/
 	
-	public void run() {
+	/*public void run() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -127,7 +127,7 @@ public class PokerKI {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -142,7 +142,7 @@ public class PokerKI {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - 1304/2, (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 - 799/2, 1304, 799);
+		frame.setBounds(0, 0, 1304, 799);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.getContentPane().setLayout(null);
@@ -379,6 +379,9 @@ public class PokerKI {
 			setCardLabel(8,52);
 			setCardLabel(9,52);
 			setCardLabel(10,52);
+			
+			setCardLabel(5,GameController.cardDeck[5]);
+			setCardLabel(6,GameController.cardDeck[6]);
 			break;
 		case 1: 
 			setCardLabel(0, GameController.cardDeck[0]);
