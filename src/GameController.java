@@ -70,22 +70,18 @@ public class GameController {
 			setButton(getNextPlayerNum(getNextPlayerNum(bigBlindPosition)));
 		else setButton(getNextPlayerNum(bigBlindPosition));
 		
-		System.out.println("Button: " + button);
-		
 		if(!player[getPreviousPlayerNum(bigBlindPosition)].activeInGame)
 			player[getPreviousPlayerNum(getPreviousPlayerNum(bigBlindPosition))].setBlind(blind/2);
 		else player[getPreviousPlayerNum(bigBlindPosition)].setBlind(blind/2);	
 		
 		player[bigBlindPosition].setBlind(blind);
-		
-		System.out.println("Big Blind: " + bigBlindPosition);
 	}
 	public static void setButton(int n) {
 		button = n;
+		System.out.println("Button: " + button);
 	}
 	public static void setPot(int n){
 		pot = n;
-		System.out.println("Pot: " + pot);
 	}
 	public static void setGameState(int n) {
 		gameState = n;
@@ -103,16 +99,14 @@ public class GameController {
 	}
 	public static void setActivePlayer(int n) {
 		activePlayer = n;
-		System.out.println("ActivePlayer: " + activePlayer);
 	}
 	public static void setHighestBet(int n) {
 		highestBet = n;
-		System.out.println("highestBet: " + highestBet);
 	}
 	
 	public static void setBigBlindPosition(int n) {
 		bigBlindPosition = n;
-		System.out.println("bigBlindPosition: " + bigBlindPosition);
+		System.out.println("BigBlind: " + bigBlindPosition);
 	}
 
 	public static void moveBigBlindToNextPosition() {
@@ -156,9 +150,9 @@ public class GameController {
 	}	
 	
 	static public void getNextMove() {
-		if(activePlayerC == activePlayers-1) {
+		if(activePlayerC == activePlayers) {
 			changeGameState();
-			return;
+			if(!activeHand) return;
 		}
 		
 		if(activeHand) {
@@ -168,7 +162,7 @@ public class GameController {
 			}
 		}
 		pki.updateAll();
-		
+		pki.setButtons();
 		
 		
 	}
@@ -180,7 +174,7 @@ public class GameController {
 			player[2].setBet(0);
 			setHighestBet(0);
 			gameState++;
-			System.out.println("GameState++");
+			activePlayer = getNextPlayerNum(button);
 			pki.openCards(gameState);
 			pki.updateAll();
 			
@@ -199,7 +193,7 @@ public class GameController {
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				public void run() {
-					pki.updateAll();
+					
 					
 					pki.setBalanceNeutral(0);
 					pki.setBalanceNeutral(1);
@@ -209,12 +203,14 @@ public class GameController {
 					
 					gameState++;
 					changeGameState();
+					
+					pki.updateAll();
 				}
 			}, 2000);
 		}
-		else {
+		/*else if(gameState == 5){
 			startNewHand();
-		}
+		}*/
 	}
 	
 	public static void givePot(int[] winnerArray, int max, int maxC) {
@@ -222,9 +218,9 @@ public class GameController {
 			if(winnerArray[i] == max) {
 				System.out.println("Winner: Player" + i);
 				player[i].balance += pot/maxC;
-				if(player[i].balance == 0) player[i].activeInGame = false;
 				pki.setBalancePositive(i);
 			}
+			if(player[i].balance == 0) player[i].activeInGame = false;
 		}
 	}
 	

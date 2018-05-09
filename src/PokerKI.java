@@ -45,6 +45,8 @@ public class PokerKI {
 	Font mainFont = new Font("SansSerif", Font.BOLD, 15);
 	Font moneyFont = new Font("SansSerif", Font.BOLD, 25);
 	int moneyHeight = 20;
+	int buttonWidth = 120;
+	int betWidth = 100;
 	
 	public void setBalancePositive(int i) {
 		if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
@@ -160,13 +162,13 @@ public class PokerKI {
 				
 			}
 		});
-		btnRaise.setBounds(frame.getWidth() - 20 - 90, frame.getHeight()-120, 90, 24);
+		btnRaise.setBounds(frame.getWidth() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		btnRaise.setBackground(Color.GRAY);
 		btnRaise.setFont(mainFont);
 		frame.getContentPane().add(btnRaise);
 		
 		textField = new JTextField();
-		textField.setBounds(btnRaise.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
+		textField.setBounds(btnRaise.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		textField.setColumns(10);
 		textField.setFont(tFFont);
 		frame.getContentPane().add(textField);
@@ -179,7 +181,7 @@ public class PokerKI {
 				GameController.getNextMove();
 			}
 		});
-		btnCall.setBounds(textField.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
+		btnCall.setBounds(textField.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		btnCall.setBackground(Color.GRAY);
 		btnCall.setFont(mainFont);
 		frame.getContentPane().add(btnCall);
@@ -192,7 +194,7 @@ public class PokerKI {
 				GameController.getNextMove();
 			}
 		});
-		btnFold.setBounds(btnCall.getX() - 20 - 90, frame.getHeight()-120, 90, 24);
+		btnFold.setBounds(btnCall.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		btnFold.setBackground(Color.GRAY);
 		btnFold.setFont(mainFont);
 		frame.getContentPane().add(btnFold);
@@ -300,13 +302,13 @@ public class PokerKI {
 		lblBet0.setFont(moneyFont);
 		frame.getContentPane().add(lblBet0);
 		
-		lblBet1.setBounds(lblHole2.getX() + lblHole2.getWidth() + 8, lblHole2.getY() + (lblHole2.getHeight()/2 - 14/2), 46, moneyHeight);
+		lblBet1.setBounds(lblHole2.getX() + lblHole2.getWidth() + 8, lblHole2.getY() + (lblHole2.getHeight()/2 - 14/2), betWidth, moneyHeight);
 		lblBet1.setForeground(Color.WHITE);
 		lblBet1.setHorizontalAlignment(JLabel.CENTER);
 		lblBet1.setFont(moneyFont);
 		frame.getContentPane().add(lblBet1);
 		
-		lblBet2.setBounds(lblHole4.getX() - 8 - 46, lblHole4.getY() + (lblHole4.getHeight()/2 - 14/2), 46, moneyHeight);
+		lblBet2.setBounds(lblHole4.getX() - 8 - betWidth, lblHole4.getY() + (lblHole4.getHeight()/2 - 14/2), betWidth, moneyHeight);
 		lblBet2.setForeground(Color.WHITE);
 		lblBet2.setHorizontalAlignment(JLabel.CENTER);
 		lblBet2.setFont(moneyFont);

@@ -25,16 +25,23 @@ public class Player {
 		}
 		else {
 			bet += balance;
+			balance = 0;
 			allIn = true;
 		}
-		if(bet == n) GameController.activePlayerC++;
-		else if(n == GameController.highestBet) GameController.activePlayerC++;
-		else GameController.activePlayerC = 0;
+		
+		if(GameController.highestBet < bet) {
+			GameController.highestBet = bet;
+			GameController.activePlayerC = 1;
+			System.out.println(playerName + ": raise to " + bet);
+		}else {
+			GameController.activePlayerC++;
+			System.out.println(playerName + ": called " + bet);
+		}
 		
 		GameController.changeActivePlayer();
-		System.out.println(playerName + ": raise to " + bet);
-		System.out.println("aPC: " + GameController.activePlayerC);
-		System.out.println("aPS: " + GameController.activePlayers);
+		
+		//System.out.println("aPC: " + GameController.activePlayerC);
+		//System.out.println("aPS: " + GameController.activePlayers);
 	}
 	public void fold(){
 		activeInHand = false;
@@ -50,13 +57,17 @@ public class Player {
 	public void decideMove() {
 		Random randomGenerator = new Random();
 		int rand = randomGenerator.nextInt(10);
+		System.out.println(rand);
 		if(rand < 0) {
 			fold();
 			return;
 		}
-		else if(rand < 0) {
-			raise(GameController.highestBet*2);
-			return;
+		else if(rand < 5) {
+			if(GameController.highestBet == 0) raise(GameController.blind);
+			else {
+				raise(GameController.highestBet*2);
+				return;
+			}
 		}
 		else {
 			raise(GameController.highestBet);
