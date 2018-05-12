@@ -4,12 +4,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -41,12 +36,18 @@ public class PokerKI {
 	public JLabel lblBet1 = new JLabel("");
 	public JLabel lblBet2 = new JLabel("");
 	public JLabel lblPot = new JLabel("");
-	Font tFFont = new Font("SansSerif", Font.BOLD, 15);
-	Font mainFont = new Font("SansSerif", Font.BOLD, 15);
-	Font moneyFont = new Font("SansSerif", Font.BOLD, 25);
+	public JLabel lblLog = new JLabel("");
+	public JScrollPane spLog = new JScrollPane(lblLog);
+	Font fontTextField = new Font("SansSerif", Font.BOLD, 15);
+	Font fontMain = new Font("SansSerif", Font.BOLD, 15);
+	Font fontValues = new Font("SansSerif", Font.BOLD, 25);
+	Font fontLog = new Font("SansSerif",Font.PLAIN, 15);
 	int moneyHeight = 20;
 	int buttonWidth = 120;
 	int betWidth = 100;
+	String log = "";
+	String logStart = "<html>";
+	String logEnd = "</html>";
 	
 	public void setBalancePositive(int i) {
 		if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
@@ -164,13 +165,13 @@ public class PokerKI {
 		});
 		btnRaise.setBounds(frame.getWidth() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		btnRaise.setBackground(Color.GRAY);
-		btnRaise.setFont(mainFont);
+		btnRaise.setFont(fontMain);
 		frame.getContentPane().add(btnRaise);
 		
 		textField = new JTextField();
 		textField.setBounds(btnRaise.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		textField.setColumns(10);
-		textField.setFont(tFFont);
+		textField.setFont(fontTextField);
 		frame.getContentPane().add(textField);
 		
 		btnCall = new JButton("Call");
@@ -183,7 +184,7 @@ public class PokerKI {
 		});
 		btnCall.setBounds(textField.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		btnCall.setBackground(Color.GRAY);
-		btnCall.setFont(mainFont);
+		btnCall.setFont(fontMain);
 		frame.getContentPane().add(btnCall);
 		
 		btnFold = new JButton("Fold");
@@ -196,7 +197,7 @@ public class PokerKI {
 		});
 		btnFold.setBounds(btnCall.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
 		btnFold.setBackground(Color.GRAY);
-		btnFold.setFont(mainFont);
+		btnFold.setFont(fontMain);
 		frame.getContentPane().add(btnFold);
 		
 		btnExit = new JButton("Exit");
@@ -207,7 +208,7 @@ public class PokerKI {
 		});
 		btnExit.setBounds(frame.getWidth() - 100, frame.getHeight() - 48, 100, 48);
 		btnExit.setBackground(Color.RED);
-		btnExit.setFont(mainFont);
+		btnExit.setFont(fontMain);
 		frame.getContentPane().add(btnExit);
 		
 
@@ -258,7 +259,7 @@ public class PokerKI {
 		});
 		btnStartNewHand.setBounds(btnRaise.getX() + btnRaise.getWidth() - 120, btnRaise.getY() - 48 - 12, 120, 48);
 		btnStartNewHand.setBackground(Color.GRAY);
-		btnStartNewHand.setFont(mainFont);
+		btnStartNewHand.setFont(fontMain);
 		frame.getContentPane().add(btnStartNewHand);
 		
 		btnStartNewGame = new JButton("Start New Game");
@@ -270,7 +271,7 @@ public class PokerKI {
 		});
 		btnStartNewGame.setBounds(0, frame.getHeight() - 48, 180, 48);
 		btnStartNewGame.setBackground(Color.GREEN);
-		btnStartNewGame.setFont(mainFont);
+		btnStartNewGame.setFont(fontMain);
 		frame.getContentPane().add(btnStartNewGame);
 		
 		lblDealerButton.setBounds(347, 506, 46, moneyHeight);
@@ -281,45 +282,55 @@ public class PokerKI {
 		lblBalancePlayer0.setBounds(lblHole0.getX(), lblHole0.getY() + 117 + 8, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBalancePlayer0.setHorizontalAlignment(JLabel.CENTER);
 		lblBalancePlayer0.setForeground(Color.WHITE);
-		lblBalancePlayer0.setFont(moneyFont);
+		lblBalancePlayer0.setFont(fontValues);
 		frame.getContentPane().add(lblBalancePlayer0);
 		
 		lblBalancePlayer1.setBounds(lblHole3.getX(), lblHole3.getY() - 14 - 12, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBalancePlayer1.setHorizontalAlignment(JLabel.CENTER);
 		lblBalancePlayer1.setForeground(Color.WHITE);
-		lblBalancePlayer1.setFont(moneyFont);
+		lblBalancePlayer1.setFont(fontValues);
 		frame.getContentPane().add(lblBalancePlayer1);
 		
 		lblBalancePlayer2.setBounds(lblHole4.getX(), lblHole4.getY() - 14 - 12, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBalancePlayer2.setHorizontalAlignment(JLabel.CENTER);
 		lblBalancePlayer2.setForeground(Color.WHITE);
-		lblBalancePlayer2.setFont(moneyFont);
+		lblBalancePlayer2.setFont(fontValues);
 		frame.getContentPane().add(lblBalancePlayer2);
 		
 		lblBet0.setBounds(lblBalancePlayer0.getX(), lblHole0.getY() - 14 - 12, lblHole0.getWidth()*2 + 2, moneyHeight);
 		lblBet0.setForeground(Color.WHITE);
 		lblBet0.setHorizontalAlignment(JLabel.CENTER);
-		lblBet0.setFont(moneyFont);
+		lblBet0.setFont(fontValues);
 		frame.getContentPane().add(lblBet0);
 		
 		lblBet1.setBounds(lblHole2.getX() + lblHole2.getWidth() + 8, lblHole2.getY() + (lblHole2.getHeight()/2 - 14/2), betWidth, moneyHeight);
 		lblBet1.setForeground(Color.WHITE);
 		lblBet1.setHorizontalAlignment(JLabel.CENTER);
-		lblBet1.setFont(moneyFont);
+		lblBet1.setFont(fontValues);
 		frame.getContentPane().add(lblBet1);
 		
 		lblBet2.setBounds(lblHole4.getX() - 8 - betWidth, lblHole4.getY() + (lblHole4.getHeight()/2 - 14/2), betWidth, moneyHeight);
 		lblBet2.setForeground(Color.WHITE);
 		lblBet2.setHorizontalAlignment(JLabel.CENTER);
-		lblBet2.setFont(moneyFont);
+		lblBet2.setFont(fontValues);
 		frame.getContentPane().add(lblBet2);
 		
 		lblPot.setBounds(lblBoard0.getX(), lblBoard2.getY() + lblBoard2.getHeight() + 8, lblBoard0.getWidth()*5 + 2*2 + 2*8, moneyHeight);
 		lblPot.setForeground(Color.WHITE);
 		lblPot.setHorizontalAlignment(JLabel.CENTER);
-		lblPot.setFont(moneyFont);
+		lblPot.setFont(fontValues);
 		frame.getContentPane().add(lblPot);
 		
+		spLog.setBounds(10, btnStartNewGame.getY() - btnStartNewGame.getHeight() - 100, 300, 100);
+		frame.getContentPane().add(spLog);
+		
+		lblLog.setSize(300, 100);
+		lblLog.setBackground(Color.BLACK);
+		lblLog.setOpaque(true);
+		lblLog.setForeground(Color.WHITE);
+		lblLog.setFont(fontLog);
+		lblLog.setVerticalAlignment(JLabel.TOP);
+		lblLog.setText(log);		
 		
 	}
 
@@ -347,6 +358,11 @@ public class PokerKI {
 		updatePlayerBet();
 		updatePlayerBalance();
 		updatePot();
+	}
+	public void updateLog(String s) {
+		
+		log += s + "<br/>";
+		lblLog.setText(logStart + log + logEnd);
 	}
 	
 	

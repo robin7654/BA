@@ -279,6 +279,17 @@ public class GameController {
 				try {
 					pki.frame.pack();
 					pki.frame.setVisible(true);
+					
+					pki.updateLog("Test1");
+					pki.updateLog("Test2");
+					pki.updateLog("Test1");
+					pki.updateLog("Test2");
+					pki.updateLog("Test1");
+					pki.updateLog("Test2");
+					pki.updateLog("Test1");
+					pki.updateLog("Test2");
+					pki.updateLog("Test1");
+					pki.updateLog("Test2");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
