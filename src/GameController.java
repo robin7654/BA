@@ -45,7 +45,7 @@ public class GameController {
 		startNewHand();
 		
 		for(int i = 0; i < 1000; i++) {
-			pki.btnStartNewHand.doClick();
+			startNewHand();
 			System.out.println(i);
 		}
 	}
