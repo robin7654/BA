@@ -94,8 +94,8 @@ public class PokerKI {
 	}
 	
 	public void setButtons() {
-		setCCButton();
-		setStartNewHandButton();
+		//setCCButton();
+		//setStartNewHandButton();
 	}
 	
 	/**
@@ -351,16 +351,16 @@ public class PokerKI {
 		lblPot.setText("$" + Integer.toString(GameController.pot));
 	}
 	public void updateAll() {
-		updatePlayerBet();
+		/*updatePlayerBet();
 		updatePlayerBalance();
-		updatePot();
+		updatePot();*/
 	}
 	public void addToLog(String s) {
 		
-		log += s + "<br/>";
+		/*log += s + "<br/>";
 		lblLog.setText(logStart + log + logEnd);
 		
-		vertical.setValue(vertical.getMaximum());
+		vertical.setValue(vertical.getMaximum());*/
 	}
 	
 	

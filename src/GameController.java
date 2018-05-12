@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,8 +32,6 @@ public class GameController {
 	static int gamesTillLvChange = 9;
 	static int gamesTillLvChangeC = 0;
 	
-	static int games = 0;
-	
 	
 	public static void startNewGame() {
 		player[0] = new Player(true, "Bot0");
@@ -44,10 +46,29 @@ public class GameController {
 		resetBlinds();
 		startNewHand();
 		
-		for(int i = 0; i < 1000; i++) {
-			startNewHand();
-			System.out.println(i);
+		Writer writer;
+		try {
+			writer = new BufferedWriter(new FileWriter("ausgabe2.txt", true));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return;
 		}
+		
+		
+		for(int i = 0; i < 10000; i++) {
+			startNewHand();
+			try {
+				writer.append(Integer.toString(i));
+				writer.write(System.lineSeparator());
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//System.out.println(i);
+		}
+		System.out.println("finish");
 	}
 	public static void startNewHand() {
 		setActiveHand(true);
@@ -214,18 +235,18 @@ public class GameController {
 			}
 			
 			//System.out.println("gameState: " + gameState);
-			if(gameState == 1) pki.addToLog("Flop opens");
-			else if(gameState == 2) pki.addToLog("Turn opens");
-			else if(gameState == 3) pki.addToLog("River opens");
+			//if(gameState == 1) pki.addToLog("Flop opens");
+			//else if(gameState == 2) pki.addToLog("Turn opens");
+			//else if(gameState == 3) pki.addToLog("River opens");
 			
-			pki.addToLog("Pot is " + pot);
+			//pki.addToLog("Pot is " + pot);
 		}
 		if(gameState == 4) {
 			setActiveHand(false);
 			int[] winnerArray = evaluate();
 			int max = max(winnerArray);
 			int maxC = maxC(winnerArray, max);
-			pki.addToLog("Showdown");
+			//pki.addToLog("Showdown");
 			
 			givePot(winnerArray, max, maxC);
 			
@@ -261,9 +282,7 @@ public class GameController {
 			if(!isActiveGame()) setActiveGame(false);
 		}else {
 			pki.setButtons();
-			games++;
-			System.out.println("G:" + games);
-			pki.log = "";
+			//pki.log = "";
 		}
 	}
 	
@@ -272,7 +291,7 @@ public class GameController {
 			//pki.addToLog(winnerArray[i] + " " + max + " " + maxC);
 			if(winnerArray[i] == max) {
 				//System.out.println("Winner: Player" + i);
-				pki.addToLog(player[i].playerName + " wins " + pot/maxC  + "<br/>");
+				//pki.addToLog(player[i].playerName + " wins " + pot/maxC  + "<br/>");
 				player[i].balance += pot/maxC;
 				pki.setBalancePositive(i);
 			}
