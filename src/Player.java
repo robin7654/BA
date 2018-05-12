@@ -8,6 +8,7 @@ public class Player {
 	boolean activeInHand;
 	boolean allIn;
 	boolean bot;
+	boolean acted;
 	public Player(boolean b, String pName){
 		playerName = pName;
 		bot = b;
@@ -16,12 +17,14 @@ public class Player {
 		activeInHand = true;
 		bet = 0;
 		allIn = false;
+		acted = false;
 	}
 	
 	public void raise(int n) {
 		if(balance + bet > n) {
-			balance = balance - (n - bet);
+			balance += bet;
 			bet = n;
+			balance -= bet;
 		}
 		else {
 			bet += balance;
@@ -29,24 +32,38 @@ public class Player {
 			allIn = true;
 		}
 		
-		if(GameController.highestBet < bet) {
-			GameController.highestBet = bet;
-			GameController.activePlayerC = 1;
-			System.out.println(playerName + ": raise to " + bet);
-		}else {
-			GameController.activePlayerC++;
-			System.out.println(playerName + ": called " + bet);
+		for(int i = 0; i < GameController.player.length; i++) {
+			GameController.player[i].acted = false;
 		}
+		this.acted = true;
+		GameController.highestBet = bet;
+		System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
 		
 		//System.out.println("aPC: " + GameController.activePlayerC);
 		//System.out.println("aPS: " + GameController.activePlayers);
 	}
+	
+	public void call() {
+		if(bet < GameController.highestBet) {
+			balance += bet;
+			bet = GameController.highestBet;
+			balance -= bet;
+			GameController.pki.addToLog(playerName + " called " + bet);
+		}else {
+			GameController.pki.addToLog(playerName + " checked");
+		}
+		this.acted = true;
+		GameController.changeActivePlayer();
+	}
+	
 	public void fold(){
 		activeInHand = false;
+		this.acted = true;
+		GameController.pki.addToLog(playerName + " folded");
 		GameController.changeActivePlayer();
-		System.out.println(playerName + ": fold");
+		System.out.println(playerName + " folded");
 	}
 	
 	public void setBlind(int n) {
@@ -62,7 +79,7 @@ public class Player {
 			fold();
 			return;
 		}
-		else if(rand < 5) {
+		else if(rand < 0) {
 			if(GameController.highestBet == 0) raise(GameController.blind);
 			else {
 				raise(GameController.highestBet*2);
@@ -70,7 +87,7 @@ public class Player {
 			}
 		}
 		else {
-			raise(GameController.highestBet);
+			call();
 		}
 	}
 	

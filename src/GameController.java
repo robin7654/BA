@@ -28,9 +28,6 @@ public class GameController {
 	static int gamesTillLvChange = 9;
 	static int gamesTillLvChangeC = 0;
 	
-	static int activePlayers = 3;
-	static int activePlayerC = 0;
-	
 	
 	public static void startNewGame() {
 		player[0] = new Player(false, "Player");
@@ -47,6 +44,7 @@ public class GameController {
 	}
 	public static void startNewHand() {
 		setActiveHand(true);
+		setAllPlayerToNewHand();
 		setGameState(0);
 		moveBigBlindToNextPosition();
 		checkBlindChange();
@@ -61,6 +59,15 @@ public class GameController {
 		pki.updateAll();
 		
 		getNextMove();
+	}
+	
+	public static void setAllPlayerToNewHand() {
+		for(int i = 0; i < player.length; i++) {
+			player[i].acted = false;
+			if(player[i].balance == 0) player[i].activeInGame = false;
+			if(player[i].activeInGame) player[i].activeInHand = true;
+			player[i].allIn = false;
+		}
 	}
 	
 	
@@ -150,13 +157,17 @@ public class GameController {
 	}	
 	
 	static public void getNextMove() {
-		if(activePlayerC == activePlayers) {
+		if(player[activePlayer].acted == true) {
 			changeGameState();
 			if(!activeHand) return;
 		}
 		
 		if(activeHand) {
-			if(player[activePlayer].bot) {
+			if(player[activePlayer].activeInHand == false) {
+				player[activePlayer].fold();
+				getNextMove();
+			}
+			else if(player[activePlayer].bot && player[activePlayer].acted == false) {
 				player[activePlayer].decideMove();
 				getNextMove();
 			}
@@ -178,15 +189,23 @@ public class GameController {
 			pki.openCards(gameState);
 			pki.updateAll();
 			
-			GameController.activePlayerC = 0;
+			for(int i = 0; i < player.length; i++) {
+				player[i].acted = false;
+			}
 			
 			System.out.println("gameState: " + gameState);
+			if(gameState == 1) pki.addToLog("Flop opens");
+			else if(gameState == 2) pki.addToLog("Turn opens");
+			else if(gameState == 3) pki.addToLog("River opens");
+			
+			pki.addToLog("Pot is " + pot);
 		}
 		if(gameState == 4) {
 			setActiveHand(false);
 			int[] winnerArray = evaluate();
 			int max = max(winnerArray);
 			int maxC = maxC(winnerArray, max);
+			pki.addToLog("Showdown");
 			
 			givePot(winnerArray, max, maxC);
 			
@@ -207,16 +226,17 @@ public class GameController {
 					pki.updateAll();
 				}
 			}, 2000);
+		}else {
+			pki.setButtons();
 		}
-		/*else if(gameState == 5){
-			startNewHand();
-		}*/
 	}
 	
 	public static void givePot(int[] winnerArray, int max, int maxC) {
 		for(int i = 0; i < winnerArray.length; i++) {
+			pki.addToLog(winnerArray[i] + " " + max + " " + maxC);
 			if(winnerArray[i] == max) {
 				System.out.println("Winner: Player" + i);
+				pki.addToLog(player[i].playerName + " wins " + pot/maxC);
 				player[i].balance += pot/maxC;
 				pki.setBalancePositive(i);
 			}
@@ -231,8 +251,8 @@ public class GameController {
 		
 		int[] array = DetermineWinner.compareThree(cards0, cards1, cards2);
 		if(!player[0].activeInHand) array[0] = -1;
-		if(!player[0].activeInHand) array[1] = -1;
-		if(!player[0].activeInHand) array[2] = -1;
+		if(!player[1].activeInHand) array[1] = -1;
+		if(!player[2].activeInHand) array[2] = -1;
 		
 		return array;
 	}
@@ -279,17 +299,6 @@ public class GameController {
 				try {
 					pki.frame.pack();
 					pki.frame.setVisible(true);
-					
-					pki.updateLog("Test1");
-					pki.updateLog("Test2");
-					pki.updateLog("Test1");
-					pki.updateLog("Test2");
-					pki.updateLog("Test1");
-					pki.updateLog("Test2");
-					pki.updateLog("Test1");
-					pki.updateLog("Test2");
-					pki.updateLog("Test1");
-					pki.updateLog("Test2");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

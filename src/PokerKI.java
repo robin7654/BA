@@ -38,10 +38,11 @@ public class PokerKI {
 	public JLabel lblPot = new JLabel("");
 	public JLabel lblLog = new JLabel("");
 	public JScrollPane spLog = new JScrollPane(lblLog);
+	JScrollBar vertical;
 	Font fontTextField = new Font("SansSerif", Font.BOLD, 15);
 	Font fontMain = new Font("SansSerif", Font.BOLD, 15);
 	Font fontValues = new Font("SansSerif", Font.BOLD, 25);
-	Font fontLog = new Font("SansSerif",Font.PLAIN, 15);
+	Font fontLog = new Font("SansSerif",Font.PLAIN, 12);
 	int moneyHeight = 20;
 	int buttonWidth = 120;
 	int betWidth = 100;
@@ -178,7 +179,7 @@ public class PokerKI {
 		btnCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState > 3) return;
-				GameController.player[0].raise(GameController.highestBet);
+				GameController.player[0].call();
 				GameController.getNextMove();
 			}
 		});
@@ -252,7 +253,7 @@ public class PokerKI {
 		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(GameController.gameState > 5) return;
+				if(GameController.gameState < 5) return;
 				GameController.startNewHand();
 				placeButton(GameController.button);
 			}
@@ -324,7 +325,8 @@ public class PokerKI {
 		spLog.setBounds(10, btnStartNewGame.getY() - btnStartNewGame.getHeight() - 100, 300, 100);
 		frame.getContentPane().add(spLog);
 		
-		lblLog.setSize(300, 100);
+		vertical = spLog.getVerticalScrollBar();
+		
 		lblLog.setBackground(Color.BLACK);
 		lblLog.setOpaque(true);
 		lblLog.setForeground(Color.WHITE);
@@ -359,10 +361,12 @@ public class PokerKI {
 		updatePlayerBalance();
 		updatePot();
 	}
-	public void updateLog(String s) {
+	public void addToLog(String s) {
 		
 		log += s + "<br/>";
 		lblLog.setText(logStart + log + logEnd);
+		
+		vertical.setValue(vertical.getMaximum());
 	}
 	
 	
