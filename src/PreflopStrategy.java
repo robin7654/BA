@@ -12,7 +12,7 @@ public class PreflopStrategy {
 	//0 3-5bb
 	
 	public int preflopMove(int dealer, int player, int playerBalance, int opponent, int blind){
-		return 0; 
+		return 0;
 	}
 	
 	

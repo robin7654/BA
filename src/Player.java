@@ -37,6 +37,7 @@ public class Player {
 		}
 		this.acted = true;
 		GameController.highestBet = bet;
+		GameController.pki.addToLog(playerName + " raised to " + bet);
 		System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
@@ -51,6 +52,10 @@ public class Player {
 			bet = GameController.highestBet;
 			balance -= bet;
 			GameController.pki.addToLog(playerName + " called " + bet);
+		}else if(balance + bet <= GameController.highestBet) {
+			bet += balance;
+			balance = 0;
+			allIn = true;
 		}else {
 			GameController.pki.addToLog(playerName + " checked");
 		}
@@ -79,8 +84,10 @@ public class Player {
 			fold();
 			return;
 		}
-		else if(rand < 0) {
-			if(GameController.highestBet == 0) raise(GameController.blind);
+		else if(rand < 3) {
+			System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
+			if(balance + bet <= GameController.highestBet) call();
+			else if(GameController.highestBet == 0) raise(GameController.blind);
 			else {
 				raise(GameController.highestBet*2);
 				return;

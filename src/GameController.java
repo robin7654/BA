@@ -30,7 +30,7 @@ public class GameController {
 	
 	
 	public static void startNewGame() {
-		player[0] = new Player(false, "Player");
+		player[0] = new Player(true, "Bot0");
 		player[1] = new Player(true, "Bot1");
 		player[2] = new Player(true, "Bot2");
 		
@@ -66,8 +66,18 @@ public class GameController {
 			player[i].acted = false;
 			if(player[i].balance == 0) player[i].activeInGame = false;
 			if(player[i].activeInGame) player[i].activeInHand = true;
+			else player[i].activeInHand = false;
 			player[i].allIn = false;
 		}
+	}
+	
+	public static boolean isActiveGame() {
+		int f = 0;
+		if(!player[0].activeInGame) f++;
+		if(!player[1].activeInGame) f++;
+		if(!player[2].activeInGame) f++;
+		if(f > 1) return false;
+		return true;
 	}
 	
 	
@@ -102,7 +112,7 @@ public class GameController {
 		else if(activePlayer == 2) setActivePlayer(0);
 		else setActivePlayer(activePlayer + 1);
 		
-		if(!player[activePlayer].activeInGame) changeActivePlayer();
+		if(!player[activePlayer].activeInGame || !player[activePlayer].activeInHand) changeActivePlayer();
 	}
 	public static void setActivePlayer(int n) {
 		activePlayer = n;
@@ -163,12 +173,14 @@ public class GameController {
 		}
 		
 		if(activeHand) {
-			if(player[activePlayer].activeInHand == false) {
+			/*if(player[activePlayer].activeInHand == false) {
 				player[activePlayer].fold();
 				getNextMove();
 			}
-			else if(player[activePlayer].bot && player[activePlayer].acted == false) {
-				player[activePlayer].decideMove();
+			else */if(player[activePlayer].bot && player[activePlayer].acted == false) {
+				if(!player[activePlayer].allIn) {
+					player[activePlayer].decideMove();
+				}else player[activePlayer].acted = true;
 				getNextMove();
 			}
 		}
@@ -224,6 +236,7 @@ public class GameController {
 					changeGameState();
 					
 					pki.updateAll();
+					if(!isActiveGame()) setActiveGame(false);
 				}
 			}, 2000);
 		}else {
@@ -233,10 +246,10 @@ public class GameController {
 	
 	public static void givePot(int[] winnerArray, int max, int maxC) {
 		for(int i = 0; i < winnerArray.length; i++) {
-			pki.addToLog(winnerArray[i] + " " + max + " " + maxC);
+			//pki.addToLog(winnerArray[i] + " " + max + " " + maxC);
 			if(winnerArray[i] == max) {
 				System.out.println("Winner: Player" + i);
-				pki.addToLog(player[i].playerName + " wins " + pot/maxC);
+				pki.addToLog(player[i].playerName + " wins " + pot/maxC  + "<br/>");
 				player[i].balance += pot/maxC;
 				pki.setBalancePositive(i);
 			}

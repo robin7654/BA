@@ -96,7 +96,7 @@ public class PokerKI {
 
 	public void setStartNewHandButton() {
 		if(GameController.activeHand) btnStartNewHand.setBackground(Color.GRAY);
-		else if(GameController.gameState == 5) btnStartNewHand.setBackground(Color.GREEN);
+		else if(GameController.gameState == 5 && GameController.activeGame) btnStartNewHand.setBackground(Color.GREEN);
 	}
 	
 	public void setButtons() {
@@ -253,7 +253,7 @@ public class PokerKI {
 		btnStartNewHand = new JButton("Next Hand");
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(GameController.gameState < 5) return;
+				if(GameController.gameState < 5 || GameController.activeGame == false) return;
 				GameController.startNewHand();
 				placeButton(GameController.button);
 			}
