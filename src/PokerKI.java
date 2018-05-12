@@ -1,16 +1,10 @@
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Toolkit;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class PokerKI {
 	public JFrame frame;
@@ -64,7 +58,7 @@ public class PokerKI {
 	static JButton btnFold;
 	static JButton btnCall;
 	static JButton btnRaise;
-	static JButton btnStartNewHand;
+	JButton btnStartNewHand;
 	static JButton btnStartNewGame;
 	static JButton btnExit;
 	

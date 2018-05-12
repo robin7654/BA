@@ -38,7 +38,7 @@ public class Player {
 		this.acted = true;
 		GameController.highestBet = bet;
 		GameController.pki.addToLog(playerName + " raised to " + bet);
-		System.out.println(playerName + " raised to " + bet);
+		//System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
 		
@@ -68,7 +68,7 @@ public class Player {
 		this.acted = true;
 		GameController.pki.addToLog(playerName + " folded");
 		GameController.changeActivePlayer();
-		System.out.println(playerName + " folded");
+		//System.out.println(playerName + " folded");
 	}
 	
 	public void setBlind(int n) {
@@ -79,13 +79,13 @@ public class Player {
 	public void decideMove() {
 		Random randomGenerator = new Random();
 		int rand = randomGenerator.nextInt(10);
-		System.out.println(rand);
+		//System.out.println(rand);
 		if(rand < 0) {
 			fold();
 			return;
 		}
-		else if(rand < 3) {
-			System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
+		else if(rand < 0) {
+			//System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
 			if(balance + bet <= GameController.highestBet) call();
 			else if(GameController.highestBet == 0) raise(GameController.blind);
 			else {

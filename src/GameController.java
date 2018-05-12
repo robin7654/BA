@@ -21,12 +21,14 @@ public class GameController {
 	static int bigBlindPosition = -1;
 	static int activePlayer = -1;
 	static int blind;
-	static int startingBlind = 20;
+	static int startingBlind = 0;
 	static int highestBet;
 	static int gameState = -1;
 	static int pot = 0;
 	static int gamesTillLvChange = 9;
 	static int gamesTillLvChangeC = 0;
+	
+	static int games = 0;
 	
 	
 	public static void startNewGame() {
@@ -41,6 +43,11 @@ public class GameController {
 		
 		resetBlinds();
 		startNewHand();
+		
+		for(int i = 0; i < 1000; i++) {
+			pki.btnStartNewHand.doClick();
+			System.out.println(i);
+		}
 	}
 	public static void startNewHand() {
 		setActiveHand(true);
@@ -95,7 +102,7 @@ public class GameController {
 	}
 	public static void setButton(int n) {
 		button = n;
-		System.out.println("Button: " + button);
+		//System.out.println("Button: " + button);
 	}
 	public static void setPot(int n){
 		pot = n;
@@ -123,7 +130,7 @@ public class GameController {
 	
 	public static void setBigBlindPosition(int n) {
 		bigBlindPosition = n;
-		System.out.println("BigBlind: " + bigBlindPosition);
+		//System.out.println("BigBlind: " + bigBlindPosition);
 	}
 
 	public static void moveBigBlindToNextPosition() {
@@ -146,6 +153,7 @@ public class GameController {
 		gamesTillLvChangeC += 1;
 	}
 	public static void lvRaise() {
+		if(blind == 0) blind = 0;
 		if(blind == 20) blind = 30;
 		else if(blind == 30) blind = 40;
 		else if(blind == 40) blind = 60;
@@ -205,7 +213,7 @@ public class GameController {
 				player[i].acted = false;
 			}
 			
-			System.out.println("gameState: " + gameState);
+			//System.out.println("gameState: " + gameState);
 			if(gameState == 1) pki.addToLog("Flop opens");
 			else if(gameState == 2) pki.addToLog("Turn opens");
 			else if(gameState == 3) pki.addToLog("River opens");
@@ -221,7 +229,7 @@ public class GameController {
 			
 			givePot(winnerArray, max, maxC);
 			
-			Timer timer = new Timer();
+			/*Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				public void run() {
 					
@@ -238,9 +246,24 @@ public class GameController {
 					pki.updateAll();
 					if(!isActiveGame()) setActiveGame(false);
 				}
-			}, 2000);
+			}, 0);*/
+			
+			pki.setBalanceNeutral(0);
+			pki.setBalanceNeutral(1);
+			pki.setBalanceNeutral(2);
+			
+			pot = 0;
+			
+			gameState++;
+			changeGameState();
+			
+			pki.updateAll();
+			if(!isActiveGame()) setActiveGame(false);
 		}else {
 			pki.setButtons();
+			games++;
+			System.out.println("G:" + games);
+			pki.log = "";
 		}
 	}
 	
@@ -248,7 +271,7 @@ public class GameController {
 		for(int i = 0; i < winnerArray.length; i++) {
 			//pki.addToLog(winnerArray[i] + " " + max + " " + maxC);
 			if(winnerArray[i] == max) {
-				System.out.println("Winner: Player" + i);
+				//System.out.println("Winner: Player" + i);
 				pki.addToLog(player[i].playerName + " wins " + pot/maxC  + "<br/>");
 				player[i].balance += pot/maxC;
 				pki.setBalancePositive(i);
