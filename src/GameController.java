@@ -6,6 +6,7 @@ public class GameController {
 	public static Deck deck = new Deck();
 	public static PokerKI pki = new PokerKI();
 	public static MonteCarloSimulation mcs = new MonteCarloSimulation();
+	public static Strategies str = new Strategies();
 	
 	static int[] cardDeck = new int[11];
 	
@@ -22,13 +23,16 @@ public class GameController {
 	static int startingBlind = 20;
 	static int highestBet;
 	static int gameState = -1;
-	static int pot = 0;
+	static int mainPot = 0;
+	static int sidePot = 0;
 	static int gamesTillLvChange = 9;
 	static int gamesTillLvChangeCount = 0;
+	static int potOnPreFlop = 0;
+	static int wasRaisedOnPreFlop = 0;
 	
 	
 	public static void startNewGame() {
-		player[0] = new Player(true, "Bot0");
+		player[0] = new Player(false, "Player");
 		player[1] = new Player(true, "Bot1");
 		player[2] = new Player(true, "Bot2");
 		
@@ -50,20 +54,29 @@ public class GameController {
 		System.out.println(blind);*/
 	}
 	public static void startNewHand() {
+		
+		
+		
 		setActiveHand(true);
 		setAllPlayerToNewHand();
 		setGameState(0);
 		moveBigBlindToNextPosition();
 		checkBlindChange();
-		setPot(0);
+		setMainPot(0);
+		setSidePot(0);
+		setPotOnPreFlop(0);
 		setHighestBet(blind);
 		cardDeck = deck.shuffleDeck();
 		
 		setBlinds();
-		changeActivePlayer();
+		//changeActivePlayer();
+		setActivePlayer(button);
 		
 		pki.openCards(gameState);
 		pki.updateAll();
+		
+		//System.out.println("Button: " + button);
+		//System.out.println("BB: " + bigBlindPosition);
 		
 		getNextMove();
 	}
@@ -85,6 +98,15 @@ public class GameController {
 		
 	}
 	
+	public static boolean isActionAllowed() {
+		int j = 0;
+		for(int i = 0; i < player.length; i++) {
+			if(player[i].allIn) j++;
+		}
+		if(j>1) return false;
+		return true;
+	}
+	
 	public static void setAllPlayerToNewHand() {
 		for(int i = 0; i < player.length; i++) {
 			player[i].acted = false;
@@ -92,6 +114,9 @@ public class GameController {
 			if(player[i].activeInGame) player[i].activeInHand = true;
 			else player[i].activeInHand = false;
 			player[i].allIn = false;
+			player[i].playsForSidePot = false;
+			player[i].bbBefore = player[i].balance/blind/5;
+			player[i].balanceBefore = player[i].balance;
 		}
 	}
 	
@@ -107,13 +132,13 @@ public class GameController {
 	
 	
 	public static void setBlinds() {		
-		if(!player[getNextPlayerNum(bigBlindPosition)].activeInGame) 
+		if(!player[getNextPlayerNum(bigBlindPosition)].activeInGame)
 			setButton(getNextPlayerNum(getNextPlayerNum(bigBlindPosition)));
 		else setButton(getNextPlayerNum(bigBlindPosition));
 		
-		if(!player[getPreviousPlayerNum(bigBlindPosition)].activeInGame)
+		if(!player[getPreviousPlayerNum(bigBlindPosition)].activeInGame) 
 			player[getPreviousPlayerNum(getPreviousPlayerNum(bigBlindPosition))].setBlind(blind/2);
-		else player[getPreviousPlayerNum(bigBlindPosition)].setBlind(blind/2);	
+		else player[getPreviousPlayerNum(bigBlindPosition)].setBlind(blind/2);
 		
 		player[bigBlindPosition].setBlind(blind);
 	}
@@ -121,15 +146,25 @@ public class GameController {
 		button = n;
 		//System.out.println("Button: " + button);
 	}
-	public static void setPot(int n){
-		pot = n;
+	public static void setMainPot(int n){
+		mainPot = n;
 	}
+	public static void setSidePot(int n) {
+		sidePot = n;
+	}
+	
 	public static void setGameState(int n) {
 		gameState = n;
 	}
 	public static void resetBlinds() {
 		blind = startingBlind;
 		gamesTillLvChangeCount = 0;
+	}
+	public static void setPotOnPreFlop(int n) {
+		potOnPreFlop = n;
+	}
+	public static void setWasRaiseOnPreFlop(int n) {
+		wasRaisedOnPreFlop = n;
 	}
 	public static void changeActivePlayer() {
 		if(activePlayer < 0) setActivePlayer(button);
@@ -170,7 +205,60 @@ public class GameController {
 		if(!player[bigBlindPosition].activeInGame) moveBigBlindToNextPosition();
 	}
 	public static void calcPot() {//TODO: SidePot
-		setPot(pot + player[0].bet + player[1].bet + player[2].bet);
+		//setPot(pot + player[0].bet + player[1].bet + player[2].bet);
+		int[] bets = new int[3];
+		for(int i = 0; i < player.length; i++) {
+			bets[i] = player[i].bet;
+		}
+		for(int i = 0; i < bets.length; i++) {
+			//System.out.println("bet " + i + " :" + player[i].bet);
+		}
+		int min = minWithoutZero(bets);
+		int pot = 0;
+		
+		//System.out.println("Min: " + min);
+		
+		for(int i = 0; i < bets.length; i++) {
+			if(player[i].activeInHand) {
+				pot += min;
+				player[i].bet -= min;
+				//System.out.println("bet " + i + " :" + player[i].bet);
+				//System.out.println("Pot: " + pot);
+			}
+		}
+		mainPot += pot;
+		pot = 0;
+		System.out.println("Main Pot: " + mainPot);
+		
+		for(int i = 0; i < player.length; i++) {
+			bets[i] = player[i].bet;
+			//System.out.println("bet " + i + " :" + player[i].bet);
+		}
+		
+		
+		min = minWithoutZero(bets);
+		
+		//System.out.println("Min: " + min);
+		for(int i = 0; i < bets.length; i++) {
+			if(player[i].activeInHand && player[i].bet > 0) {
+				pot += min;
+				//System.out.println("Pot: " + pot);
+				player[i].bet -= min;
+				//System.out.println("bet " + i + " :" + player[i].bet);
+				player[i].playsForSidePot = true;
+			}
+		}
+		
+		
+		sidePot += pot;
+		//System.out.println("SidePot: " + sidePot);
+		
+		for(int i = 0; i < player.length; i++) {
+			//System.out.println("bet " + i + " :" + player[i].bet);
+			if(player[i].bet > 0) player[i].balance += player[i].bet;
+			player[i].bet = 0;
+		}
+		
 	}
 	public static void checkBlindChange() {
 		if(gamesTillLvChangeCount == gamesTillLvChange) lvRaise();
@@ -205,14 +293,14 @@ public class GameController {
 		}
 		
 		if(activeHand) {
-			/*if(player[activePlayer].activeInHand == false) {
-				player[activePlayer].fold();
-				getNextMove();
-			}
-			else */if(player[activePlayer].bot && player[activePlayer].acted == false) {
+			if(player[activePlayer].bot && player[activePlayer].acted == false) {
 				if(!player[activePlayer].allIn) {
 					player[activePlayer].decideMove();
 				}else player[activePlayer].acted = true;
+				getNextMove();
+			}
+			else if(!isActionAllowed()) {
+				player[activePlayer].acted = true;
 				getNextMove();
 			}
 		}
@@ -224,6 +312,10 @@ public class GameController {
 	public static void changeGameState() {
 		if(gameState < 4) {
 			calcPot();
+			if(gameState == 0) {
+				setPotOnPreFlop(mainPot + sidePot);
+				setWasRaiseOnPreFlop(str.getWasRaised());
+			}
 			player[0].bet = 0;
 			player[1].bet = 0;
 			player[2].bet = 0;
@@ -241,6 +333,10 @@ public class GameController {
 			//if(gameState == 1) pki.addToLog("Flop opens");
 			//else if(gameState == 2) pki.addToLog("Turn opens");
 			//else if(gameState == 3) pki.addToLog("River opens");
+			
+			if(gameState == 1) System.out.println("Flop opens\n");
+			else if(gameState == 2) System.out.println("Turn opens\n");
+			else if(gameState == 3) System.out.println("River opens\n");
 			
 			//pki.addToLog("Pot is " + pot);
 		}
@@ -276,30 +372,68 @@ public class GameController {
 			pki.setBalanceColorNeutral(1);
 			pki.setBalanceColorNeutral(2);
 			
-			pot = 0;
+			mainPot = 0;
 			
 			gameState++;
 			//changeGameState();
 			pki.setButtons();
 			pki.updateAll();
+			System.out.println(str.getRating(cardDeck[5], cardDeck[6]));
+			System.out.println(str.getButton(0));
+			System.out.println(player[0].bbBefore);
+			System.out.println(str.getXInBB(potOnPreFlop));
+			System.out.println(wasRaisedOnPreFlop);
+			System.out.println(player[0].actionPreFlop);
+			str.strategy[str.getRating(cardDeck[5], cardDeck[6])][str.getButton(0)][player[0].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[0].actionPreFlop] = player[0].balance - (player[0].balanceBefore);
+			str.strategy[str.getRating(cardDeck[7], cardDeck[8])][str.getButton(1)][player[1].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[1].actionPreFlop] = player[1].balance - (player[1].balanceBefore);
+			str.strategy[str.getRating(cardDeck[9], cardDeck[10])][str.getButton(2)][player[2].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[2].actionPreFlop] = player[2].balance - (player[2].balanceBefore);
+			//pki.log = "";
+			
+			System.out.println(str.strategy[str.getRating(cardDeck[5], cardDeck[6])][str.getButton(0)][player[0].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[0].actionPreFlop]);
 			
 			if(!isActiveGame()) setActiveGame(false);
-		}/*else {
-			pki.setButtons();
-			//pki.log = "";
-		}*/
+		}else if(gameState == 5){
+				
+		}
 	}
 	
 	public static void givePot(int[] winnerArray, int max, int maxC) {
-		for(int i = 0; i < winnerArray.length; i++) {
-			//pki.addToLog(winnerArray[i] + " " + max + " " + maxC);
-			if(winnerArray[i] == max) {
-				//System.out.println("Winner: Player" + i);
-				//pki.addToLog(player[i].playerName + " wins " + pot/maxC  + "<br/>");
-				player[i].balance += pot/maxC;
-				pki.setBalanceColorPositive(i);
+		if(sidePot == 0) {
+			//System.out.println("pot wird zugesprochen");
+			//System.out.println("Pot: " + mainPot);
+			//System.out.println("Max: " + max);
+			for(int i = 0; i < winnerArray.length; i++) {
+				if(winnerArray[i] == max) {
+					player[i].balance += mainPot/maxC;
+					//pki.setBalanceColorPositive(i);
+					System.out.println(player[i].playerName + " wins " + mainPot/maxC);
+				}
+				if(player[i].balance == 0) player[i].activeInGame = false;
 			}
-			if(player[i].balance == 0) player[i].activeInGame = false;
+		}
+		else {
+			int[] winnerArrayForSidePot = evaluateForSidePot();
+			int maxForSidePot = max(winnerArrayForSidePot);
+			int maxForSidePotCount = maxC(winnerArrayForSidePot, maxForSidePot);
+			
+			for(int i = 0; i < winnerArray.length; i++) {
+				if(winnerArrayForSidePot[i] == maxForSidePot) {
+					player[i].balance += sidePot/maxForSidePotCount;
+					System.out.println(player[i].playerName + " wins " + sidePot/maxForSidePotCount);
+					//pki.setBalanceColorPositive(i);
+				}
+			}
+			
+			for(int i = 0; i < winnerArray.length; i++) {
+				if(winnerArray[i] == max) {
+					player[i].balance += mainPot/maxC;
+					//pki.setBalanceColorPositive(i);
+					System.out.println(player[i].playerName + " wins " + mainPot/maxC);
+				}
+				if(player[i].balance == 0) player[i].activeInGame = false;
+			}
+			
+			
 		}
 	}
 	
@@ -315,12 +449,32 @@ public class GameController {
 		
 		return array;
 	}
+	
+	public static int[] evaluateForSidePot() {
+		int [] cards0 = {cardDeck[0],cardDeck[1],cardDeck[2],cardDeck[3],cardDeck[4],cardDeck[5],cardDeck[6]};
+		int [] cards1 = {cardDeck[0],cardDeck[1],cardDeck[2],cardDeck[3],cardDeck[4],cardDeck[7],cardDeck[8]};
+		int [] cards2 = {cardDeck[0],cardDeck[1],cardDeck[2],cardDeck[3],cardDeck[4],cardDeck[9],cardDeck[10]};
+		
+		int[] array = DetermineWinner.compareThree(cards0, cards1, cards2);
+		if(!player[0].activeInHand || !player[0].playsForSidePot) array[0] = -1;
+		if(!player[1].activeInHand || !player[1].playsForSidePot) array[1] = -1;
+		if(!player[2].activeInHand || !player[2].playsForSidePot) array[2] = -1;
+		
+		return array;
+	}
 	public static int max(int[] array) {
 		int max = 0;
 		for(int i = 0; i < array.length; i++) {
 			if(array[i] > max) max = array[i];
 		}
 		return max;
+	}
+	public static int minWithoutZero(int[] array) {
+		int min = array[0];
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] < min && array[i] != 0) min = array[i];
+		}
+		return min;
 	}
 	public static int maxC(int[] array, int max) {
 		int maxC = 0;
@@ -364,6 +518,10 @@ public class GameController {
 			}
 		});
 		// TODO Auto-generated method stub
+		/*for(int i = 0; i < 1000; i++) {
+			str.strategy[1][1][1][1][1][1] += 1;
+			System.out.println(str.strategy[1][1][1][1][1][1]);
+		}*/
 	}
 
 }

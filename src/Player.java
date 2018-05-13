@@ -9,6 +9,10 @@ public class Player {
 	boolean allIn;
 	boolean bot;
 	boolean acted;
+	boolean playsForSidePot = false;
+	int bbBefore;
+	int balanceBefore;
+	int actionPreFlop;
 	public Player(boolean b, String pName){
 		playerName = pName;
 		bot = b;
@@ -36,9 +40,10 @@ public class Player {
 			GameController.player[i].acted = false;
 		}
 		this.acted = true;
+		if(GameController.gameState == 0) actionPreFlop = 2;
 		GameController.highestBet = bet;
 		//GameController.pki.addToLog(playerName + " raised to " + bet);
-		//System.out.println(playerName + " raised to " + bet);
+		System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
 		
@@ -52,14 +57,17 @@ public class Player {
 			bet = GameController.highestBet;
 			balance -= bet;
 			//GameController.pki.addToLog(playerName + " called " + bet);
+			System.out.println(playerName + " called " + bet);
 		}else if(balance + bet <= GameController.highestBet) {
 			bet += balance;
 			balance = 0;
 			allIn = true;
 		}else {
+			System.out.println(playerName + " checked");
 			//GameController.pki.addToLog(playerName + " checked");
 		}
 		this.acted = true;
+		if(GameController.gameState == 0) actionPreFlop = 1;
 		GameController.changeActivePlayer();
 	}
 	
@@ -69,6 +77,7 @@ public class Player {
 		//GameController.pki.addToLog(playerName + " folded");
 		GameController.changeActivePlayer();
 		//System.out.println(playerName + " folded");
+		if(GameController.gameState == 0) actionPreFlop = 0;
 	}
 	
 	public void setBlind(int n) {
@@ -84,7 +93,7 @@ public class Player {
 			fold();
 			return;
 		}
-		else if(rand < 5) {
+		else if(rand < 2) {
 			//System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
 			if(balance + bet <= GameController.highestBet) call();
 			else if(GameController.highestBet == 0) raise(GameController.blind);

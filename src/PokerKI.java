@@ -151,7 +151,7 @@ public class PokerKI {
 		btnRaise = new JButton("Raise");
 		btnRaise.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(GameController.gameState > 3) return;
+				if(GameController.gameState > 3 || textField.getText().isEmpty()) return;
 				int amount = Integer.parseInt(textField.getText());
 				GameController.player[0].raise(amount);
 				textField.setText("");
@@ -261,8 +261,8 @@ public class PokerKI {
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState < 5 || GameController.activeGame == false) return;
-				drawButton(GameController.button);
 				GameController.startNewHand();
+				drawButton(GameController.button);
 			}
 		});
 		btnStartNewHand.setBounds(btnRaise.getX() + btnRaise.getWidth() - 120, btnRaise.getY() - 48 - 12, 120, 48);
@@ -273,8 +273,8 @@ public class PokerKI {
 		btnStartNewGame = new JButton("Start New Game");
 		btnStartNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				drawButton(GameController.button);
 				GameController.startNewGame();
+				drawButton(GameController.button);
 			}
 		});
 		btnStartNewGame.setBounds(0, frame.getHeight() - 48, 180, 48);
