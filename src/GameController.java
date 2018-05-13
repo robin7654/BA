@@ -1,11 +1,5 @@
 import java.awt.EventQueue;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameController {
 	
@@ -25,12 +19,12 @@ public class GameController {
 	static int bigBlindPosition = -1;
 	static int activePlayer = -1;
 	static int blind;
-	static int startingBlind = 0;
+	static int startingBlind = 20;
 	static int highestBet;
 	static int gameState = -1;
 	static int pot = 0;
 	static int gamesTillLvChange = 9;
-	static int gamesTillLvChangeC = 0;
+	static int gamesTillLvChangeCount = 0;
 	
 	
 	public static void startNewGame() {
@@ -46,29 +40,14 @@ public class GameController {
 		resetBlinds();
 		startNewHand();
 		
-		Writer writer;
-		try {
-			writer = new BufferedWriter(new FileWriter("ausgabe2.txt", true));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return;
-		}
-		
-		
-		for(int i = 0; i < 10000; i++) {
-			startNewHand();
-			try {
-				writer.append(Integer.toString(i));
-				writer.write(System.lineSeparator());
-				writer.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		/*for(int i = 0; i < 100; i++) {
+			if(activeGame) {
+				startNewHand();
+				System.out.println(i);
 			}
-			//System.out.println(i);
 		}
 		System.out.println("finish");
+		System.out.println(blind);*/
 	}
 	public static void startNewHand() {
 		setActiveHand(true);
@@ -87,6 +66,23 @@ public class GameController {
 		pki.updateAll();
 		
 		getNextMove();
+	}
+	
+	public static void playX(int x) {
+		player[0].bot = true;
+		
+		for(int i = 0; i < x; i++) {
+			startNewGame();
+			
+			while(isActiveGame()) {
+				startNewHand();
+				//System.out.println("Hand finished");
+			}
+			System.out.println(i);
+		}
+		
+		player[0].bot = false;
+		
 	}
 	
 	public static void setAllPlayerToNewHand() {
@@ -133,7 +129,7 @@ public class GameController {
 	}
 	public static void resetBlinds() {
 		blind = startingBlind;
-		gamesTillLvChangeC = 0;
+		gamesTillLvChangeCount = 0;
 	}
 	public static void changeActivePlayer() {
 		if(activePlayer < 0) setActivePlayer(button);
@@ -148,7 +144,14 @@ public class GameController {
 	public static void setHighestBet(int n) {
 		highestBet = n;
 	}
-	
+	public static int biggestStack() {
+		//int n = 0;
+		int[] array = new int[3];
+		for(int i = 0; i < 3; i++)
+			array[i] = player[i].balance + player[i].bet;
+		
+		return max(array);
+	}
 	public static void setBigBlindPosition(int n) {
 		bigBlindPosition = n;
 		//System.out.println("BigBlind: " + bigBlindPosition);
@@ -170,12 +173,12 @@ public class GameController {
 		setPot(pot + player[0].bet + player[1].bet + player[2].bet);
 	}
 	public static void checkBlindChange() {
-		if(gamesTillLvChangeC == gamesTillLvChange) lvRaise();
-		gamesTillLvChangeC += 1;
+		if(gamesTillLvChangeCount == gamesTillLvChange) lvRaise();
+		gamesTillLvChangeCount += 1;
 	}
 	public static void lvRaise() {
 		if(blind == 0) blind = 0;
-		if(blind == 20) blind = 30;
+		else if(blind == 20) blind = 30;
 		else if(blind == 30) blind = 40;
 		else if(blind == 40) blind = 60;
 		else if(blind == 60) blind = 80;
@@ -183,7 +186,7 @@ public class GameController {
 		else if(blind == 120) blind = 160;
 		else if(blind == 160) blind = 200;
 		
-		gamesTillLvChangeC = 0;
+		gamesTillLvChangeCount = 0;
 	}
 	
 	public static int getNextPlayerNum(int n) {
@@ -221,9 +224,9 @@ public class GameController {
 	public static void changeGameState() {
 		if(gameState < 4) {
 			calcPot();
-			player[0].setBet(0);
-			player[1].setBet(0);
-			player[2].setBet(0);
+			player[0].bet = 0;
+			player[1].bet = 0;
+			player[2].bet = 0;
 			setHighestBet(0);
 			gameState++;
 			activePlayer = getNextPlayerNum(button);
@@ -269,21 +272,22 @@ public class GameController {
 				}
 			}, 0);*/
 			
-			pki.setBalanceNeutral(0);
-			pki.setBalanceNeutral(1);
-			pki.setBalanceNeutral(2);
+			pki.setBalanceColorNeutral(0);
+			pki.setBalanceColorNeutral(1);
+			pki.setBalanceColorNeutral(2);
 			
 			pot = 0;
 			
 			gameState++;
-			changeGameState();
-			
+			//changeGameState();
+			pki.setButtons();
 			pki.updateAll();
+			
 			if(!isActiveGame()) setActiveGame(false);
-		}else {
+		}/*else {
 			pki.setButtons();
 			//pki.log = "";
-		}
+		}*/
 	}
 	
 	public static void givePot(int[] winnerArray, int max, int maxC) {
@@ -293,7 +297,7 @@ public class GameController {
 				//System.out.println("Winner: Player" + i);
 				//pki.addToLog(player[i].playerName + " wins " + pot/maxC  + "<br/>");
 				player[i].balance += pot/maxC;
-				pki.setBalancePositive(i);
+				pki.setBalanceColorPositive(i);
 			}
 			if(player[i].balance == 0) player[i].activeInGame = false;
 		}

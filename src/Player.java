@@ -47,7 +47,7 @@ public class Player {
 	}
 	
 	public void call() {
-		if(bet < GameController.highestBet) {
+		if(bet < GameController.highestBet && balance + bet > GameController.highestBet) {
 			balance += bet;
 			bet = GameController.highestBet;
 			balance -= bet;
@@ -84,7 +84,7 @@ public class Player {
 			fold();
 			return;
 		}
-		else if(rand < 0) {
+		else if(rand < 5) {
 			//System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
 			if(balance + bet <= GameController.highestBet) call();
 			else if(GameController.highestBet == 0) raise(GameController.blind);
@@ -96,9 +96,5 @@ public class Player {
 		else {
 			call();
 		}
-	}
-	
-	public void setBet(int n) {
-		bet = n;
 	}
 }

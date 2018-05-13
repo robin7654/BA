@@ -44,12 +44,12 @@ public class PokerKI {
 	String logStart = "<html>";
 	String logEnd = "</html>";
 	
-	public void setBalancePositive(int i) {
+	public void setBalanceColorPositive(int i) {
 		if(i == 0) lblBalancePlayer0.setForeground(Color.GREEN);
 		if(i == 1) lblBalancePlayer1.setForeground(Color.GREEN);
 		if(i == 2) lblBalancePlayer2.setForeground(Color.GREEN);
 	}
-	public void setBalanceNeutral(int i) {
+	public void setBalanceColorNeutral(int i) {
 		if(i == 0) lblBalancePlayer0.setForeground(Color.WHITE);
 		if(i == 1) lblBalancePlayer1.setForeground(Color.WHITE);
 		if(i == 2) lblBalancePlayer2.setForeground(Color.WHITE);
@@ -61,6 +61,7 @@ public class PokerKI {
 	JButton btnStartNewHand;
 	static JButton btnStartNewGame;
 	static JButton btnExit;
+	static JButton btnPlayX;
 	
 	public void setCCButton() {
 		if(!GameController.activeGame) {
@@ -94,8 +95,8 @@ public class PokerKI {
 	}
 	
 	public void setButtons() {
-		//setCCButton();
-		//setStartNewHandButton();
+		setCCButton();
+		setStartNewHandButton();
 	}
 	
 	/**
@@ -153,8 +154,9 @@ public class PokerKI {
 				if(GameController.gameState > 3) return;
 				int amount = Integer.parseInt(textField.getText());
 				GameController.player[0].raise(amount);
-				GameController.getNextMove();
 				textField.setText("");
+				GameController.getNextMove();
+				
 				
 			}
 		});
@@ -206,6 +208,17 @@ public class PokerKI {
 		btnExit.setFont(fontMain);
 		frame.getContentPane().add(btnExit);
 		
+		btnPlayX = new JButton("Play X Games");
+		btnPlayX.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GameController.playX(10000);
+			}
+		});
+		btnPlayX.setBounds(frame.getWidth() - 100, 0, 100, 48);
+		btnPlayX.setBackground(Color.BLUE);
+		btnPlayX.setFont(fontMain);
+		frame.getContentPane().add(btnPlayX);
+		
 
 		lblBoard2.setBounds((frame.getWidth()/2) - 83/2, frame.getHeight()/4, 83, 117);
 		frame.getContentPane().add(lblBoard2);
@@ -248,8 +261,8 @@ public class PokerKI {
 		btnStartNewHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState < 5 || GameController.activeGame == false) return;
+				drawButton(GameController.button);
 				GameController.startNewHand();
-				placeButton(GameController.button);
 			}
 		});
 		btnStartNewHand.setBounds(btnRaise.getX() + btnRaise.getWidth() - 120, btnRaise.getY() - 48 - 12, 120, 48);
@@ -260,8 +273,8 @@ public class PokerKI {
 		btnStartNewGame = new JButton("Start New Game");
 		btnStartNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				drawButton(GameController.button);
 				GameController.startNewGame();
-				placeButton(GameController.button);
 			}
 		});
 		btnStartNewGame.setBounds(0, frame.getHeight() - 48, 180, 48);
@@ -331,12 +344,12 @@ public class PokerKI {
 	}
 
 	protected void updatePlayerBet() {
-		 /*if(GameController.player[0].bet == 0) lblBet0.setText("");
+		 if(GameController.player[0].bet == 0) lblBet0.setText("");
 		 else lblBet0.setText("$" + Integer.toString(GameController.player[0].bet));
 		 if(GameController.player[1].bet == 0) lblBet1.setText("");
 		 else lblBet1.setText("$" + Integer.toString(GameController.player[1].bet));
 		 if(GameController.player[2].bet == 0) lblBet2.setText("");
-		 else lblBet2.setText("$" + Integer.toString(GameController.player[2].bet));*/
+		 else lblBet2.setText("$" + Integer.toString(GameController.player[2].bet));
 		 
 		 lblBet0.setText("$" + Integer.toString(GameController.player[0].bet));
 		 lblBet1.setText("$" + Integer.toString(GameController.player[1].bet));
@@ -348,25 +361,25 @@ public class PokerKI {
 		lblBalancePlayer2.setText("$" + Integer.toString(GameController.player[2].balance));
 	}
 	protected void updatePot() {
-		lblPot.setText("$" + Integer.toString(GameController.pot));
+		lblPot.setText("$" + Integer.toString(GameController.mainPot));
 	}
 	public void updateAll() {
-		/*updatePlayerBet();
+		updatePlayerBet();
 		updatePlayerBalance();
-		updatePot();*/
+		updatePot();
 	}
 	public void addToLog(String s) {
 		
-		/*log += s + "<br/>";
+		log += s + "<br/>";
 		lblLog.setText(logStart + log + logEnd);
 		
-		vertical.setValue(vertical.getMaximum());*/
+		vertical.setValue(vertical.getMaximum());
 	}
 	
 	
 	
 	
-	public void placeButton(int x) {
+	public void drawButton(int x) {
 		lblDealerButton.setText("D");
 		switch (x) {
 		case 0: lblDealerButton.setBounds(lblHole1.getX() + lblHole1.getWidth() + 8, lblHole1.getY() - 14 - 8, lblDealerButton.getWidth(), lblDealerButton.getHeight());
