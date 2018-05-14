@@ -60,4 +60,12 @@ public class Strategies {
 	//5 - Fold - Call - Raise
 	
 	
+	//Flop Raiting
+	//0 - Card Rating
+	//1 - Button Position
+	//2 - BB on Flop / 5
+	//3 - Pot Size in BB
+	//4 - Was Raised
+	//5 - Fold - Call - Raise
+	
 }

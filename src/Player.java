@@ -26,6 +26,7 @@ public class Player {
 		playerName = pName;
 		playerNum = pNum;
 		bot = b;
+		rand = r;
 		balance = 500;
 		activeInGame = true;
 		activeInHand = true;

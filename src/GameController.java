@@ -33,7 +33,7 @@ public class GameController {
 	
 	
 	public static void startNewGame() {
-		player[0] = new Player(false, false, "Player", 0);
+		player[0] = new Player(false, true, "Player", 0);
 		player[1] = new Player(true, false, "Bot1", 1);
 		player[2] = new Player(true, false, "Bot2", 2);
 		
