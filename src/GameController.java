@@ -79,13 +79,13 @@ public class GameController {
 		//System.out.println("BB: " + bigBlindPosition);
 		while(activeHand && player[activePlayer].bot) getNextMove();
 		
+		if(!player[0].bot) player[0].saveSituation();
+		
 		//System.out.println("Fin " + player[0].balance +" "+ player[1].balance +" "+ player[2].balance);
 		//System.out.println("Hand finished\n");
 	}
 	
 	public static void playX(int x) {
-		
-		
 		
 		for(int i = 0; i < x; i++) {	
 			
@@ -104,6 +104,7 @@ public class GameController {
 			if(player[0].balance == 1500) w1++;
 			if(player[1].balance == 1500) w2++;
 			if(player[2].balance == 1500) w3++;
+			
 			
 			//startNewGame();
 			
@@ -356,6 +357,8 @@ public class GameController {
 			//pki.addToLog("Showdown");
 			
 			givePot(winnerArray, max, maxC);
+			
+			
 			
 			/*Timer timer = new Timer();
 			timer.schedule(new TimerTask() {

@@ -20,6 +20,9 @@ public class Player {
 	int hasButton = 0;
 	int wasActionPreFlop = 0;
 	int card1, card2;
+	int timesF = 0;
+	int timesC = 0;
+	int timesR = 0;
 	
 	
 	public Player(boolean b, boolean r, String pName, int pNum){
@@ -127,7 +130,7 @@ public class Player {
 			Random randomGenerator = new Random();
 			int rand = randomGenerator.nextInt(10);
 			//System.out.println(rand);
-			if(rand < 3 && GameController.highestBet > bet) {
+			if(rand < 0 && GameController.highestBet > bet) {
 				fold();
 				return;
 			}
@@ -159,16 +162,23 @@ public class Player {
 			}
 		}
 		
-		if(max > 0) {
-			if(j == 0) fold();
-			else if(j == 1) call();
-			else raise(GameController.highestBet*2);
-		}
+		//if(max > 0) {
+			if(j == 0) {
+				if(GameController.highestBet > bet) fold();
+				else call();
+			}
+			else if(j == 1) {
+				call();
+			}
+			else {
+				raise(GameController.highestBet*2);
+			}
+		/*}
 		else {
 			Random randomGenerator = new Random();
 			int rand = randomGenerator.nextInt(10);
 			
-			if(rand < 3 && GameController.highestBet > bet) {
+			if(rand < 1 && GameController.highestBet > bet) {
 				fold();
 				return;
 			}
@@ -184,7 +194,7 @@ public class Player {
 			else {
 				call();
 			}
-		}
+		}*/
 	}
 	
 	public void saveSituation() {
