@@ -2,19 +2,29 @@ import java.util.Random;
 
 public class Player {
 	String playerName;
+	int playerNum;
 	int balance;
 	int bet;
 	boolean activeInGame;
 	boolean activeInHand;
 	boolean allIn;
 	boolean bot;
+	boolean rand;
 	boolean acted;
 	boolean playsForSidePot = false;
-	int bbBefore;
-	int balanceBefore;
-	int actionPreFlop;
-	public Player(boolean b, String pName){
+	
+	int balancePreFlop = 0;
+	int bbPreFlopFifth = 0;
+	int potSizeInBBPreFlopFifth = 0;
+	int actionPreFlop = 0;
+	int hasButton = 0;
+	int wasActionPreFlop = 0;
+	int card1, card2;
+	
+	
+	public Player(boolean b, boolean r, String pName, int pNum){
 		playerName = pName;
+		playerNum = pNum;
 		bot = b;
 		balance = 500;
 		activeInGame = true;
@@ -42,29 +52,24 @@ public class Player {
 		this.acted = true;
 		if(GameController.gameState == 0) actionPreFlop = 2;
 		GameController.highestBet = bet;
-		//GameController.pki.addToLog(playerName + " raised to " + bet);
-		System.out.println(playerName + " raised to " + bet);
+		//System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
-		
-		//System.out.println("aPC: " + GameController.activePlayerC);
-		//System.out.println("aPS: " + GameController.activePlayers);
 	}
 	
 	public void call() {
 		if(bet < GameController.highestBet && balance + bet > GameController.highestBet) {
 			balance += bet;
+			//System.out.println("HB:" + GameController.highestBet);
 			bet = GameController.highestBet;
 			balance -= bet;
-			//GameController.pki.addToLog(playerName + " called " + bet);
-			System.out.println(playerName + " called " + bet);
+			//System.out.println(playerName + " called " + bet);
 		}else if(balance + bet <= GameController.highestBet) {
 			bet += balance;
 			balance = 0;
 			allIn = true;
 		}else {
-			System.out.println(playerName + " checked");
-			//GameController.pki.addToLog(playerName + " checked");
+			//System.out.println(playerName + " checked");
 		}
 		this.acted = true;
 		if(GameController.gameState == 0) actionPreFlop = 1;
@@ -74,36 +79,151 @@ public class Player {
 	public void fold(){
 		activeInHand = false;
 		this.acted = true;
-		//GameController.pki.addToLog(playerName + " folded");
-		GameController.changeActivePlayer();
 		//System.out.println(playerName + " folded");
+		int[] bets = new int[3];
+		for(int i = 0; i < GameController.player.length; i++) {
+			bets[i] = GameController.player[i].bet;
+		}
+		if(GameController.minWithoutZero(bets) >= bet) {
+			boolean b = true;
+			for(int i = 0; i < 3; i++) {
+				if(GameController.player[i].balance + GameController.player[i].bet < bet && GameController.player[i].activeInGame) {
+					b = false;
+				}
+			}
+			if(b) {
+				GameController.mainPot += bet;
+				bet = 0;
+			}
+			
+		}
+		
+		GameController.changeActivePlayer();
 		if(GameController.gameState == 0) actionPreFlop = 0;
 	}
 	
 	public void setBlind(int n) {
-		bet = n;
-		balance -= n;
+		if(balance + bet < n) {
+			bet += balance;
+			balance = 0;
+			allIn = true;
+			acted = true;
+		}else {
+			balance += bet;
+			bet = n;
+			balance -= bet;
+		}
 	}
 	
 	public void decideMove() {
-		Random randomGenerator = new Random();
-		int rand = randomGenerator.nextInt(10);
-		//System.out.println(rand);
-		if(rand < 0) {
-			fold();
-			return;
-		}
-		else if(rand < 2) {
-			//System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
-			if(balance + bet <= GameController.highestBet) call();
-			else if(GameController.highestBet == 0) raise(GameController.blind);
-			else {
-				raise(GameController.highestBet*2);
+		
+		if(activeInGame) saveSituation();
+		
+		if(!rand && GameController.gameState == 0) {
+			findBestMovePreFlop();
+		}else {
+		
+			Random randomGenerator = new Random();
+			int rand = randomGenerator.nextInt(10);
+			//System.out.println(rand);
+			if(rand < 3 && GameController.highestBet > bet) {
+				fold();
 				return;
 			}
-		}
-		else {
-			call();
+			else if(rand < 6) {
+				//System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
+				if(balance + bet <= GameController.highestBet) call();
+				else if(GameController.highestBet == 0) raise(GameController.blind);
+				else {
+					raise(GameController.highestBet*2);
+					return;
+				}
+			}
+			else {
+				call();
+			}
 		}
 	}
+	
+	public void findBestMovePreFlop() {
+		int max = 0;
+		int n = 0;
+		int j = 0;
+		for(int i = 0; i < 3; i++) {
+			n = GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][i];
+			//System.out.println(n);
+			if(n > max) {
+				max = n;
+				j = i;
+			}
+		}
+		
+		if(max > 0) {
+			if(j == 0) fold();
+			else if(j == 1) call();
+			else raise(GameController.highestBet*2);
+		}
+		else {
+			Random randomGenerator = new Random();
+			int rand = randomGenerator.nextInt(10);
+			
+			if(rand < 3 && GameController.highestBet > bet) {
+				fold();
+				return;
+			}
+			else if(rand < 6) {
+				//System.out.println("Raise " + (balance +bet) + " " + GameController.highestBet);
+				if(balance + bet <= GameController.highestBet) call();
+				else if(GameController.highestBet == 0) raise(GameController.blind);
+				else {
+					raise(GameController.highestBet*2);
+					return;
+				}
+			}
+			else {
+				call();
+			}
+		}
+	}
+	
+	public void saveSituation() {
+		if(GameController.gameState == 0) {
+			if(playerNum == 0) {
+				card1 = GameController.cardDeck[5];
+				card2 = GameController.cardDeck[6];
+			}
+			else if(playerNum == 1) {
+				card1 = GameController.cardDeck[7];
+				card2 = GameController.cardDeck[8];
+			}
+			else {
+				card1 = GameController.cardDeck[9];
+				card2 = GameController.cardDeck[10];
+			}
+			
+			if(GameController.button == playerNum) hasButton = 1;
+			else hasButton = 0;
+			
+			balancePreFlop = balance;
+			bbPreFlopFifth = (balancePreFlop/GameController.blind)/5;
+			
+			for(int i = 0; i < GameController.player.length; i++) {
+				potSizeInBBPreFlopFifth += GameController.player[i].bet;
+			}
+			
+			potSizeInBBPreFlopFifth = (potSizeInBBPreFlopFifth/GameController.blind)/5;
+			
+			if(GameController.highestBet > GameController.blind) wasActionPreFlop = 1;
+			else wasActionPreFlop = 0;
+			
+		}
+	}
+	
+	public void writeSituation() {
+		//System.out.println(playerNum + " " + card1 + " " + card2 + " " + hasButton + " " + bbPreFlopFifth + " " + potSizeInBBPreFlopFifth + " " + wasActionPreFlop + " " + actionPreFlop + ":"  + (balance - balancePreFlop));
+		GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][actionPreFlop] += balance - balancePreFlop;
+	}
+	
+	
+	
 }

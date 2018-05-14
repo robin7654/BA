@@ -27,22 +27,26 @@ public class GameController {
 	static int sidePot = 0;
 	static int gamesTillLvChange = 9;
 	static int gamesTillLvChangeCount = 0;
-	static int potOnPreFlop = 0;
-	static int wasRaisedOnPreFlop = 0;
+	static int w1 = 0;
+	static int w2 = 0;
+	static int w3 = 0;
 	
 	
 	public static void startNewGame() {
-		player[0] = new Player(false, "Player");
-		player[1] = new Player(true, "Bot1");
-		player[2] = new Player(true, "Bot2");
+		player[0] = new Player(false, false, "Player", 0);
+		player[1] = new Player(true, false, "Bot1", 1);
+		player[2] = new Player(true, false, "Bot2", 2);
 		
-		setActiveHand(true);
+		setGameState(5);
+		
+		//setActiveHand(true);
 		setActiveGame(true);
 		
 		setBigBlindPosition(-1);
 		
 		resetBlinds();
-		startNewHand();
+		
+		//startNewHand();
 		
 		/*for(int i = 0; i < 100; i++) {
 			if(activeGame) {
@@ -53,10 +57,7 @@ public class GameController {
 		System.out.println("finish");
 		System.out.println(blind);*/
 	}
-	public static void startNewHand() {
-		
-		
-		
+	public static void startNewHand() {		
 		setActiveHand(true);
 		setAllPlayerToNewHand();
 		setGameState(0);
@@ -64,7 +65,6 @@ public class GameController {
 		checkBlindChange();
 		setMainPot(0);
 		setSidePot(0);
-		setPotOnPreFlop(0);
 		setHighestBet(blind);
 		cardDeck = deck.shuffleDeck();
 		
@@ -77,24 +77,45 @@ public class GameController {
 		
 		//System.out.println("Button: " + button);
 		//System.out.println("BB: " + bigBlindPosition);
+		while(activeHand && player[activePlayer].bot) getNextMove();
 		
-		getNextMove();
+		//System.out.println("Fin " + player[0].balance +" "+ player[1].balance +" "+ player[2].balance);
+		//System.out.println("Hand finished\n");
 	}
 	
 	public static void playX(int x) {
-		player[0].bot = true;
 		
-		for(int i = 0; i < x; i++) {
+		
+		
+		for(int i = 0; i < x; i++) {	
+			
 			startNewGame();
+			
+			
+			player[0].bot = true;
+			player[0].rand = true;
+			
+			//startNewGame();
 			
 			while(isActiveGame()) {
 				startNewHand();
-				//System.out.println("Hand finished");
 			}
-			System.out.println(i);
+			System.out.println("G:" + i);
+			if(player[0].balance == 1500) w1++;
+			if(player[1].balance == 1500) w2++;
+			if(player[2].balance == 1500) w3++;
+			
+			//startNewGame();
+			
+			
 		}
 		
 		player[0].bot = false;
+		player[0].rand = false;
+		
+		System.out.println("Winner: " + w1 + " " + w2 + " " + w3);
+		
+		
 		
 	}
 	
@@ -103,7 +124,11 @@ public class GameController {
 		for(int i = 0; i < player.length; i++) {
 			if(player[i].allIn) j++;
 		}
-		if(j>1) return false;
+		int k = 0;
+		for(int i = 0; i < player.length; i++) {
+			if(!player[i].activeInHand) k++;
+		}
+		if(j>1 || k>1) return false;
 		return true;
 	}
 	
@@ -115,8 +140,8 @@ public class GameController {
 			else player[i].activeInHand = false;
 			player[i].allIn = false;
 			player[i].playsForSidePot = false;
-			player[i].bbBefore = player[i].balance/blind/5;
-			player[i].balanceBefore = player[i].balance;
+			player[i].bbPreFlopFifth = player[i].balance/blind/5;
+			player[i].balancePreFlop = player[i].balance;
 		}
 	}
 	
@@ -160,12 +185,6 @@ public class GameController {
 		blind = startingBlind;
 		gamesTillLvChangeCount = 0;
 	}
-	public static void setPotOnPreFlop(int n) {
-		potOnPreFlop = n;
-	}
-	public static void setWasRaiseOnPreFlop(int n) {
-		wasRaisedOnPreFlop = n;
-	}
 	public static void changeActivePlayer() {
 		if(activePlayer < 0) setActivePlayer(button);
 		else if(activePlayer == 2) setActivePlayer(0);
@@ -204,47 +223,40 @@ public class GameController {
 		
 		if(!player[bigBlindPosition].activeInGame) moveBigBlindToNextPosition();
 	}
-	public static void calcPot() {//TODO: SidePot
-		//setPot(pot + player[0].bet + player[1].bet + player[2].bet);
+	public static void calcPot() {
 		int[] bets = new int[3];
 		for(int i = 0; i < player.length; i++) {
 			bets[i] = player[i].bet;
 		}
 		for(int i = 0; i < bets.length; i++) {
-			//System.out.println("bet " + i + " :" + player[i].bet);
 		}
 		int min = minWithoutZero(bets);
 		int pot = 0;
-		
-		//System.out.println("Min: " + min);
-		
+
 		for(int i = 0; i < bets.length; i++) {
-			if(player[i].activeInHand) {
+			if(player[i].bet > 0) {
 				pot += min;
 				player[i].bet -= min;
-				//System.out.println("bet " + i + " :" + player[i].bet);
-				//System.out.println("Pot: " + pot);
 			}
 		}
 		mainPot += pot;
 		pot = 0;
-		System.out.println("Main Pot: " + mainPot);
+		//System.out.println("Main Pot: " + mainPot);
+		
+		
+		
 		
 		for(int i = 0; i < player.length; i++) {
 			bets[i] = player[i].bet;
-			//System.out.println("bet " + i + " :" + player[i].bet);
 		}
 		
 		
 		min = minWithoutZero(bets);
 		
-		//System.out.println("Min: " + min);
 		for(int i = 0; i < bets.length; i++) {
-			if(player[i].activeInHand && player[i].bet > 0) {
+			if(player[i].bet > 0) {
 				pot += min;
-				//System.out.println("Pot: " + pot);
 				player[i].bet -= min;
-				//System.out.println("bet " + i + " :" + player[i].bet);
 				player[i].playsForSidePot = true;
 			}
 		}
@@ -254,7 +266,6 @@ public class GameController {
 		//System.out.println("SidePot: " + sidePot);
 		
 		for(int i = 0; i < player.length; i++) {
-			//System.out.println("bet " + i + " :" + player[i].bet);
 			if(player[i].bet > 0) player[i].balance += player[i].bet;
 			player[i].bet = 0;
 		}
@@ -289,21 +300,22 @@ public class GameController {
 	static public void getNextMove() {
 		if(player[activePlayer].acted == true) {
 			changeGameState();
-			if(!activeHand) return;
+			//if(!activeHand) return;
 		}
 		
-		if(activeHand) {
+		if(activeHand && player[activePlayer].activeInHand) {
+			if(!player[activePlayer].bot) player[activePlayer].saveSituation();
 			if(player[activePlayer].bot && player[activePlayer].acted == false) {
 				if(!player[activePlayer].allIn) {
 					player[activePlayer].decideMove();
 				}else player[activePlayer].acted = true;
-				getNextMove();
+				//getNextMove();
 			}
 			else if(!isActionAllowed()) {
 				player[activePlayer].acted = true;
-				getNextMove();
+				//getNextMove();
 			}
-		}
+		}else if(!player[activePlayer].activeInHand) player[activePlayer].acted = true;
 		pki.updateAll();
 		pki.setButtons();
 		
@@ -312,10 +324,6 @@ public class GameController {
 	public static void changeGameState() {
 		if(gameState < 4) {
 			calcPot();
-			if(gameState == 0) {
-				setPotOnPreFlop(mainPot + sidePot);
-				setWasRaiseOnPreFlop(str.getWasRaised());
-			}
 			player[0].bet = 0;
 			player[1].bet = 0;
 			player[2].bet = 0;
@@ -334,9 +342,9 @@ public class GameController {
 			//else if(gameState == 2) pki.addToLog("Turn opens");
 			//else if(gameState == 3) pki.addToLog("River opens");
 			
-			if(gameState == 1) System.out.println("Flop opens\n");
+			/*if(gameState == 1) System.out.println("Flop opens\n");
 			else if(gameState == 2) System.out.println("Turn opens\n");
-			else if(gameState == 3) System.out.println("River opens\n");
+			else if(gameState == 3) System.out.println("River opens\n");*/
 			
 			//pki.addToLog("Pot is " + pot);
 		}
@@ -378,18 +386,10 @@ public class GameController {
 			//changeGameState();
 			pki.setButtons();
 			pki.updateAll();
-			System.out.println(str.getRating(cardDeck[5], cardDeck[6]));
-			System.out.println(str.getButton(0));
-			System.out.println(player[0].bbBefore);
-			System.out.println(str.getXInBB(potOnPreFlop));
-			System.out.println(wasRaisedOnPreFlop);
-			System.out.println(player[0].actionPreFlop);
-			str.strategy[str.getRating(cardDeck[5], cardDeck[6])][str.getButton(0)][player[0].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[0].actionPreFlop] = player[0].balance - (player[0].balanceBefore);
-			str.strategy[str.getRating(cardDeck[7], cardDeck[8])][str.getButton(1)][player[1].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[1].actionPreFlop] = player[1].balance - (player[1].balanceBefore);
-			str.strategy[str.getRating(cardDeck[9], cardDeck[10])][str.getButton(2)][player[2].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[2].actionPreFlop] = player[2].balance - (player[2].balanceBefore);
-			//pki.log = "";
 			
-			System.out.println(str.strategy[str.getRating(cardDeck[5], cardDeck[6])][str.getButton(0)][player[0].bbBefore][str.getXInBB(potOnPreFlop)][wasRaisedOnPreFlop][player[0].actionPreFlop]);
+			for(int i = 0; i < player.length; i++) {
+				player[i].writeSituation();
+			}
 			
 			if(!isActiveGame()) setActiveGame(false);
 		}else if(gameState == 5){
@@ -398,6 +398,8 @@ public class GameController {
 	}
 	
 	public static void givePot(int[] winnerArray, int max, int maxC) {
+		//System.out.println(player[0].balance + " " + " " + player[1].balance + " " + player[2].balance);
+		
 		if(sidePot == 0) {
 			//System.out.println("pot wird zugesprochen");
 			//System.out.println("Pot: " + mainPot);
@@ -406,7 +408,7 @@ public class GameController {
 				if(winnerArray[i] == max) {
 					player[i].balance += mainPot/maxC;
 					//pki.setBalanceColorPositive(i);
-					System.out.println(player[i].playerName + " wins " + mainPot/maxC);
+					//System.out.println(player[i].playerName + " wins " + mainPot/maxC);
 				}
 				if(player[i].balance == 0) player[i].activeInGame = false;
 			}
@@ -419,7 +421,7 @@ public class GameController {
 			for(int i = 0; i < winnerArray.length; i++) {
 				if(winnerArrayForSidePot[i] == maxForSidePot) {
 					player[i].balance += sidePot/maxForSidePotCount;
-					System.out.println(player[i].playerName + " wins " + sidePot/maxForSidePotCount);
+					//System.out.println(player[i].playerName + " wins " + sidePot/maxForSidePotCount);
 					//pki.setBalanceColorPositive(i);
 				}
 			}
@@ -428,7 +430,7 @@ public class GameController {
 				if(winnerArray[i] == max) {
 					player[i].balance += mainPot/maxC;
 					//pki.setBalanceColorPositive(i);
-					System.out.println(player[i].playerName + " wins " + mainPot/maxC);
+					//System.out.println(player[i].playerName + " wins " + mainPot/maxC);
 				}
 				if(player[i].balance == 0) player[i].activeInGame = false;
 			}
@@ -470,7 +472,11 @@ public class GameController {
 		return max;
 	}
 	public static int minWithoutZero(int[] array) {
-		int min = array[0];
+		int min = 0;
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] != 0) min = array[i];
+		}
+		
 		for(int i = 0; i < array.length; i++) {
 			if(array[i] < min && array[i] != 0) min = array[i];
 		}

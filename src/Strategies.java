@@ -51,9 +51,13 @@ public class Strategies {
 		return 0;
 	}
 	
-	int[][][][][][] strategy = new int[10][2][15][15][2][3];
+	int[][][][][][] preFlopStrategy = new int[10][2][16][16][2][3];
+	//0 - Card Rating
+	//1 - Button Position
+	//2 - BB before Hand / 5
+	//3 - Pot Size in BB
+	//4 - Was Raised
+	//5 - Fold - Call - Raise
 	
-	public int getXInBB(int n) {
-		return n/GameController.blind;
-	}
+	
 }

@@ -211,10 +211,10 @@ public class PokerKI {
 		btnPlayX = new JButton("Play X Games");
 		btnPlayX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GameController.playX(10000);
+				GameController.playX(100000);
 			}
 		});
-		btnPlayX.setBounds(frame.getWidth() - 100, 0, 100, 48);
+		btnPlayX.setBounds(frame.getWidth() - 200, 0, 200, 48);
 		btnPlayX.setBackground(Color.BLUE);
 		btnPlayX.setFont(fontMain);
 		frame.getContentPane().add(btnPlayX);
