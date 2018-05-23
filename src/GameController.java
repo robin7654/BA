@@ -357,6 +357,13 @@ public class GameController {
 				player[i].acted = false;
 			}
 			
+			try {
+				writeToTxt("|");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			//System.out.println("gameState: " + gameState);
 			//if(gameState == 1) pki.addToLog("Flop opens");
 			//else if(gameState == 2) pki.addToLog("Turn opens");
@@ -540,6 +547,14 @@ public class GameController {
 		output = new BufferedWriter(new FileWriter("ausgabe", true));
 		String stringToAppend = player[0].balance + "," + player[1].balance + "," + player[2].balance + "," + button + ",";
 		output.write(System.lineSeparator());
+		output.append(stringToAppend);
+		output.close();	
+	}
+	
+	public static void writeToTxt(String s) throws IOException{
+		Writer output;
+		output = new BufferedWriter(new FileWriter("ausgabe", true));
+		String stringToAppend = s;
 		output.append(stringToAppend);
 		output.close();	
 	}
