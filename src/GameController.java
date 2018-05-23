@@ -1,6 +1,9 @@
 import java.awt.EventQueue;
 import java.util.Random;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 public class GameController {
 	
@@ -217,6 +220,10 @@ public class GameController {
 	}
 
 	public static void moveBigBlindToNextPosition() {
+		try {
+			writeNewHandToTxt();
+		} catch (IOException e) {e.printStackTrace();}
+		
 		if(bigBlindPosition == -1) {
 			Random randomGenerator = new Random();
 			setBigBlindPosition(randomGenerator.nextInt(3));
@@ -523,6 +530,16 @@ public class GameController {
 	public static void setActiveGame(boolean b) {
 		activeGame = b;
 		pki.setButtons();
+	}
+	
+	
+	public static void writeNewHandToTxt() throws IOException{
+		Writer output;
+		output = new BufferedWriter(new FileWriter("ausgabe", true));
+		String stringToAppend = player[0].balance + "," + player[1].balance + "," + player[2].balance + ",";
+		output.write(System.lineSeparator());
+		output.append(stringToAppend);
+		output.close();	
 	}
 	
 	public static void main(String[] args) {
