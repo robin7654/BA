@@ -547,6 +547,12 @@ public class GameController {
 		output = new BufferedWriter(new FileWriter("ausgabe", true));
 		String stringToAppend = player[0].balance + "," + player[1].balance + "," + player[2].balance + "," + button + ",";
 		output.write(System.lineSeparator());
+		String cardsToAppend = "";
+		for (int i = 0; i < cardDeck.length; i++){
+			cardsToAppend += cardDeck[i] + " ";
+		}
+		output.append(cardsToAppend);
+		output.write(System.lineSeparator());
 		output.append(stringToAppend);
 		output.close();	
 	}

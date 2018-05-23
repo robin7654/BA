@@ -219,7 +219,7 @@ public class PokerKI {
 		btnPlayX = new JButton("Play X Games");
 		btnPlayX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GameController.playX(30000);
+				GameController.playX(1000);
 			}
 		});
 		btnPlayX.setBounds(frame.getWidth() - 200, 0, 200, 48);
