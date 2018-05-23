@@ -189,7 +189,7 @@ public class Player {
 		
 		//if(max > 0) {
 			if(j == 0) {
-				if(GameController.highestBet > bet) fold();
+				if(GameController.highestBet > bet) call();
 				else call();
 			}
 			else if(j == 1) {
