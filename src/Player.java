@@ -72,7 +72,7 @@ public class Player {
 		this.acted = true;
 		if(GameController.gameState == 0) actionPreFlop = 2;
 		GameController.highestBet = bet;
-		//System.out.println(playerName + " raised to " + bet);
+		System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
 	}
@@ -83,7 +83,7 @@ public class Player {
 			//System.out.println("HB:" + GameController.highestBet);
 			bet = GameController.highestBet;
 			balance -= bet;
-			//System.out.println(playerName + " called " + bet);
+			System.out.println(playerName + " called " + bet);
 			
 			try {writeActionToTxt(bet);
 			} catch (IOException e) {e.printStackTrace();}
@@ -97,7 +97,7 @@ public class Player {
 			} catch (IOException e) {e.printStackTrace();}
 			
 		}else {
-			//System.out.println(playerName + " checked");
+			System.out.println(playerName + " checked");
 		}
 		this.acted = true;
 		if(GameController.gameState == 0) actionPreFlop = 1;
@@ -110,7 +110,7 @@ public class Player {
 		
 		activeInHand = false;
 		this.acted = true;
-		//System.out.println(playerName + " folded");
+		System.out.println(playerName + " folded");
 		int[] bets = new int[3];
 		for(int i = 0; i < GameController.player.length; i++) {
 			bets[i] = GameController.player[i].bet;

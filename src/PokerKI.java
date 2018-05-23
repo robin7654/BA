@@ -155,8 +155,10 @@ public class PokerKI {
 				int amount = Integer.parseInt(textField.getText());
 				GameController.player[0].raise(amount);
 				textField.setText("");
-				GameController.getNextMove();
-				
+				while(GameController.activeHand && GameController.player[GameController.activePlayer].bot) GameController.getNextMove();
+				if(GameController.player[GameController.activePlayer].acted == true) {
+					GameController.changeGameState();
+				}
 				
 			}
 		});
@@ -176,7 +178,10 @@ public class PokerKI {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState > 3) return;
 				GameController.player[0].call();
-				GameController.getNextMove();
+				while(GameController.activeHand && GameController.player[GameController.activePlayer].bot) GameController.getNextMove();
+				if(GameController.player[GameController.activePlayer].acted == true) {
+					GameController.changeGameState();
+				}
 			}
 		});
 		btnCall.setBounds(textField.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);
@@ -189,7 +194,10 @@ public class PokerKI {
 			public void actionPerformed(ActionEvent arg0) {
 				if(GameController.gameState > 3) return;
 				GameController.player[0].fold();
-				GameController.getNextMove();
+				while(GameController.activeHand && GameController.player[GameController.activePlayer].bot) GameController.getNextMove();
+				if(GameController.player[GameController.activePlayer].acted == true) {
+					GameController.changeGameState();
+				}
 			}
 		});
 		btnFold.setBounds(btnCall.getX() - 20 - buttonWidth, frame.getHeight()-120, buttonWidth, 24);

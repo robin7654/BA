@@ -79,6 +79,9 @@ public class GameController {
 		//System.out.println("Button: " + button);
 		//System.out.println("BB: " + bigBlindPosition);
 		while(activeHand && player[activePlayer].bot) getNextMove();
+		if(player[activePlayer].acted == true) {
+			changeGameState();
+		}
 		
 		if(!player[0].bot) player[0].saveSituation();
 		
@@ -300,10 +303,13 @@ public class GameController {
 	}	
 	
 	static public void getNextMove() {
+		System.out.print(activePlayer + " " +player[activePlayer].acted + " ");
+		
 		if(player[activePlayer].acted == true) {
 			changeGameState();
-			//if(!activeHand) return;
 		}
+		
+		
 		
 		if(activeHand && player[activePlayer].activeInHand) {
 			if(!player[activePlayer].bot) player[activePlayer].saveSituation();
@@ -317,7 +323,10 @@ public class GameController {
 				player[activePlayer].acted = true;
 				//getNextMove();
 			}
-		}else if(!player[activePlayer].activeInHand) player[activePlayer].acted = true;
+		}else if(!player[activePlayer].activeInHand) {
+			player[activePlayer].acted = true;
+			changeActivePlayer();
+		}
 		pki.updateAll();
 		pki.setButtons();
 		
