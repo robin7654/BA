@@ -81,6 +81,10 @@ public class GameController {
 		
 		//System.out.println("Button: " + button);
 		//System.out.println("BB: " + bigBlindPosition);
+		
+		try {
+			writeNewHandToTxt();
+		} catch (IOException e) {e.printStackTrace();}
 		while(activeHand && player[activePlayer].bot) getNextMove();
 		if(player[activePlayer].acted == true) {
 			changeGameState();
@@ -220,9 +224,7 @@ public class GameController {
 	}
 
 	public static void moveBigBlindToNextPosition() {
-		try {
-			writeNewHandToTxt();
-		} catch (IOException e) {e.printStackTrace();}
+		
 		
 		if(bigBlindPosition == -1) {
 			Random randomGenerator = new Random();
@@ -536,7 +538,7 @@ public class GameController {
 	public static void writeNewHandToTxt() throws IOException{
 		Writer output;
 		output = new BufferedWriter(new FileWriter("ausgabe", true));
-		String stringToAppend = player[0].balance + "," + player[1].balance + "," + player[2].balance + ",";
+		String stringToAppend = player[0].balance + "," + player[1].balance + "," + player[2].balance + "," + button + ",";
 		output.write(System.lineSeparator());
 		output.append(stringToAppend);
 		output.close();	

@@ -85,20 +85,18 @@ public class Player {
 			balance -= bet;
 			System.out.println(playerName + " called " + bet);
 			
-			try {writeActionToTxt(bet);
-			} catch (IOException e) {e.printStackTrace();}
-			
 		}else if(balance + bet <= GameController.highestBet) {
 			bet += balance;
 			balance = 0;
 			allIn = true;
 			
-			try {writeActionToTxt(bet);
-			} catch (IOException e) {e.printStackTrace();}
-			
 		}else {
 			System.out.println(playerName + " checked");
 		}
+		
+		try {writeActionToTxt(bet);
+		} catch (IOException e) {e.printStackTrace();}
+		
 		this.acted = true;
 		if(GameController.gameState == 0) actionPreFlop = 1;
 		GameController.changeActivePlayer();
