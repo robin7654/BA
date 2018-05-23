@@ -53,7 +53,7 @@ public class Player {
 			bet = n;
 			balance -= bet;
 			
-			try {writeActionToTxt(playerNum, "r", bet);
+			try {writeActionToTxt(bet);
 			} catch (IOException e) {e.printStackTrace();}
 			
 		}
@@ -62,7 +62,7 @@ public class Player {
 			balance = 0;
 			allIn = true;
 			
-			try {writeActionToTxt(playerNum, "r", bet);
+			try {writeActionToTxt(bet);
 			} catch (IOException e) {e.printStackTrace();}
 		}
 		
@@ -84,10 +84,18 @@ public class Player {
 			bet = GameController.highestBet;
 			balance -= bet;
 			//System.out.println(playerName + " called " + bet);
+			
+			try {writeActionToTxt(bet);
+			} catch (IOException e) {e.printStackTrace();}
+			
 		}else if(balance + bet <= GameController.highestBet) {
 			bet += balance;
 			balance = 0;
 			allIn = true;
+			
+			try {writeActionToTxt(bet);
+			} catch (IOException e) {e.printStackTrace();}
+			
 		}else {
 			//System.out.println(playerName + " checked");
 		}
@@ -97,6 +105,9 @@ public class Player {
 	}
 	
 	public void fold(){
+		try {writeActionToTxt(-1);
+		} catch (IOException e) {e.printStackTrace();}
+		
 		activeInHand = false;
 		this.acted = true;
 		//System.out.println(playerName + " folded");
@@ -253,10 +264,10 @@ public class Player {
 	
 	
 	
-	public void writeActionToTxt(int playersNumber, String action, int amount) throws IOException{
+	public void writeActionToTxt(int amount) throws IOException{
 		Writer output;
 		output = new BufferedWriter(new FileWriter("ausgabe", true));
-		String actionToAppend = playersNumber + action + amount  + " ";
+		String actionToAppend = amount + "," ;
 		output.append(actionToAppend);
 		//output.write(System.lineSeparator());
 		output.close();	
