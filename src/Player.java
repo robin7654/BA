@@ -1,4 +1,13 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Random;
+
+//import java.io.IOException;
+//import java.io.Writer;
+//import java.io.BufferedWriter;
+//import java.io.FileWriter;
 
 public class Player {
 	String playerName;
@@ -43,11 +52,18 @@ public class Player {
 			balance += bet;
 			bet = n;
 			balance -= bet;
+			
+			try {writeActionToTxt(playerNum, "r", bet);
+			} catch (IOException e) {e.printStackTrace();}
+			
 		}
 		else {
 			bet += balance;
 			balance = 0;
 			allIn = true;
+			
+			try {writeActionToTxt(playerNum, "r", bet);
+			} catch (IOException e) {e.printStackTrace();}
 		}
 		
 		for(int i = 0; i < GameController.player.length; i++) {
@@ -235,6 +251,16 @@ public class Player {
 		GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][actionPreFlop] += balance - balancePreFlop;
 	}
 	
+	
+	
+	public void writeActionToTxt(int playersNumber, String action, int amount) throws IOException{
+		Writer output;
+		output = new BufferedWriter(new FileWriter("ausgabe", true));
+		String actionToAppend = playersNumber + action + amount  + " ";
+		output.append(actionToAppend);
+		//output.write(System.lineSeparator());
+		output.close();	
+	}
 	
 	
 }

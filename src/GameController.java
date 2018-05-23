@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.util.Random;
 
+
 public class GameController {
 	
 	public static Deck deck = new Deck();
@@ -526,11 +527,16 @@ public class GameController {
 				}
 			}
 		});
+		
+		
+		
+	
 		// TODO Auto-generated method stub
 		/*for(int i = 0; i < 1000; i++) {
 			str.strategy[1][1][1][1][1][1] += 1;
 			System.out.println(str.strategy[1][1][1][1][1][1]);
 		}*/
 	}
+
 
 }
