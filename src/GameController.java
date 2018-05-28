@@ -1,6 +1,8 @@
 import java.awt.EventQueue;
 import java.util.Random;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -85,6 +87,8 @@ public class GameController {
 		try {
 			writeNewHandToTxt();
 		} catch (IOException e) {e.printStackTrace();}
+		
+		
 		while(activeHand && player[activePlayer].bot) getNextMove();
 		if(player[activePlayer].acted == true) {
 			changeGameState();
@@ -343,6 +347,14 @@ public class GameController {
 	}
 	public static void changeGameState() {
 		if(gameState < 4) {
+			
+			try {
+				writeToTxt(player[0].bet + "," + player[1].bet + "," + player[2].bet + "|");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			calcPot();
 			player[0].bet = 0;
 			player[1].bet = 0;
@@ -357,12 +369,7 @@ public class GameController {
 				player[i].acted = false;
 			}
 			
-			try {
-				writeToTxt("|");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			
 			//System.out.println("gameState: " + gameState);
 			//if(gameState == 1) pki.addToLog("Flop opens");
@@ -416,11 +423,27 @@ public class GameController {
 			pki.setButtons();
 			pki.updateAll();
 			
-			for(int i = 0; i < player.length; i++) {
+			/*for(int i = 0; i < player.length; i++) {
 				player[i].writeSituation();
-			}
+			}*/
 			
 			if(!isActiveGame()) setActiveGame(false);
+			
+			try {
+				writeBalanceToTxt();
+				writeNewLineToTxt();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				readFromTxt();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}else if(gameState == 5){
 				
 		}
@@ -542,19 +565,39 @@ public class GameController {
 	}
 	
 	
-	public static void writeNewHandToTxt() throws IOException{
+	public static void writeNewHandToTxt() throws IOException{		
+		writeCardsToTxt();
+		writeNewLineToTxt();
+		writeBalanceToTxt();
+		writeToTxt(button + "|");
+		writeToTxt(blind + "|");
+	}
+	
+	public static void writeBalanceToTxt() throws IOException{
+		
 		Writer output;
 		output = new BufferedWriter(new FileWriter("ausgabe", true));
-		String stringToAppend = player[0].balance + "," + player[1].balance + "," + player[2].balance + "," + button + ",";
-		output.write(System.lineSeparator());
-		String cardsToAppend = "";
-		for (int i = 0; i < cardDeck.length; i++){
-			cardsToAppend += cardDeck[i] + " ";
-		}
-		output.append(cardsToAppend);
-		output.write(System.lineSeparator());
+		String stringToAppend = (player[0].balance + player[0].bet) + "," + (player[1].balance + player[1].bet) + "," + (player[2].balance + player[2].bet) + "|";
 		output.append(stringToAppend);
-		output.close();	
+		output.close();
+	}
+	
+	public static void writeCardsToTxt() throws IOException{
+		Writer output;
+		output = new BufferedWriter(new FileWriter("ausgabe", true));
+		String stringToAppend = "";
+		for (int i = 0; i < cardDeck.length; i++){
+			stringToAppend += cardDeck[i] + " ";
+		}
+		output.append(stringToAppend);
+		output.close();
+	}
+	
+	public static void writeNewLineToTxt() throws IOException{
+		Writer output;
+		output = new BufferedWriter(new FileWriter("ausgabe", true));
+		output.write(System.lineSeparator());
+		output.close();
 	}
 	
 	public static void writeToTxt(String s) throws IOException{
@@ -563,6 +606,28 @@ public class GameController {
 		String stringToAppend = s;
 		output.append(stringToAppend);
 		output.close();	
+	}
+	
+	public static void readFromTxt() throws IOException {
+		FileReader fr = new FileReader("ausgabe");
+		BufferedReader br = new BufferedReader(fr);
+		
+		String line0 = br.readLine();
+		String line1 = br.readLine();
+ 		while(line0 != null) {
+			str.writeInArray(line0, line1);
+			
+			//System.out.println(line0 + " " + line1);
+			try {
+				line0 = br.readLine();
+				line1 = br.readLine();
+			}catch(Exception e) {
+				
+			}
+			
+		}
+ 		
+ 		br.close();
 	}
 	
 	public static void main(String[] args) {
