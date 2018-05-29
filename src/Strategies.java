@@ -80,6 +80,13 @@ public class Strategies {
 	//3 - Pot Size in BB
 	//4 - Was Raised
 	//5 - Fold - Call - Raise
+	int[][][][][][] flopStrategy = new int[8][3][3][10][2][3];
+	//kartenbild
+	//board pair
+	//karten gleicher farbe
+	//höchste karte
+	//wurde geraist
+	//fold call raise
 	
 	public void writeInArray(String line0, String line1) {
 		
@@ -90,14 +97,15 @@ public class Strategies {
 		String[] info = line1.split("\\|");
 		
 		for(int i = 0; i < 3; i++) {
-			preFlopStrategy
-			[getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)]))]
-					[getButton(i, Integer.parseInt(info[1]))]
-							[playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2]))]
-									[potSizeAtPreFlop(info[3])/Integer.parseInt(info[2])]
-											[getWasRaisedBySomeoneElse(i)]
-													[GameController.player[i].actionPreFlop] 
-															+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
+			int cardRating = getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)]));
+			int button = getButton(i, Integer.parseInt(info[1]));
+			int playerBB = playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2]));
+			int potSizeAtPreFlop = potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]);
+			int WasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i);
+			int actionPreFlop = GameController.player[i].actionPreFlop;
+			
+			preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][WasRaisedBySomeoneElse][actionPreFlop] 
+					+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
 			System.out.println(getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)])));
 			System.out.println(getButton(i, Integer.parseInt(info[1])));
@@ -106,6 +114,7 @@ public class Strategies {
 			System.out.println(getWasRaisedBySomeoneElse(i));
 			System.out.println(GameController.player[i].actionPreFlop);
 			System.out.println(GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
+			System.out.println(preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][WasRaisedBySomeoneElse][actionPreFlop] );
 		}
 		
 		

@@ -320,10 +320,7 @@ public class GameController {
 		
 		if(player[activePlayer].acted == true) {
 			changeGameState();
-		}
-		
-		
-		
+		}	
 		if(activeHand && player[activePlayer].activeInHand) {
 			if(!player[activePlayer].bot) player[activePlayer].saveSituation();
 			if(player[activePlayer].bot && player[activePlayer].acted == false) {
