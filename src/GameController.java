@@ -426,6 +426,7 @@ public class GameController {
 			
 			if(!isActiveGame()) setActiveGame(false);
 			
+			
 			try {
 				writeBalanceToTxt();
 				writeNewLineToTxt();

@@ -1,5 +1,8 @@
 
 public class Strategies {
+	
+	CollectedData cD = new CollectedData();
+	
 	int[][] range = {
 //	     A K Q J T  9 8 7 6 5  4 3 2
 		{1,2,2,2,2, 3,3,3,3,3, 3,3,3},	//A
@@ -102,20 +105,27 @@ public class Strategies {
 			int button = getButton(i, Integer.parseInt(info[1]));
 			int playerBB = playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2]));
 			int potSizeAtPreFlop = potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]);
-			int WasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i);
+			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i);
 			int actionPreFlop = GameController.player[i].actionPreFlop;
+			int value = (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
-			preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][WasRaisedBySomeoneElse][actionPreFlop] 
-					+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
+			//preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] 
+			//		+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
-			System.out.println(getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)])));
-			System.out.println(getButton(i, Integer.parseInt(info[1])));
-			System.out.println(playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2])));
-			System.out.println(potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]));
-			System.out.println(getWasRaisedBySomeoneElse(i));
-			System.out.println(GameController.player[i].actionPreFlop);
-			System.out.println(GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
-			System.out.println(preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][WasRaisedBySomeoneElse][actionPreFlop] );
+			cD.createEntry(value, cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
+			
+			
+			
+			System.out.println(cD.getEntry(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop));
+			
+//			System.out.println(getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)])));
+//			System.out.println(getButton(i, Integer.parseInt(info[1])));
+//			System.out.println(playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2])));
+//			System.out.println(potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]));
+//			System.out.println(getWasRaisedBySomeoneElse(i));
+//			System.out.println(GameController.player[i].actionPreFlop);
+//			System.out.println(GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
+//			System.out.println(preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] );
 		}
 
 		/*System.out.println(cards.length);

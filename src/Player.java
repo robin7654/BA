@@ -160,7 +160,8 @@ public class Player {
 		int n = 0;
 		int j = 0;
 		for(int i = 0; i < 3; i++) {
-			n = GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][i];
+			//n = GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][i];
+			n = GameController.str.cD.getEntry(GameController.str.getRating(card1, card2), hasButton, bbPreFlopFifth, potSizeInBBPreFlopFifth, wasActionPreFlop, i);
 			//System.out.println(n);
 			if(n > max) {
 				max = n;

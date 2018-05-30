@@ -10,7 +10,7 @@ public class CollectedData {
 	private int wasRaisedBySomeoneElse;
 	private int actionPreFlop;
 	
-	Map<CollectedData, Integer> map = new HashMap<CollectedData, Integer>();
+	static Map<CollectedData, Integer> map = new HashMap<CollectedData, Integer>();
 	
 	public int getCardRating() { return cardRating; }
 	public int getButton() { return button; }
@@ -29,16 +29,25 @@ public class CollectedData {
 		this.actionPreFlop = f;
 	}
 	
+	public CollectedData() {
+		
+	}
+
+	
+	
 	
 	public void createEntry(int value, int a, int b, int c, int d, int e, int f){
-		CollectedData collectedData = new CollectedData(a, b, c, d, e, f);
-		
-		map.put(collectedData, value);	
+		//CollectedData collectedData = new CollectedData(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
+		try {
+			map.put(new CollectedData(a,b,c,d,e,f), this.getEntry(a,b,c,d,e,f) + value);
+		}catch(Exception z) {
+			map.put(new CollectedData(a,b,c,d,e,f), value);
+		}
 	}
 	
 	public int getEntry(int a, int b, int c, int d, int e, int f){
-		int mapValue = map.get(new CollectedData(a, b, c, d, e, f));
-		return mapValue;
+			int mapValue = map.get(new CollectedData(a,b,c,d,e,f));
+			return mapValue;
 	}
 
 
@@ -58,7 +67,7 @@ public class CollectedData {
 		}
 		return false ; 
 	}
-
+	
 	@Override
 	public int hashCode(){
 		int hash = 17;
