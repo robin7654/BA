@@ -1,11 +1,5 @@
-
-
 import java.util.Random;
 
-//import java.io.IOException;
-//import java.io.Writer;
-//import java.io.BufferedWriter;
-//import java.io.FileWriter;
 
 public class Player {
 	String playerName;

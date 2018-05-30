@@ -48,8 +48,7 @@ public class Strategies {
 	public int playerBB(int balance0, int bb){
 		return balance0/(bb*5); 
 	}
-	
-	
+
 	public int getPotSizeInBB() {
 		int pot = 0;
 		for(int i = 0; i < GameController.player.length; i++) {
@@ -60,7 +59,9 @@ public class Strategies {
 	public int potSizeAtPreFlop(String bets) {
 		return Integer.parseInt(bets.split(",")[0]) + Integer.parseInt(bets.split(",")[1]) + Integer.parseInt(bets.split(",")[2]);
 	}
-	
+	public int cardCombination(int[] cards){
+		return DetermineWinner.playersHand(cards)[0];
+	}
 	
 	public int getWasRaised() {
 		if(GameController.highestBet > GameController.blind) return 1;
@@ -116,9 +117,7 @@ public class Strategies {
 			System.out.println(GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			System.out.println(preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][WasRaisedBySomeoneElse][actionPreFlop] );
 		}
-		
-		
-		
+
 		/*System.out.println(cards.length);
 		for(int i = 0; i < cards.length; i++) {
 			System.out.print(cards[i]);

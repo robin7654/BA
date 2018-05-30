@@ -70,13 +70,11 @@ public class DetermineWinner {
 //		isFlush(cards, 2);
 //		isFlush(cards, 3);
 //
-//		//int [] test = {8,28,32,37,43,26,29};
 //		isHighCard(cards);
 //		isPair(cards);
 //		isTwoPair(cards);
 //		isTrips(cards);
 //		isStraight(cards);
-//		//isStraight(test);
 //		isFull(cards);
 //		isQuads(cards);
 
