@@ -4,6 +4,7 @@ import java.awt.Font;
 import javax.swing.*;
 
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class PokerKI {
@@ -62,6 +63,7 @@ public class PokerKI {
 	static JButton btnStartNewGame;
 	static JButton btnExit;
 	static JButton btnPlayX;
+	static JButton btnLoadFromTxt;
 	
 	public void setCCButton() {
 		if(!GameController.activeGame) {
@@ -226,6 +228,22 @@ public class PokerKI {
 		btnPlayX.setBackground(Color.BLUE);
 		btnPlayX.setFont(fontMain);
 		frame.getContentPane().add(btnPlayX);
+		
+		btnLoadFromTxt = new JButton("Load");
+		btnLoadFromTxt.setBounds(0,0,100,48);
+		btnLoadFromTxt.setFont(fontMain);
+		btnLoadFromTxt.setBackground(Color.BLUE);
+		btnLoadFromTxt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					GameController.readFromTxt();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		frame.getContentPane().add(btnLoadFromTxt);
 		
 
 		lblBoard2.setBounds((frame.getWidth()/2) - 83/2, frame.getHeight()/4, 83, 117);

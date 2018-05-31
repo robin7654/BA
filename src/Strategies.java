@@ -72,7 +72,7 @@ public class Strategies {
 	}
 	
 	public int getWasRaisedBySomeoneElse(int playerNum) {
-		if(GameController.player[GameController.getNextPlayerNum(playerNum)].actionPreFlop == 2 || GameController.player[GameController.getNextPlayerNum(GameController.getNextPlayerNum(playerNum))].actionPreFlop == 2)
+		if(GameController.player[GameController.getNextPlayerNum(playerNum)].action == 2 || GameController.player[GameController.getNextPlayerNum(GameController.getNextPlayerNum(playerNum))].action == 2)
 			return 1;
 		return 0;
 	}
@@ -106,7 +106,7 @@ public class Strategies {
 			int playerBB = playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2]));
 			int potSizeAtPreFlop = potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i);
-			int actionPreFlop = GameController.player[i].actionPreFlop;
+			int actionPreFlop = GameController.player[i].action;
 			int value = (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
 			//preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] 

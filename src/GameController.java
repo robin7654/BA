@@ -347,6 +347,7 @@ public class GameController {
 			
 			try {
 				writeToTxt(player[0].bet + "," + player[1].bet + "," + player[2].bet + "|");
+				writeToTxt(player[0].action + "," + player[1].action + "," + player[2].action + "|");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -435,12 +436,12 @@ public class GameController {
 				e.printStackTrace();
 			}
 			
-			try {
+			/*try {
 				readFromTxt();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			
 		}else if(gameState == 5){
 				

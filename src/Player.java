@@ -17,7 +17,7 @@ public class Player {
 	int balancePreFlop = 0;
 	int bbPreFlopFifth = 0;
 	int potSizeInBBPreFlopFifth = 0;
-	int actionPreFlop = 0;
+	int action = 0;
 	int hasButton = 0;
 	int wasActionPreFlop = 0;
 	int card1, card2;
@@ -57,7 +57,7 @@ public class Player {
 			GameController.player[i].acted = false;
 		}
 		this.acted = true;
-		if(GameController.gameState == 0) actionPreFlop = 2;
+		action = 2;
 		GameController.highestBet = bet;
 		System.out.println(playerName + " raised to " + bet);
 		
@@ -82,7 +82,7 @@ public class Player {
 		}
 		
 		this.acted = true;
-		if(GameController.gameState == 0) actionPreFlop = 1;
+		action = 1;
 		GameController.changeActivePlayer();
 	}
 	
@@ -109,7 +109,7 @@ public class Player {
 		}
 		
 		GameController.changeActivePlayer();
-		if(GameController.gameState == 0) actionPreFlop = 0;
+		action = 0;
 	}
 	
 	public void setBlind(int n) {
@@ -161,7 +161,11 @@ public class Player {
 		int j = 0;
 		for(int i = 0; i < 3; i++) {
 			//n = GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][i];
-			n = GameController.str.cD.getEntry(GameController.str.getRating(card1, card2), hasButton, bbPreFlopFifth, potSizeInBBPreFlopFifth, wasActionPreFlop, i);
+			try {
+				n = GameController.str.cD.getEntry(GameController.str.getRating(card1, card2), hasButton, bbPreFlopFifth, potSizeInBBPreFlopFifth, wasActionPreFlop, i);
+			}catch(Exception e) {
+				
+			}
 			//System.out.println(n);
 			if(n > max) {
 				max = n;
