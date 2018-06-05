@@ -102,6 +102,8 @@ public class Strategies {
 		String[] cards = line0.split(" ");
 		String[] info = line1.split("\\|");
 		
+
+		
 		for(int i = 0; i < 3; i++) {
 			int cardRating = getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)]));
 			int button = getButton(i, Integer.parseInt(info[1]));
@@ -114,20 +116,9 @@ public class Strategies {
 			//preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] 
 			//		+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
-			cD.createEntry(value, cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
+			cD.createEntry(value, actionPreFlop, playerBB, cardRating, wasRaisedBySomeoneElse, button, potSizeAtPreFlop);
+			//reihenfolge  GameController.player[i].action; verändern
 			
-			
-			
-			System.out.println(cD.getEntry(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop));
-			
-//			System.out.println(getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)])));
-//			System.out.println(getButton(i, Integer.parseInt(info[1])));
-//			System.out.println(playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2])));
-//			System.out.println(potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]));
-//			System.out.println(getWasRaisedBySomeoneElse(i));
-//			System.out.println(GameController.player[i].actionPreFlop);
-//			System.out.println(GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
-//			System.out.println(preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] );
 		}
 
 		/*System.out.println(cards.length);
