@@ -59,8 +59,8 @@ public class Strategies {
 		}
 		return ((GameController.mainPot + pot)/GameController.blind)/5;
 	}
-	public int potSizeAtPreFlop(String bets) {
-		return Integer.parseInt(bets.split(",")[0]) + Integer.parseInt(bets.split(",")[1]) + Integer.parseInt(bets.split(",")[2]);
+	public int potSizeAtPreFlopFifth(String bets) {
+		return (Integer.parseInt(bets.split(",")[0]) + Integer.parseInt(bets.split(",")[1]) + Integer.parseInt(bets.split(",")[2]))/5;
 	}
 	public int cardCombination(int[] cards){
 		return DetermineWinner.playersHand(cards)[0];
@@ -71,9 +71,11 @@ public class Strategies {
 		return 0;
 	}
 	
-	public int getWasRaisedBySomeoneElse(int playerNum) {
-		if(GameController.player[GameController.getNextPlayerNum(playerNum)].action == 2 || GameController.player[GameController.getNextPlayerNum(GameController.getNextPlayerNum(playerNum))].action == 2)
+	public int getWasRaisedBySomeoneElse(int playerNum, String s) {
+		if(Integer.parseInt(s.split(",")[0]) == 2 || Integer.parseInt(s.split(",")[1]) == 2 || Integer.parseInt(s.split(",")[2]) == 2) {
+			if(Integer.parseInt(s.split(",")[playerNum]) == 2) return 0;
 			return 1;
+		}
 		return 0;
 	}
 	
@@ -108,15 +110,15 @@ public class Strategies {
 			int cardRating = getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)]));
 			int button = getButton(i, Integer.parseInt(info[1]));
 			int playerBB = playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2]));
-			int potSizeAtPreFlop = potSizeAtPreFlop(info[3])/Integer.parseInt(info[2]);
-			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i);
+			int potSizeAtPreFlopFifthInBB = potSizeAtPreFlopFifth(info[3])/Integer.parseInt(info[2]);
+			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, info[4]);
 			int actionPreFlop = GameController.player[i].action;
 			int value = (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
 			//preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] 
 			//		+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
-			cD.createEntry(value, actionPreFlop, playerBB, cardRating, wasRaisedBySomeoneElse, button, potSizeAtPreFlop);
+			cD.createEntry(value, actionPreFlop, playerBB, cardRating, wasRaisedBySomeoneElse, button, potSizeAtPreFlopFifthInBB);
 			//reihenfolge  GameController.player[i].action; verändern
 			
 		}
