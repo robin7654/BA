@@ -225,37 +225,11 @@ public class Player {
 	
 	public int getSimilarPotSituationAverage(int a, int b, int c, int d, int e, int f) {
 		for(int i = 0; i < 3; i++) {
-				if(GameController.str.cD.getEntry(
-						a,
-						b,
-						c,
-						d,
-						e,
-						f+i) != null) {
-					return GameController.str.cD.getEntry(
-							a,
-							b,
-							c,
-							d,
-							e,
-							f+i).getRewardAverage();
-				}
+				if(GameController.str.cD.getEntry(a,b,c,d,e,f+i) != null)
+					return GameController.str.cD.getEntry(a,b,c,d,e,f+i).getRewardAverage();
 					
-				if(GameController.str.cD.getEntry(
-						a,
-						b,
-						c,
-						d,
-						e,
-						f-i) != null) {
-					return GameController.str.cD.getEntry(
-							a,
-							b,
-							c,
-							d,
-							e,
-							f-i).getRewardAverage();
-				}
+				if(GameController.str.cD.getEntry(a,b,c,d,e,f-i) != null)
+					return GameController.str.cD.getEntry(a,b,c,d,e,f-i).getRewardAverage();
 		}
 		return Integer.MIN_VALUE;
 	}
