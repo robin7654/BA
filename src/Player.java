@@ -162,7 +162,7 @@ public class Player {
 		for(int i = 0; i < 3; i++) {
 			//n = GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][i];
 			try {
-				n = GameController.str.cD.getEntry(GameController.str.getRating(card1, card2), hasButton, bbPreFlopFifth, potSizeInBBPreFlopFifth, wasActionPreFlop, i);
+				n = GameController.str.cD.getEntry(GameController.str.getRating(card1, card2), hasButton, bbPreFlopFifth, potSizeInBBPreFlopFifth, wasActionPreFlop, i).getRewardValue();
 			}catch(Exception e) {
 				
 			}
