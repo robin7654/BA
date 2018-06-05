@@ -10,7 +10,7 @@ public class CollectedData {
 	private int wasRaisedBySomeoneElse;
 	private int actionPreFlop;
 	
-	static Map<CollectedData, Integer> map = new HashMap<CollectedData, Integer>();
+	static Map<CollectedData, RewardEntry> map = new HashMap<CollectedData, RewardEntry>();
 	
 	public int getCardRating() { return cardRating; }
 	public int getButton() { return button; }
@@ -33,15 +33,13 @@ public class CollectedData {
 		
 	}
 
-	
-	
-	
 	public void createEntry(int value, int a, int b, int c, int d, int e, int f){
 		//CollectedData collectedData = new CollectedData(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
 		try {
 			map.put(new CollectedData(a,b,c,d,e,f), this.getEntry(a,b,c,d,e,f) + value);
 		}catch(Exception z) {
-			map.put(new CollectedData(a,b,c,d,e,f), value);
+			RewardEntry rewEnt = new RewardEntry();
+			map.put(new CollectedData(a,b,c,d,e,f), rewEnt);
 		}
 	}
 	

@@ -14,7 +14,6 @@ public class RewardEntry {
 		this.rewardVariance = 0;
 		this.individualRewards = new ArrayList<>();
 	}
-	
 	public void addEntry(int value){
 		rewardCount =  rewardCount +1;
 		rewardValue = rewardValue + value;
@@ -29,6 +28,7 @@ public class RewardEntry {
 		for (int valueInList: individualRewards){
 			rewardVariance += Math.pow(valueInList - averageOfEntryValues, 2);
 		}
+		rewardVariance = rewardVariance/rewardCount;
 	}
 	public double getRewardVariance(){
 		return rewardVariance;
@@ -36,8 +36,4 @@ public class RewardEntry {
 	public int getRewardValue(){
 		return rewardValue;
 	}
-	
-	
-
-	
 }
