@@ -36,11 +36,14 @@ public class CollectedData {
 	public void createEntry(int value, int a, int b, int c, int d, int e, int f){
 		//CollectedData collectedData = new CollectedData(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
 		try {
-			RewardEntry rewEnt = this.getEntry(a,b,c,d,e,f).addEntry(value);
+			
+			RewardEntry rewEnt = map.get(new CollectedData(a,b,c,d,e,f));
+			rewEnt.addEntry(value);
+			
+			
 			map.put(new CollectedData(a,b,c,d,e,f), rewEnt);
 		}catch(Exception z) {
-			RewardEntry rewEnt = new RewardEntry(value);
-			map.put(new CollectedData(a,b,c,d,e,f), rewEnt);
+			map.put(new CollectedData(a,b,c,d,e,f), new RewardEntry(value));
 		}
 	}
 	
