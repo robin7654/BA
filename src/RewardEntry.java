@@ -5,6 +5,7 @@ public class RewardEntry {
 	
 	int rewardCount;
 	int rewardValue;
+	double rewardAverage;
 	double rewardVariance;
 	ArrayList<Integer> individualRewards;
 	
@@ -19,16 +20,19 @@ public class RewardEntry {
 		rewardValue = rewardValue + value;
 		rewardVariance = 0;
 		int sumOfEntryValues = 0;
-		double averageOfEntryValues = 0;
+		rewardAverage = 0;
 		individualRewards.add(value);
 		for (int valueInList: individualRewards){
 			sumOfEntryValues += valueInList;
 		}
-		averageOfEntryValues = sumOfEntryValues / rewardCount;
+		rewardAverage = sumOfEntryValues / rewardCount;
 		for (int valueInList: individualRewards){
-			rewardVariance += Math.pow(valueInList - averageOfEntryValues, 2);
+			rewardVariance += Math.pow(valueInList - rewardAverage, 2);
 		}
 		rewardVariance = rewardVariance/rewardCount;
+	}
+	public int getRewardAverage(){
+		return (int) rewardAverage;
 	}
 	public double getRewardVariance(){
 		return rewardVariance;
@@ -36,4 +40,5 @@ public class RewardEntry {
 	public int getRewardValue(){
 		return rewardValue;
 	}
+
 }
