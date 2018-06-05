@@ -37,13 +37,13 @@ public class CollectedData {
 		//CollectedData collectedData = new CollectedData(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
 		try {
 			
-			RewardEntry rewEnt = this.getEntry(a,b,c,d,e,f)
+			RewardEntry rewEnt = map.get(new CollectedData(a,b,c,d,e,f));
+			rewEnt.addEntry(value);
 			
 			
-			map.put(new CollectedData(a,b,c,d,e,f), this.getEntry(a,b,c,d,e,f) + value);
-		}catch(Exception z) {
-			RewardEntry rewEnt = new RewardEntry();
 			map.put(new CollectedData(a,b,c,d,e,f), rewEnt);
+		}catch(Exception z) {
+			map.put(new CollectedData(a,b,c,d,e,f), new RewardEntry(value));
 		}
 	}
 	
