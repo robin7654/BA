@@ -8,9 +8,9 @@ public class RewardEntry {
 	double rewardVariance;
 	ArrayList<Integer> individualRewards;
 	
-	public RewardEntry(){
-		this.rewardCount = 0;
-		this.rewardValue = 0;
+	public RewardEntry(int v){
+		this.rewardCount = 1;
+		this.rewardValue = v;
 		this.rewardVariance = 0;
 		this.individualRewards = new ArrayList<>();
 	}
