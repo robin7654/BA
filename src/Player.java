@@ -19,7 +19,7 @@ public class Player {
 	int potSizeInBBPreFlopFifth = 0;
 	int action = 0;
 	int hasButton = 0;
-	int wasActionPreFlop = 0;
+	int wasRaisedBySomeoneElse = 0;
 	int card1, card2;
 	int timesF = 0;
 	int timesC = 0;
@@ -161,11 +161,13 @@ public class Player {
 		int j = 0;
 		for(int i = 0; i < 3; i++) {
 			//n = GameController.str.preFlopStrategy[GameController.str.getRating(card1, card2)][hasButton][bbPreFlopFifth][potSizeInBBPreFlopFifth][wasActionPreFlop][i];
-			try {
-				n = GameController.str.cD.getEntry(GameController.str.getRating(card1, card2), hasButton, bbPreFlopFifth, potSizeInBBPreFlopFifth, wasActionPreFlop, i).getRewardValue();
-			}catch(Exception e) {
-				
-			}
+			n = getSimilarSituationAverage(
+					i,
+					bbPreFlopFifth,
+					GameController.str.getRating(card1, card2),
+					wasRaisedBySomeoneElse,
+					hasButton,
+					potSizeInBBPreFlopFifth);
 			//System.out.println(n);
 			if(n > max) {
 				max = n;
@@ -208,6 +210,56 @@ public class Player {
 		}*/
 	}
 	
+	public int getSimilarSituationAverage(int a, int b, int c, int d, int e, int f) {
+		return getSimilarButtonSituationAverage(a, b, c, d, e, f);
+	}
+	
+	public int getSimilarButtonSituationAverage(int a, int b, int c, int d, int e, int f) {
+		if(getSimilarPotSituationAverage(a,b,c,d,e,f) > Integer.MIN_VALUE) {
+			return getSimilarPotSituationAverage(a,b,c,d,e,f);
+		}else if(getSimilarPotSituationAverage(a,b,c,d,1 - e,f) > Integer.MIN_VALUE){
+			return getSimilarPotSituationAverage(a,b,c,d,1 - e,f);
+		}
+		return Integer.MIN_VALUE;
+	}
+	
+	public int getSimilarPotSituationAverage(int a, int b, int c, int d, int e, int f) {
+		for(int i = 0; i < 3; i++) {
+				if(GameController.str.cD.getEntry(
+						a,
+						b,
+						c,
+						d,
+						e,
+						f+i) != null) {
+					return GameController.str.cD.getEntry(
+							a,
+							b,
+							c,
+							d,
+							e,
+							f+i).getRewardAverage();
+				}
+					
+				if(GameController.str.cD.getEntry(
+						a,
+						b,
+						c,
+						d,
+						e,
+						f-i) != null) {
+					return GameController.str.cD.getEntry(
+							a,
+							b,
+							c,
+							d,
+							e,
+							f-i).getRewardAverage();
+				}
+		}
+		return Integer.MIN_VALUE;
+	}
+	
 	public void saveSituation() {
 		if(GameController.gameState == 0) {
 			if(playerNum == 0) {
@@ -235,8 +287,8 @@ public class Player {
 			
 			potSizeInBBPreFlopFifth = (potSizeInBBPreFlopFifth/GameController.blind)/5;
 			
-			if(GameController.highestBet > GameController.blind) wasActionPreFlop = 1;
-			else wasActionPreFlop = 0;
+			if(GameController.highestBet > bet) wasRaisedBySomeoneElse = 1;
+			else wasRaisedBySomeoneElse = 0;
 			
 		}
 	}
