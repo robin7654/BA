@@ -3,30 +3,34 @@ import java.util.Map;
 
 
 public class CollectedData {
-	private int cardRating;
-	private int button;
-	private int playerBB;
-	private int potSizeAtPreFlop;
-	private int wasRaisedBySomeoneElse;
+
 	private int actionPreFlop;
+	private int playerBB;
+	private int cardRating;
+	private int wasRaisedBySomeoneElse;
+	private int button;
+	private int potSizeAtPreFlop;
+	
+	
 	
 	static Map<CollectedData, RewardEntry> map = new HashMap<CollectedData, RewardEntry>();
 	
-	public int getCardRating() { return cardRating; }
-	public int getButton() { return button; }
-	public int getPlayerBB() { return playerBB; }
-	public int getPotSizeAtPreFlop() { return potSizeAtPreFlop; }
-	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
 	public int getActionPreFlop() { return actionPreFlop; }
+	public int getPlayerBB() { return playerBB; }
+	public int getCardRating() { return cardRating; }
+	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
+	public int getButton() { return button; }
+	public int getPotSizeAtPreFlop() { return potSizeAtPreFlop; }
 	
+
 	
 	public CollectedData(int a, int b, int c, int d, int e, int f){
-		this.cardRating = a;
-		this.button = b;
-		this.playerBB = c;
-		this.potSizeAtPreFlop = d;
-		this.wasRaisedBySomeoneElse = e;
-		this.actionPreFlop = f;
+		this.actionPreFlop = a;
+		this.playerBB = b;
+		this.cardRating = c;
+		this.wasRaisedBySomeoneElse = d;
+		this.button = e;
+		this.potSizeAtPreFlop = f;
 	}
 	
 	public CollectedData() {
@@ -53,17 +57,22 @@ public class CollectedData {
 	}
 
 
+	
+
 	@Override
 	public boolean equals(Object obj){
 		if (obj != null && obj instanceof CollectedData){
 			CollectedData dataObj = (CollectedData) obj;
 			
-			boolean propertyA = cardRating == dataObj.getCardRating();
-			boolean propertyB = button == dataObj.getButton();
-			boolean propertyC = playerBB == dataObj.getPlayerBB();
-			boolean propertyD =	potSizeAtPreFlop == dataObj.getPotSizeAtPreFlop();
-			boolean propertyE = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
- 			boolean propertyF = actionPreFlop == dataObj.getActionPreFlop();
+			
+			boolean propertyA = actionPreFlop == dataObj.getActionPreFlop();
+			boolean propertyB = playerBB == dataObj.getPlayerBB();
+			boolean propertyC = cardRating == dataObj.getCardRating();
+			boolean propertyD = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
+			boolean propertyE = button == dataObj.getButton();
+			boolean propertyF =	potSizeAtPreFlop == dataObj.getPotSizeAtPreFlop();
+			
+ 			
 
 			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF;
 		}
@@ -73,16 +82,13 @@ public class CollectedData {
 	@Override
 	public int hashCode(){
 		int hash = 17;
-		hash = hash * 31 * cardRating;
-		hash = hash * 31 * button;
-		hash = hash * 31 * playerBB;
-		hash = hash * 31 * potSizeAtPreFlop;
-		hash = hash * 31 * wasRaisedBySomeoneElse;			
 		hash = hash * 31 * actionPreFlop;
+		hash = hash * 31 * playerBB;
+		hash = hash * 31 * cardRating;
+		hash = hash * 31 * wasRaisedBySomeoneElse;
+		hash = hash * 31 * button;			
+		hash = hash * 31 * potSizeAtPreFlop;
 		return hash; 
 	}
 
-	
-	
-	
 }

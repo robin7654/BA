@@ -79,10 +79,10 @@ public class Strategies {
 	
 	int[][][][][][] preFlopStrategy = new int[10][2][16][16][2][3];
 	//0 - Card Rating
-	//1 - Button Position
+	//1 - Button Position 	-
 	//2 - BB before Hand / 5
-	//3 - Pot Size in BB
-	//4 - Was Raised
+	//3 - Pot Size in BB    - 
+	//4 - Was Raised		- 
 	//5 - Fold - Call - Raise
 	int[][][][][][] flopStrategy = new int[8][3][3][10][2][3];
 	//kartenbild
@@ -91,6 +91,8 @@ public class Strategies {
 	//höchste karte
 	//wurde geraist
 	//fold call raise
+	
+
 	
 	public void writeInArray(String line0, String line1) {
 		
@@ -138,9 +140,7 @@ public class Strategies {
 		for(int i = 0; i < info.length; i++) {
 			System.out.println(info[i]);
 		}*/
-		
-		
-		
+
 	}
 	
 }
