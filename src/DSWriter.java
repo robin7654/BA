@@ -148,7 +148,7 @@ public class DSWriter {
 			int highestBoardCard = highestBoardCard(turn);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnTurn);
 			int highestBoardCardIsInHandCombination = highestCardInHandCombination(turn, holeCards[i*2], holeCards[i*2 +1]);
-			int potSize = (potSize(betsOnFlop) + potSize(betsOnTurn))/(blind*3);
+			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn))/(blind*3);
 			int flushDraw = 
 			int straightDraw = 
 			
@@ -157,6 +157,20 @@ public class DSWriter {
 		//TODO
 	}
 	public void writeInDSForRiver() {
+		for(int i = 0; i < 3; i++) {
+			int action = actionsOnRiver[i];
+			int cardCombination = cardCombination(river, holeCards[i*2], holeCards[i*2 +1]); 
+			int playerBB = stacksOnRiver[i];
+			int highestBoardCard = highestBoardCard(river);
+			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnRiver);
+			int highestBoardCardIsInHandCombination = highestCardInHandCombination(river, holeCards[i*2], holeCards[i*2 +1]);
+			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn) + potSize(betsOnRiver))/(blind*3);
+			int flushDraw = 
+			int straightDraw = 
+			
+		}
+		
+		
 		//TODO
 	}
 
