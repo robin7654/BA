@@ -82,20 +82,34 @@ public class DetermineWinner {
 		return;
 	}
 	public static int isStraightDraw(int[] draw){
-		if (draw.length > 4 & isStraight (draw) != null) return -1;
-		for(int i = 0; i < 13; i++){
-			int[] arr = new int [draw.length + 1];
-			for (int j )
-			
+		int counter = 0;
+		for (int i = 0; i < 13; i ++){
+				int drawPlusCard[] = new int[draw.length + 1];
+				int cardToAdd = i*4;
+				while (contains (draw, cardToAdd) & cardToAdd/4 == i) cardToAdd++;
+				drawPlusCard[0] = cardToAdd;
+				for (int j = 0; j < draw.length; j++){
+					drawPlusCard[j + 1] = draw[j];
+				}
+				if (isStraight(drawPlusCard)!=null) counter++;
 		}
-		
-		
-		
+		return counter;
 	}
-	public static int isFlushDraw(int[] draw){
-		if (draw.length > 4 & isFlush (draw) != null) return 0;
-		
-		
+	public static int mostCommonSuiteCount(int[] draw){
+		int[] suites = new int[draw.length];
+		for (int i = 0; i < draw.length; i++) {
+			suites[i] = draw[i]%4;
+		}
+		int counts[] = {0,0,0,0};
+		for (int i = 0; i < draw.length; i++) {
+			int x = suites[i];
+			counts[x] ++;
+		}
+		int max = 0;
+		for (int i = 0; i < 4; i++) {
+			if (counts[i] > max) max = counts[i]; 
+		}
+		return max;
 	}
 	
 	
@@ -189,7 +203,6 @@ public class DetermineWinner {
 		return null;
 		
 	}
-
 	public static int[] isFlush(int[] arr, int suite) {
 		int[] suites = new int[arr.length];
 		int[] flush = new int[5];

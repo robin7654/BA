@@ -65,6 +65,8 @@ public class PokerKI {
 	static JButton btnPlayX;
 	static JButton btnLoadFromTxt;
 	
+	static JButton btnTest;
+	
 	public void setCCButton() {
 		if(!GameController.activeGame) {
 			btnCall.setBackground(Color.GRAY);
@@ -150,6 +152,21 @@ public class PokerKI {
 		frame.getContentPane().setBackground(Color.decode("#555555"));
 		frame.setContentPane(new JLabel(new ImageIcon("src/images/pokertisch.jpg")));
 
+		btnTest = new JButton("TEST");
+		btnTest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int[] testkarten = {17,21,3,29,33};
+				int x = DetermineWinner.isStraightDraw(testkarten);
+				int y = DetermineWinner.mostCommonSuiteCount(testkarten);
+				System.out.println(x);
+				System.out.println(y);
+			}
+		});
+		btnTest.setBounds(200, 200, 80, 60);
+		btnTest.setBackground(Color.PINK);
+		btnTest.setFont(fontMain);
+		frame.getContentPane().add(btnTest);
+		
 		btnRaise = new JButton("Raise");
 		btnRaise.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
