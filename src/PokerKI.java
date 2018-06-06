@@ -155,10 +155,11 @@ public class PokerKI {
 		btnTest = new JButton("TEST");
 		btnTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int[] testkarten = {17,21,3,29,33};
+				int[] testkarten = {0,51,47,43,38};
 				int x = DetermineWinner.isStraightDraw(testkarten);
-				int y = DetermineWinner.mostCommonSuiteCount(testkarten);
-				System.out.println(x);
+				//int y = DetermineWinner.mostCommonSuiteCount(testkarten);
+				boolean y = DetermineWinner.isStraight(testkarten) != null;
+				//System.out.println(x);
 				System.out.println(y);
 			}
 		});
