@@ -95,7 +95,13 @@ public class DetermineWinner {
 		}
 		return counter;
 	}
-	public static int mostCommonSuiteCount(int[] draw){
+	public static int getFlushSuit(int card0, int card1, int[] d){
+		int[] draw = new int[d.length + 2];
+		draw[0] = card0;
+		draw[1] = card1;
+		for(int i = 2; i < draw.length; i++) {
+			draw[i] = d[i-2];
+		}
 		int[] suites = new int[draw.length];
 		for (int i = 0; i < draw.length; i++) {
 			suites[i] = draw[i]%4;
@@ -113,8 +119,8 @@ public class DetermineWinner {
 				c = i;
 			}
 		}
-		if(max >= 4) return c;
-		return -1;
+		if(max >= 4) return isFlushDraw(card0, card1, c);
+		return 0;
 	}
 	
 	public static int isFlushDraw(int card0, int card1, int suit) {

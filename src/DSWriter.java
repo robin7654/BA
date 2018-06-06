@@ -134,7 +134,7 @@ public class DSWriter {
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnFlop);
 			int highestBoardCardIsInHandCombination = highestCardInHandCombination(flop, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop))/(blind*3);
-			int flushDraw = 
+			int flushDraw = DetermineWinner.getFlushSuit(holeCards[i*2], holeCards[i*2+1], flop);
 			int straightDraw = 
 			
 		}
