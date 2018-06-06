@@ -28,8 +28,13 @@ public class DSWriter {
 	int[] boardCards = new int[5];
 	
 	
-	public static int cardCombination(int[] cards){
-		//takes cards available to player
+	public static int cardCombination(int[] boardCards, int card1, int card2){
+		int[] cards = new int [boardCards.length + 2];
+		for (int i = 0; i < boardCards.length; i++){
+			cards[i] = boardCards[i];
+		}
+		cards[cards.length -1] = card2;
+		cards[cards.length -2] = card1;
 		return DetermineWinner.playersHand(cards)[0];
 	}
 	public static int highestBoardCard(int [] cards){
@@ -37,8 +42,13 @@ public class DSWriter {
 		Arrays.sort(cards);
 		return cards[0]/4;	
 	}
-	public static int highestCardInHandCombination(int[] cards){
-		//takes cards available to player
+	public static int highestCardInHandCombination(int[] boardCards, int card1, int card2){
+		int[] cards = new int [boardCards.length + 2];
+		for (int i = 0; i < boardCards.length; i++){
+			cards[i] = boardCards[i];
+		}
+		cards[cards.length -1] = card2;
+		cards[cards.length -2] = card1;
 		return DetermineWinner.playersHand(cards)[1]/4;
 	}
 	
