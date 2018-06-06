@@ -16,6 +16,8 @@ public class GameController {
 	
 	public static CollectedData cD = new CollectedData();
 	public static FlopCollectedData cDF = new FlopCollectedData();
+	public static TurnCollectedData cDT = new TurnCollectedData();
+	public static RiverCollectedData cDR = new RiverCollectedData();
 	public static DSWriter dsW = new DSWriter();
 	
 	static int[] cardDeck = new int[11];
