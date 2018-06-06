@@ -147,12 +147,12 @@ public class DSWriter {
 		for(int i = 0; i < 3; i++) {
 			int action = actionsOnFlop[i];
 			int cardCombination = cardCombination(flop, holeCards[i*2], holeCards[i*2 +1]); 
-			int playerBB = 
+			int playerBB = ;
 			int highestBoardCard = highestBoardCard(flop);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnFlop);
-			int highestBoardCardIsInHandCombination = 
+			int highestBoardCardIsInHandCombination = highestCardInHandCombination(flop, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize;
-			int flushDraw;
+			int flushDraw = 
 			int straightDraw;
 			
 		}
