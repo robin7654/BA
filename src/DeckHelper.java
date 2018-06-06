@@ -1,9 +1,9 @@
 import java.util.Random;
 
 
-public class Deck {
+public class DeckHelper {
 	
-	public int [] shuffleDeck(){
+	public static int [] createShuffledDeck(){
 		int [] shuffledDeck = new int [11];
 		Random randomGenerator = new Random();
 		for (int i = 0; i < shuffledDeck.length; i++){
@@ -16,7 +16,7 @@ public class Deck {
 		}
 		return shuffledDeck;
 	}
-	private boolean contains (int [] arr, int a) {
+	private static boolean contains (int [] arr, int a) {
 		for (int i = 0; i < arr.length; i++){
 			if ( a == arr[i]){
 				return true;

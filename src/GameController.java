@@ -9,7 +9,7 @@ import java.io.Writer;
 
 public class GameController {
 	
-	public static Deck deck = new Deck();
+	//public static DeckHelper deck = new DeckHelper();
 	public static PokerKI pki = new PokerKI();
 	public static MonteCarloSimulation mcs = new MonteCarloSimulation();
 	public static Strategies str = new Strategies();
@@ -72,7 +72,7 @@ public class GameController {
 		setMainPot(0);
 		setSidePot(0);
 		setHighestBet(blind);
-		cardDeck = deck.shuffleDeck();
+		cardDeck = DeckHelper.createShuffledDeck();
 		
 		setBlinds();
 		//changeActivePlayer();
