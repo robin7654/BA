@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class DSWriter {
 	
 	
@@ -24,6 +26,22 @@ public class DSWriter {
 	
 	int[] holeCards = new int[6];
 	int[] boardCards = new int[5];
+	
+	
+	public static int cardCombination(int[] cards){
+		//takes cards available to player
+		return DetermineWinner.playersHand(cards)[0];
+	}
+	public static int highestBoardCard(int [] cards){
+		//takes array of board cards
+		Arrays.sort(cards);
+		return cards[0]/4;	
+	}
+	public static int highestCardInHandCombination(int[] cards){
+		//takes cards available to player
+		return DetermineWinner.playersHand(cards)[1];
+	}
+	
 	
 	
 	public int getRating(int i, int j) {
