@@ -81,6 +81,24 @@ public class DetermineWinner {
 
 		return;
 	}
+	public static int isStraightDraw(int[] draw){
+		if (draw.length > 4 & isStraight (draw) != null) return -1;
+		for(int i = 0; i < 13; i++){
+			int[] arr = new int [draw.length + 1];
+			for (int j )
+			
+		}
+		
+		
+		
+	}
+	public static int isFlushDraw(int[] draw){
+		if (draw.length > 4 & isFlush (draw) != null) return 0;
+		
+		
+	}
+	
+	
 	public static int bestCards(int[] cards0, int[] cards1){
 		if (cards0[0] > cards1[0]){
 			return 1;
@@ -218,6 +236,7 @@ public class DetermineWinner {
 			}
 		}
 		//ace included
+		count = 0;
 		if (values[0] == 0){
 			values[0] = 13;
 			Arrays.sort(values);
