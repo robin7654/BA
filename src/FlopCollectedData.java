@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CollectedDataFlop {
+public class FlopCollectedData {
 
 	private int cardRating;
 	private int playerBB;
