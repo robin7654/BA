@@ -25,8 +25,12 @@ public class DSWriter {
 	int[] stacksPostHand = new int[3];
 	
 	int[] holeCards = new int[6];
-	int[] boardCards = new int[5];
 	
+	
+	int[] boardCards = new int[5];
+	int [] flop = {boardCards[1], boardCards[2], boardCards[3]};
+	int [] turn = {boardCards[1], boardCards[2], boardCards[3], boardCards[4]};
+	int [] river ={boardCards[1], boardCards[2], boardCards[3], boardCards[4], boardCards[5]};
 	
 	public static int cardCombination(int[] boardCards, int card1, int card2){
 		int[] cardsToCheck = new int [boardCards.length + 2];
@@ -37,7 +41,7 @@ public class DSWriter {
 		cardsToCheck[cardsToCheck.length -2] = card1;
 		return DetermineWinner.playersHand(cardsToCheck)[0];
 	}
-	public static int highestBoardCard(int [] cards){
+	public int highestBoardCard(int[] cards){
 		//takes array of board cards
 		Arrays.sort(cards);
 		return cards[0]/4;	
@@ -140,14 +144,13 @@ public class DSWriter {
 
 	}
 	public void writeInDSForFlop() {
-		int [] flop = {boardCards[1], boardCards[2], boardCards[3]};
 		for(int i = 0; i < 3; i++) {
 			int action = actionsOnFlop[i];
 			int cardCombination = cardCombination(flop, holeCards[i*2], holeCards[i*2 +1]); 
-			int playerBB 
-			int highestBoardCard;
-			int wasRaisedBySomeoneElse;
-			int highestBoardCardIsInHandCombination;
+			int playerBB = 
+			int highestBoardCard = highestBoardCard(flop);
+			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnFlop);
+			int highestBoardCardIsInHandCombination = 
 			int potSize;
 			int flushDraw;
 			int straightDraw;
