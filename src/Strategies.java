@@ -60,7 +60,7 @@ public class Strategies {
 		return ((GameController.mainPot + pot)/GameController.blind)/5;
 	}
 	public int potSizeAtPreFlopFifth(String bets) {
-		return (Integer.parseInt(bets.split(",")[0]) + Integer.parseInt(bets.split(",")[1]) + Integer.parseInt(bets.split(",")[2]))/5;
+		return (Integer.parseInt(bets.split(",")[0]) + Integer.parseInt(bets.split(",")[1]) + Integer.parseInt(bets.split(",")[2]));
 	}
 	public int cardCombination(int[] cards){
 		return DetermineWinner.playersHand(cards)[0];
@@ -107,19 +107,30 @@ public class Strategies {
 
 		
 		for(int i = 0; i < 3; i++) {
-			int cardRating = getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)]));
-			int button = getButton(i, Integer.parseInt(info[1]));
+			int value = (Integer.parseInt(info[11].split(",")[i]) - Integer.parseInt(info[0].split(",")[i]));
+			int actionPreFlop = Integer.parseInt(info[4].split(",")[i]);
 			int playerBB = playerBB(Integer.parseInt(info[0].split(",")[i]),Integer.parseInt(info[2]));
-			int potSizeAtPreFlopFifthInBB = potSizeAtPreFlopFifth(info[3])/Integer.parseInt(info[2]);
+			int cardRating = getRating(Integer.parseInt(cards[5+(2*i)]),Integer.parseInt(cards[6+(2*i)]));
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, info[4]);
-			int actionPreFlop = GameController.player[i].action;
-			int value = (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
+			int button = getButton(i, Integer.parseInt(info[1]));
+			int potSizeAtPreFlopFifthInBB = potSizeAtPreFlopFifth(info[3])/Integer.parseInt(info[2]);
+			
+			
+			
 			
 			//preFlopStrategy[cardRating][button][playerBB][potSizeAtPreFlop][wasRaisedBySomeoneElse][actionPreFlop] 
 			//		+= (GameController.player[i].balance - Integer.parseInt(info[0].split(",")[i]));
 			
 			cD.createEntry(value, actionPreFlop, playerBB, cardRating, wasRaisedBySomeoneElse, button, potSizeAtPreFlopFifthInBB);
 			//reihenfolge  GameController.player[i].action; verändern
+			
+			System.out.println(value);
+			System.out.println(actionPreFlop);
+			System.out.println(playerBB);
+			System.out.println(cardRating);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(button);
+			System.out.println(potSizeAtPreFlopFifthInBB);
 			
 		}
 
