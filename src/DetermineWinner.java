@@ -81,7 +81,13 @@ public class DetermineWinner {
 
 		return;
 	}
-	public static int isStraightDraw(int[] draw){
+	public static int isStraightDraw(int card0, int card1, int[] d){
+		int[] draw = new int[d.length + 2];
+		draw[0] = card0;
+		draw[1] = card1;
+		for(int i = 2; i < draw.length; i++) {
+			draw[i] = d[i-2];
+		}
 		int counter = 0;
 		for (int i = 0; i < 13; i ++){
 				int drawPlusCard[] = new int[draw.length + 1];

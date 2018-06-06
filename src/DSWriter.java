@@ -135,7 +135,7 @@ public class DSWriter {
 			int highestBoardCardIsInHandCombination = highestCardInHandCombination(flop, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop))/(blind*3);
 			int flushDraw = DetermineWinner.isFlushDraw(holeCards[i*2], holeCards[i*2+1], flop);
-			int straightDraw = 
+			int straightDraw = DetermineWinner.isStraightDraw(holeCards[i*2], holeCards[i*2+1], flop);
 			
 		}
 		//TODO
@@ -149,8 +149,8 @@ public class DSWriter {
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnTurn);
 			int highestBoardCardIsInHandCombination = highestCardInHandCombination(turn, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn))/(blind*3);
-			int flushDraw = 
-			int straightDraw = 
+			int flushDraw = DetermineWinner.isFlushDraw(holeCards[i*2], holeCards[i*2+1], turn);
+			int straightDraw = DetermineWinner.isStraightDraw(holeCards[i*2], holeCards[i*2+1], turn);
 			
 		}
 		
@@ -165,8 +165,6 @@ public class DSWriter {
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnRiver);
 			int highestBoardCardIsInHandCombination = highestCardInHandCombination(river, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn) + potSize(betsOnRiver))/(blind*3);
-			int flushDraw = 
-			int straightDraw = 
 			
 		}
 		
