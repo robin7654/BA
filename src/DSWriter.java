@@ -33,9 +33,9 @@ public class DSWriter {
 	
 	
 	int[] boardCards = new int[5];
-	int [] flop = {boardCards[1], boardCards[2], boardCards[3]};
-	int [] turn = {boardCards[1], boardCards[2], boardCards[3], boardCards[4]};
-	int [] river ={boardCards[1], boardCards[2], boardCards[3], boardCards[4], boardCards[5]};
+	int [] flop = new int[3];
+	int [] turn = new int[4];
+	int [] river = new int[5];
 	
 	public static int cardCombination(int[] boardCards, int card1, int card2){
 		int[] cardsToCheck = new int [boardCards.length + 2];
@@ -127,6 +127,7 @@ public class DSWriter {
 	}
 	public void writeInDSForFlop() {
 		for(int i = 0; i < 3; i++) {
+			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsOnFlop[i];
 			int cardCombination = cardCombination(flop, holeCards[i*2], holeCards[i*2 +1]); 
 			int playerBB = stacksOnFlop[i];
@@ -137,11 +138,23 @@ public class DSWriter {
 			int flushDraw = DetermineWinner.isFlushDraw(holeCards[i*2], holeCards[i*2+1], flop);
 			int straightDraw = DetermineWinner.isStraightDraw(holeCards[i*2], holeCards[i*2+1], flop);
 			
+			System.out.println(value);
+			System.out.println(action);
+			System.out.println(cardCombination);
+			System.out.println(playerBB);
+			System.out.println(highestBoardCard);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(highestBoardCardIsInHandCombination);
+			System.out.println(potSize);
+			System.out.println(flushDraw);
+			System.out.println(straightDraw);
+			
 		}
 		//TODO
 	}
 	public void writeInDSForTurn() {
 		for(int i = 0; i < 3; i++) {
+			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsOnTurn[i];
 			int cardCombination = cardCombination(turn, holeCards[i*2], holeCards[i*2 +1]); 
 			int playerBB = stacksOnTurn[i];
@@ -152,12 +165,24 @@ public class DSWriter {
 			int flushDraw = DetermineWinner.isFlushDraw(holeCards[i*2], holeCards[i*2+1], turn);
 			int straightDraw = DetermineWinner.isStraightDraw(holeCards[i*2], holeCards[i*2+1], turn);
 			
+			System.out.println(value);
+			System.out.println(action);
+			System.out.println(cardCombination);
+			System.out.println(playerBB);
+			System.out.println(highestBoardCard);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(highestBoardCardIsInHandCombination);
+			System.out.println(potSize);
+			System.out.println(flushDraw);
+			System.out.println(straightDraw);
+			
 		}
 		
 		//TODO
 	}
 	public void writeInDSForRiver() {
 		for(int i = 0; i < 3; i++) {
+			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsOnRiver[i];
 			int cardCombination = cardCombination(river, holeCards[i*2], holeCards[i*2 +1]); 
 			int playerBB = stacksOnRiver[i];
@@ -165,6 +190,15 @@ public class DSWriter {
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnRiver);
 			int highestBoardCardIsInHandCombination = highestCardInHandCombination(river, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn) + potSize(betsOnRiver))/(blind*3);
+			
+			System.out.println(value);
+			System.out.println(action);
+			System.out.println(cardCombination);
+			System.out.println(playerBB);
+			System.out.println(highestBoardCard);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(highestBoardCardIsInHandCombination);
+			System.out.println(potSize);
 			
 		}
 		
@@ -208,6 +242,15 @@ public class DSWriter {
 		for(int i = 0; i < 5; i++) {
 			boardCards[i] = Integer.parseInt(cards[i]);
 		}
+		
+		for(int i = 0; i < 3; i++) {
+			flop[i] = boardCards[i];
+			turn[i] = boardCards[i];
+			river[i] = boardCards[i];
+		}
+		turn[3] = boardCards[3];
+		river[3] = boardCards[3];
+		river[4] = boardCards[4];
 		
 		
 	}
