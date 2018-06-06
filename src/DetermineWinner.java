@@ -117,6 +117,12 @@ public class DetermineWinner {
 		return -1;
 	}
 	
+	public static int isFlushDraw(int card0, int card1, int suit) {
+		if(card0%4 == suit && card1%4 == suit) return 1;
+		else if((card0%4 == suit) && (card0/4 <= 3) || ((card1%4 == suit) && (card1/4 <= 3))) return 1;
+		return 0;
+	}
+	
 	
 	public static int bestCards(int[] cards0, int[] cards1){
 		if (cards0[0] > cards1[0]){
