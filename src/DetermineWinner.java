@@ -106,10 +106,15 @@ public class DetermineWinner {
 			counts[x] ++;
 		}
 		int max = 0;
+		int c = 0;
 		for (int i = 0; i < 4; i++) {
-			if (counts[i] > max) max = counts[i]; 
+			if (counts[i] > max) {
+				max = counts[i]; 
+				c = i;
+			}
 		}
-		return max;
+		if(max >= 4) return c;
+		return -1;
 	}
 	
 	
