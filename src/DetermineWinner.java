@@ -95,7 +95,7 @@ public class DetermineWinner {
 		}
 		return counter;
 	}
-	public static int getFlushSuit(int card0, int card1, int[] d){
+	public static int isFlushDraw(int card0, int card1, int[] d){
 		int[] draw = new int[d.length + 2];
 		draw[0] = card0;
 		draw[1] = card1;
@@ -119,11 +119,11 @@ public class DetermineWinner {
 				c = i;
 			}
 		}
-		if(max >= 4) return isFlushDraw(card0, card1, c);
+		if(max >= 4) return isFlushDrawValid(card0, card1, c);
 		return 0;
 	}
 	
-	public static int isFlushDraw(int card0, int card1, int suit) {
+	public static int isFlushDrawValid(int card0, int card1, int suit) {
 		if(card0%4 == suit && card1%4 == suit) return 1;
 		else if((card0%4 == suit) && (card0/4 <= 3) || ((card1%4 == suit) && (card1/4 <= 3))) return 1;
 		return 0;
