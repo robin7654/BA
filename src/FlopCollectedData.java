@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -5,7 +6,7 @@ import java.util.Map;
 public class FlopCollectedData {
 	
 	private int action;
-	private int cardRating;
+	private int cardCombination;
 	private int playerBB;
 	private int highestBoardCard;
 	private int wasRaisedBySomeoneElse;
@@ -14,12 +15,12 @@ public class FlopCollectedData {
 	private int flushDraw;
 	private int straightDraw;
 	
-	
+
 	
 	static Map<FlopCollectedData, RewardEntry> map = new HashMap<FlopCollectedData, RewardEntry>();
 	
 	public int getAction() { return action; }
-	public int getcardRating() { return cardRating; }
+	public int getcardCombination() { return cardCombination; }
 	public int getPlayerBB() { return playerBB; }
 	public int getHighestBoardCard() { return highestBoardCard; }
 	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
@@ -32,7 +33,7 @@ public class FlopCollectedData {
 	
 	public FlopCollectedData(int a, int b, int c, int d, int e, int f, int g, int h, int i){
 		this.action = a;
-		this.cardRating = b;
+		this.cardCombination = b;
 		this.playerBB = c;
 		this.highestBoardCard = d;
 		this.wasRaisedBySomeoneElse = e;
@@ -72,7 +73,7 @@ public class FlopCollectedData {
 			FlopCollectedData dataObj = (FlopCollectedData) obj;
 			
 			boolean propertyA = action == dataObj.getAction();
-			boolean propertyB = cardRating == dataObj.getcardRating();
+			boolean propertyB = cardCombination == dataObj.getcardCombination();
 			boolean propertyC = playerBB == dataObj.getPlayerBB();
 			boolean propertyD = highestBoardCard == dataObj.getHighestBoardCard();
 			boolean propertyE = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
@@ -90,7 +91,7 @@ public class FlopCollectedData {
 	public int hashCode(){
 		int hash = 17;
 		hash = hash * 31 * action;
-		hash = hash * 31 * cardRating;
+		hash = hash * 31 * cardCombination;
 		hash = hash * 31 * playerBB;
 		hash = hash * 31 * highestBoardCard;
 		hash = hash * 31 * wasRaisedBySomeoneElse;

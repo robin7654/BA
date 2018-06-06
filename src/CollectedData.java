@@ -36,7 +36,7 @@ public class CollectedData {
 	public CollectedData() {
 		
 	}
-
+	
 	public void createEntry(int value, int a, int b, int c, int d, int e, int f){
 		//CollectedData collectedData = new CollectedData(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
 		try {
