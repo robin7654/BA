@@ -17,49 +17,51 @@ public class FlopCollectedData {
 	
 	static Map<CollectedData, RewardEntry> map = new HashMap<CollectedData, RewardEntry>();
 	
-	public int getActionPreFlop() { return actionPreFlop; }
+	public int getcardRating() { return cardRating; }
 	public int getPlayerBB() { return playerBB; }
-	public int getCardRating() { return cardRating; }
+	public int getHighestBoardCard() { return highestBoardCard; }
 	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
-	public int getButton() { return button; }
-	public int getPotSizeAtPreFlop() { return potSizeAtPreFlop; }
+	public int getHighestBoardCardIsInHandCombination() { return highestBoardCardIsInHandCombination; }
+	public int getPotSizeAtFlop() { return potSizeAtFlop; }
+	public int getFlushDraw() { return flushDraw; }
+	public int getStraightDraw() { return straightDraw; }
 	
 
 	
-	public CollectedData(int a, int b, int c, int d, int e, int f){
-		this.actionPreFlop = a;
+	public FlopCollectedData(int a, int b, int c, int d, int e, int f, int g, int h){
+		this.cardRating = a;
 		this.playerBB = b;
-		this.cardRating = c;
+		this.highestBoardCard = c;
 		this.wasRaisedBySomeoneElse = d;
-		this.button = e;
-		this.potSizeAtPreFlop = f;
+		this.highestBoardCardIsInHandCombination = e;
+		this.potSizeAtFlop = f;
+		this.flushDraw = g;
+		this.straightDraw = h;
 	}
 	
-	public CollectedData() {
+	public FlopCollectedData() {
 		
 	}
 	
-	public void createEntry(int value, int a, int b, int c, int d, int e, int f){
-		//CollectedData collectedData = new CollectedData(cardRating, button, playerBB, potSizeAtPreFlop, wasRaisedBySomeoneElse, actionPreFlop);
+	public void createEntry(int value, int a, int b, int c, int d, int e, int f, int g, int h){
 		try {
 			
-			RewardEntry rewEnt = map.get(new CollectedData(a,b,c,d,e,f));
+			RewardEntry rewEnt = map.get(new CollectedData(a,b,c,d,e,f,g,h));
 			rewEnt.addEntry(value);
 			
 			
-			map.put(new CollectedData(a,b,c,d,e,f), rewEnt);
+			map.put(new CollectedData(a,b,c,d,e,f,g,h), rewEnt);
 		}catch(Exception z) {
-			map.put(new CollectedData(a,b,c,d,e,f), new RewardEntry(value));
+			map.put(new CollectedData(a,b,c,d,e,f,g,h), new RewardEntry(value));
 		}
 	}
 	
-	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f){
-			RewardEntry mapValue = map.get(new CollectedData(a,b,c,d,e,f));
+	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f, int g, int h){
+			RewardEntry mapValue = map.get(new CollectedData(a,b,c,d,e,f,g,h));
 			return mapValue;
 	}
 
 
-	
 
 	@Override
 	public boolean equals(Object obj){
@@ -67,14 +69,14 @@ public class FlopCollectedData {
 			CollectedData dataObj = (CollectedData) obj;
 			
 			
-			boolean propertyA = actionPreFlop == dataObj.getActionPreFlop();
+			boolean propertyA = cardRating == dataObj.getcardRating();
 			boolean propertyB = playerBB == dataObj.getPlayerBB();
-			boolean propertyC = cardRating == dataObj.getCardRating();
+			boolean propertyC = highestBoardCard == dataObj.getHighestBoardCard();
 			boolean propertyD = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
-			boolean propertyE = button == dataObj.getButton();
-			boolean propertyF =	potSizeAtPreFlop == dataObj.getPotSizeAtPreFlop();
-			
- 			
+			boolean propertyE = highestBoardCardIsInHandCombination == dataObj.getHighestBoardCardIsInHandCombination();
+			boolean propertyF =	potSizeAtFlop == dataObj.getPotSizeAtFlop();
+			boolean propertyG = flushDraw == dataObj.getFlushDraw();
+			boolean propertyH = straightDraw == dataObj.getStraightDraw();
 
 			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF;
 		}
@@ -84,12 +86,14 @@ public class FlopCollectedData {
 	@Override
 	public int hashCode(){
 		int hash = 17;
-		hash = hash * 31 * actionPreFlop;
-		hash = hash * 31 * playerBB;
 		hash = hash * 31 * cardRating;
+		hash = hash * 31 * playerBB;
+		hash = hash * 31 * highestBoardCard;
 		hash = hash * 31 * wasRaisedBySomeoneElse;
-		hash = hash * 31 * button;			
-		hash = hash * 31 * potSizeAtPreFlop;
+		hash = hash * 31 * highestBoardCardIsInHandCombination;			
+		hash = hash * 31 * potSizeAtFlop;
+		hash = hash * 31 * flushDraw;
+		hash = hash * 31 * straightDraw;
 		return hash; 
 	}
 
