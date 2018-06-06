@@ -14,6 +14,10 @@ public class GameController {
 	public static MonteCarloSimulation mcs = new MonteCarloSimulation();
 	public static Strategies str = new Strategies();
 	
+	public static CollectedData cD = new CollectedData();
+	public static FlopCollectedData cDF = new FlopCollectedData();
+	public static DSWriter dsW = new DSWriter();
+	
 	static int[] cardDeck = new int[11];
 	
 	public static boolean activeHand = false;
@@ -614,7 +618,7 @@ public class GameController {
 		String line0 = br.readLine();
 		String line1 = br.readLine();
  		while(line0 != null) {
-			str.writeInArray(line0, line1);
+			dsW.writeInDS(line0, line1);
 			
 			//System.out.println(line0 + " " + line1);
 			try {
