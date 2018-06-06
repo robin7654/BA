@@ -23,6 +23,7 @@ public class DSWriter {
 	int[] stacksPostHand = new int[3];
 	
 	int[] holeCards = new int[6];
+	int[] boardCards = new int[5];
 	
 	
 	public int getRating(int i, int j) {
@@ -35,42 +36,42 @@ public class DSWriter {
 		}
 	}
 	
-	public int getButton(int playerNum) {	//1-Button	0-Kein Button
+	public int getButton(int playerNum) {
 		if(buttonPos == playerNum) {
 			return 1;
 		} return 0;
 	}
 	
-	public int getButton(int playerNum, int buttonPos) {
+	/*public int getButton(int playerNum, int buttonPos) {
 		if(buttonPos == playerNum) return 1;
 		return 0;
-	}
+	}*/
 	
-	public int getPlayerBB(int playerNum) {
+	/*public int getPlayerBB(int playerNum) {
 		return ((GameController.player[playerNum].balance + GameController.player[playerNum].bet) / GameController.blind)/5;
-	}
-	public int playerBB(int balance0, int bb){
-		return balance0/(bb*5); 
-	}
+	}*/
+	/*public int playerBB(int balance){
+		return balance/blind; 
+	}*/
 
-	public int getPotSizeInBB() {
+	/*public int getPotSizeInBB() {
 		int pot = 0;
 		for(int i = 0; i < GameController.player.length; i++) {
 			pot += GameController.player[i].bet;
 		}
 		return ((GameController.mainPot + pot)/GameController.blind)/5;
-	}
+	}*/
 	public int potSizeAtPreFlopInBB(int[] bets) {
 		return (bets[0] + bets[1] + bets[2])/blind;
 	}
-	public int cardCombination(int[] cards){
+	/*public int cardCombination(int[] cards){
 		return DetermineWinner.playersHand(cards)[0];
-	}
+	}*/
 	
-	public int getWasRaised() {
+	/*public int getWasRaised() {
 		if(GameController.highestBet > GameController.blind) return 1;
 		return 0;
-	}
+	}*/
 	
 	public int getWasRaisedBySomeoneElse(int playerNum, int[] i) {
 		if(i[0] == 2 || i[1] == 2 || i[2] == 2) {
@@ -144,6 +145,12 @@ public class DSWriter {
 		holeCards[3] = Integer.parseInt(cards[8]);
 		holeCards[4] = Integer.parseInt(cards[9]);
 		holeCards[5] = Integer.parseInt(cards[10]);
+		
+		for(int i = 0; i < 5; i++) {
+			boardCards[i] = Integer.parseInt(cards[i]);
+		}
+		
+		
 	}
 	
 	public void writeInDSForPreFlop() {
@@ -159,22 +166,22 @@ public class DSWriter {
 			
 			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsPreFlop[i];
-			int playerBB = playerBB(stacksPreHand[i], blind);
+			int playerBBThird = stacksPreHand[i]/blind/3;
 			int cardRating = getRating(holeCards[2*i], holeCards[1+(2*i)]);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsPreFlop);
 			int button = getButton(i);
-			int potSizeInBB = potSizeAtPreFlopInBB(betsPreFlop);
+			int potSizeInBBThird = potSizeAtPreFlopInBB(betsPreFlop)/3;
 			
 			
-			GameController.cD.createEntry(value, action, playerBB, cardRating, wasRaisedBySomeoneElse, button, potSizeInBB);
+			GameController.cD.createEntry(value, action, playerBBThird, cardRating, wasRaisedBySomeoneElse, button, potSizeInBBThird);
 			
 			System.out.println(value);
 			System.out.println(action);
-			System.out.println(playerBB);
+			System.out.println(playerBBThird);
 			System.out.println(cardRating);
 			System.out.println(wasRaisedBySomeoneElse);
 			System.out.println(button);
-			System.out.println(potSizeInBB);
+			System.out.println(potSizeInBBThird);
 			
 		}
 
