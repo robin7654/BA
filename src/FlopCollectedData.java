@@ -15,7 +15,7 @@ public class FlopCollectedData {
 	
 	
 	
-	static Map<CollectedData, RewardEntry> map = new HashMap<CollectedData, RewardEntry>();
+	static Map<FlopCollectedData, RewardEntry> map = new HashMap<FlopCollectedData, RewardEntry>();
 	
 	public int getcardRating() { return cardRating; }
 	public int getPlayerBB() { return playerBB; }
@@ -46,18 +46,18 @@ public class FlopCollectedData {
 	public void createEntry(int value, int a, int b, int c, int d, int e, int f, int g, int h){
 		try {
 			
-			RewardEntry rewEnt = map.get(new CollectedData(a,b,c,d,e,f,g,h));
+			RewardEntry rewEnt = map.get(new FlopCollectedData(a,b,c,d,e,f,g,h));
 			rewEnt.addEntry(value);
 			
 			
-			map.put(new CollectedData(a,b,c,d,e,f,g,h), rewEnt);
+			map.put(new FlopCollectedData(a,b,c,d,e,f,g,h), rewEnt);
 		}catch(Exception z) {
-			map.put(new CollectedData(a,b,c,d,e,f,g,h), new RewardEntry(value));
+			map.put(new FlopCollectedData(a,b,c,d,e,f,g,h), new RewardEntry(value));
 		}
 	}
 	
 	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f, int g, int h){
-			RewardEntry mapValue = map.get(new CollectedData(a,b,c,d,e,f,g,h));
+			RewardEntry mapValue = map.get(new FlopCollectedData(a,b,c,d,e,f,g,h));
 			return mapValue;
 	}
 
@@ -65,8 +65,8 @@ public class FlopCollectedData {
 
 	@Override
 	public boolean equals(Object obj){
-		if (obj != null && obj instanceof CollectedData){
-			CollectedData dataObj = (CollectedData) obj;
+		if (obj != null && obj instanceof FlopCollectedData){
+			FlopCollectedData dataObj = (FlopCollectedData) obj;
 			
 			
 			boolean propertyA = cardRating == dataObj.getcardRating();

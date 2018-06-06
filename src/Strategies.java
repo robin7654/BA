@@ -2,6 +2,7 @@
 public class Strategies {
 	
 	CollectedData cD = new CollectedData();
+	FlopCollectedData cDF = new FlopCollectedData();
 	
 	int[][] range = {
 //	     A K Q J T  9 8 7 6 5  4 3 2
@@ -34,7 +35,7 @@ public class Strategies {
 		}
 	}
 	
-	public int getButton(int playerNum) {	//0-Button	1-Kein Button
+	public int getButton(int playerNum) {	//1-Button	0-Kein Button
 		if(GameController.button == playerNum) {
 			return 1;
 		} return 0;
@@ -78,21 +79,6 @@ public class Strategies {
 		}
 		return 0;
 	}
-	
-	int[][][][][][] preFlopStrategy = new int[10][2][16][16][2][3];
-	//0 - Card Rating
-	//1 - Button Position 	-
-	//2 - BB before Hand / 5
-	//3 - Pot Size in BB    - 
-	//4 - Was Raised		- 
-	//5 - Fold - Call - Raise
-	int[][][][][][] flopStrategy = new int[8][3][3][10][2][3];
-	//kartenbild
-	//board pair
-	//karten gleicher farbe
-	//höchste karte
-	//wurde geraist
-	//fold call raise
 	
 
 	
