@@ -35,44 +35,14 @@ public class DSWriter {
 			else return Strategies.range[j/4][i/4];
 		}
 	}
-	
 	public int getButton(int playerNum) {
 		if(buttonPos == playerNum) {
 			return 1;
 		} return 0;
 	}
-	
-	/*public int getButton(int playerNum, int buttonPos) {
-		if(buttonPos == playerNum) return 1;
-		return 0;
-	}*/
-	
-	/*public int getPlayerBB(int playerNum) {
-		return ((GameController.player[playerNum].balance + GameController.player[playerNum].bet) / GameController.blind)/5;
-	}*/
-	/*public int playerBB(int balance){
-		return balance/blind; 
-	}*/
-
-	/*public int getPotSizeInBB() {
-		int pot = 0;
-		for(int i = 0; i < GameController.player.length; i++) {
-			pot += GameController.player[i].bet;
-		}
-		return ((GameController.mainPot + pot)/GameController.blind)/5;
-	}*/
 	public int potSizeAtPreFlopInBB(int[] bets) {
 		return (bets[0] + bets[1] + bets[2])/blind;
 	}
-	/*public int cardCombination(int[] cards){
-		return DetermineWinner.playersHand(cards)[0];
-	}*/
-	
-	/*public int getWasRaised() {
-		if(GameController.highestBet > GameController.blind) return 1;
-		return 0;
-	}*/
-	
 	public int getWasRaisedBySomeoneElse(int playerNum, int[] i) {
 		if(i[0] == 2 || i[1] == 2 || i[2] == 2) {
 			if(i[playerNum] == 2) return 0;
@@ -80,6 +50,7 @@ public class DSWriter {
 		}
 		return 0;
 	}
+	
 	
 	public void writeInDS(String line0, String line1) {
 		
@@ -94,63 +65,6 @@ public class DSWriter {
 		writeInDSForFlop();
 		writeInDSForTurn();
 		writeInDSForRiver();
-	}
-	
-	public void setVar() {
-
-		
-		buttonPos = Integer.parseInt(info[1]);
-		blind = Integer.parseInt(info[2]);
-		
-		for(int i = 0; i < 3; i++) {
-			stacksPreHand[i] = Integer.parseInt(info[0].split(",")[i]);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			stacksPostHand[i] = Integer.parseInt(info[11].split(",")[i]);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			betsPreFlop[i] = Integer.parseInt(info[3].split(",")[i]);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			actionsPreFlop[i] = Integer.parseInt(info[4].split(",")[i]);
-		}
-		for(int i = 0; i < 3; i++) {
-			betsOnFlop[i] = Integer.parseInt(info[5].split(",")[i]);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			actionsOnFlop[i] = Integer.parseInt(info[6].split(",")[i]);
-		}
-		for(int i = 0; i < 3; i++) {
-			betsOnTurn[i] = Integer.parseInt(info[7].split(",")[i]);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			actionsOnTurn[i] = Integer.parseInt(info[8].split(",")[i]);
-		}
-		for(int i = 0; i < 3; i++) {
-			betsOnRiver[i] = Integer.parseInt(info[9].split(",")[i]);
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			actionsOnRiver[i] = Integer.parseInt(info[10].split(",")[i]);
-		}
-		
-		holeCards[0] = Integer.parseInt(cards[5]);
-		holeCards[1] = Integer.parseInt(cards[6]);
-		holeCards[2] = Integer.parseInt(cards[7]);
-		holeCards[3] = Integer.parseInt(cards[8]);
-		holeCards[4] = Integer.parseInt(cards[9]);
-		holeCards[5] = Integer.parseInt(cards[10]);
-		
-		for(int i = 0; i < 5; i++) {
-			boardCards[i] = Integer.parseInt(cards[i]);
-		}
-		
-		
 	}
 	
 	public void writeInDSForPreFlop() {
@@ -207,4 +121,60 @@ public class DSWriter {
 		//TODO
 	}
 
+	public void setVar() {
+
+		
+		buttonPos = Integer.parseInt(info[1]);
+		blind = Integer.parseInt(info[2]);
+		
+		for(int i = 0; i < 3; i++) {
+			stacksPreHand[i] = Integer.parseInt(info[0].split(",")[i]);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			stacksPostHand[i] = Integer.parseInt(info[11].split(",")[i]);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			betsPreFlop[i] = Integer.parseInt(info[3].split(",")[i]);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			actionsPreFlop[i] = Integer.parseInt(info[4].split(",")[i]);
+		}
+		for(int i = 0; i < 3; i++) {
+			betsOnFlop[i] = Integer.parseInt(info[5].split(",")[i]);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			actionsOnFlop[i] = Integer.parseInt(info[6].split(",")[i]);
+		}
+		for(int i = 0; i < 3; i++) {
+			betsOnTurn[i] = Integer.parseInt(info[7].split(",")[i]);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			actionsOnTurn[i] = Integer.parseInt(info[8].split(",")[i]);
+		}
+		for(int i = 0; i < 3; i++) {
+			betsOnRiver[i] = Integer.parseInt(info[9].split(",")[i]);
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			actionsOnRiver[i] = Integer.parseInt(info[10].split(",")[i]);
+		}
+		
+		holeCards[0] = Integer.parseInt(cards[5]);
+		holeCards[1] = Integer.parseInt(cards[6]);
+		holeCards[2] = Integer.parseInt(cards[7]);
+		holeCards[3] = Integer.parseInt(cards[8]);
+		holeCards[4] = Integer.parseInt(cards[9]);
+		holeCards[5] = Integer.parseInt(cards[10]);
+		
+		for(int i = 0; i < 5; i++) {
+			boardCards[i] = Integer.parseInt(cards[i]);
+		}
+		
+		
+	}
 }
