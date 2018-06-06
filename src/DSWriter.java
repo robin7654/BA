@@ -39,7 +39,7 @@ public class DSWriter {
 	}
 	public static int highestCardInHandCombination(int[] cards){
 		//takes cards available to player
-		return DetermineWinner.playersHand(cards)[1];
+		return DetermineWinner.playersHand(cards)[1]/4;
 	}
 	
 	
