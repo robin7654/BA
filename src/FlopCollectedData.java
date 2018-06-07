@@ -9,7 +9,6 @@ public class FlopCollectedData {
 	private int playerBB;
 	private int wasRaisedBySomeoneElse;
 	private int highestBoardCardIsInHandCombination;
-	private int highestBoardCard;
 	private int potSize;
 	private int flushDraw;
 	private int straightDraw;
@@ -23,44 +22,42 @@ public class FlopCollectedData {
 	public int getPlayerBB() { return playerBB; }
 	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
 	public int getHighestBoardCardIsInHandCombination() { return highestBoardCardIsInHandCombination; }
-	public int getHighestBoardCard() { return highestBoardCard; }
 	public int getPotSizeAtFlop() { return potSize; }
 	public int getFlushDraw() { return flushDraw; }
 	public int getStraightDraw() { return straightDraw; }
 	
 
 	
-	public FlopCollectedData(int a, int b, int c, int d, int e, int f, int g, int h, int i){
+	public FlopCollectedData(int a, int b, int c, int d, int e, int f, int g, int h){
 		this.action = a;
 		this.cardCombination = b;
 		this.playerBB = c;
 		this.wasRaisedBySomeoneElse = d;
 		this.highestBoardCardIsInHandCombination = e;
-		this.highestBoardCard = f;
-		this.potSize = g;
-		this.flushDraw = h;
-		this.straightDraw = i;
+		this.potSize = f;
+		this.flushDraw = g;
+		this.straightDraw = h;
 	}
 	
 	public FlopCollectedData() {
 		
 	}
 	
-	public void createEntry(int value, int a, int b, int c, int d, int e, int f, int g, int h, int i){
+	public void createEntry(int value, int a, int b, int c, int d, int e, int f, int g, int h){
 		try {
 			
-			RewardEntry rewEnt = map.get(new FlopCollectedData(a,b,c,d,e,f,g,h,i));
+			RewardEntry rewEnt = map.get(new FlopCollectedData(a,b,c,d,e,f,g,h));
 			rewEnt.addEntry(value);
 			
 			
-			map.put(new FlopCollectedData(a,b,c,d,e,f,g,h,i), rewEnt);
+			map.put(new FlopCollectedData(a,b,c,d,e,f,g,h), rewEnt);
 		}catch(Exception z) {
-			map.put(new FlopCollectedData(a,b,c,d,e,f,g,h,i), new RewardEntry(value));
+			map.put(new FlopCollectedData(a,b,c,d,e,f,g,h), new RewardEntry(value));
 		}
 	}
 	
-	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f, int g, int h, int i){
-			RewardEntry mapValue = map.get(new FlopCollectedData(a,b,c,d,e,f,g,h,i));
+	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f, int g, int h){
+			RewardEntry mapValue = map.get(new FlopCollectedData(a,b,c,d,e,f,g,h));
 			return mapValue;
 	}
 
@@ -76,12 +73,11 @@ public class FlopCollectedData {
 			boolean propertyC = playerBB == dataObj.getPlayerBB();
 			boolean propertyD = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
 			boolean propertyE = highestBoardCardIsInHandCombination == dataObj.getHighestBoardCardIsInHandCombination();
-			boolean propertyF = highestBoardCard == dataObj.getHighestBoardCard();
-			boolean propertyG =	potSize == dataObj.getPotSizeAtFlop();
-			boolean propertyH = flushDraw == dataObj.getFlushDraw();
-			boolean propertyI = straightDraw == dataObj.getStraightDraw();
+			boolean propertyF =	potSize == dataObj.getPotSizeAtFlop();
+			boolean propertyG = flushDraw == dataObj.getFlushDraw();
+			boolean propertyH = straightDraw == dataObj.getStraightDraw();
 
-			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF && propertyG && propertyH && propertyI ;
+			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF && propertyG && propertyH ;
 		}
 		return false ; 
 	}
@@ -94,7 +90,6 @@ public class FlopCollectedData {
 		hash = hash * 31 * playerBB;
 		hash = hash * 31 * wasRaisedBySomeoneElse;
 		hash = hash * 31 * highestBoardCardIsInHandCombination;	
-		hash = hash * 31 * highestBoardCard;
 		hash = hash * 31 * potSize;
 		hash = hash * 31 * flushDraw;
 		hash = hash * 31 * straightDraw;

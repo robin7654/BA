@@ -9,7 +9,6 @@ public class RiverCollectedData {
 	private int playerBB;
 	private int wasRaisedBySomeoneElse;
 	private int highestBoardCardIsInHandCombination;
-	private int highestBoardCard;
 	private int potSize;
 	
 
@@ -21,39 +20,37 @@ public class RiverCollectedData {
 	public int getPlayerBB() { return playerBB; }
 	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
 	public int getHighestBoardCardIsInHandCombination() { return highestBoardCardIsInHandCombination; }
-	public int getHighestBoardCard() { return highestBoardCard; }
 	public int getPotSizeAtRiver() { return potSize; }
 
 	
-	public RiverCollectedData(int a, int b, int c, int d, int e, int f, int g){
+	public RiverCollectedData(int a, int b, int c, int d, int e, int f){
 		this.action = a;
 		this.cardCombination = b;
 		this.playerBB = c;
-		this.wasRaisedBySomeoneElse = e;
-		this.highestBoardCardIsInHandCombination = f;
-		this.highestBoardCard = d;
-		this.potSize = g;
+		this.wasRaisedBySomeoneElse = d;
+		this.highestBoardCardIsInHandCombination = e;
+		this.potSize = f;
 	}
 	
 	public RiverCollectedData() {
 		
 	}
 	
-	public void createEntry(int value, int a, int b, int c, int d, int e, int f, int g){
+	public void createEntry(int value, int a, int b, int c, int d, int e, int f){
 		try {
 			
-			RewardEntry rewEnt = map.get(new RiverCollectedData(a,b,c,d,e,f,g));
+			RewardEntry rewEnt = map.get(new RiverCollectedData(a,b,c,d,e,f));
 			rewEnt.addEntry(value);
 			
 			
-			map.put(new RiverCollectedData(a,b,c,d,e,f,g), rewEnt);
+			map.put(new RiverCollectedData(a,b,c,d,e,f), rewEnt);
 		}catch(Exception z) {
-			map.put(new RiverCollectedData(a,b,c,d,e,f,g), new RewardEntry(value));
+			map.put(new RiverCollectedData(a,b,c,d,e,f), new RewardEntry(value));
 		}
 	}
 	
 	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f, int g){
-			RewardEntry mapValue = map.get(new RiverCollectedData(a,b,c,d,e,f,g));
+			RewardEntry mapValue = map.get(new RiverCollectedData(a,b,c,d,e,f));
 			return mapValue;
 	}
 
@@ -69,10 +66,9 @@ public class RiverCollectedData {
 			boolean propertyC = playerBB == dataObj.getPlayerBB();
 			boolean propertyD = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
 			boolean propertyE = highestBoardCardIsInHandCombination == dataObj.getHighestBoardCardIsInHandCombination();
-			boolean propertyF = highestBoardCard == dataObj.getHighestBoardCard();
-			boolean propertyG =	potSize == dataObj.getPotSizeAtRiver();
+			boolean propertyF =	potSize == dataObj.getPotSizeAtRiver();
 
-			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF && propertyG ;
+			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF ;
 		}
 		return false ; 
 	}
@@ -85,7 +81,6 @@ public class RiverCollectedData {
 		hash = hash * 31 * playerBB;
 		hash = hash * 31 * wasRaisedBySomeoneElse;
 		hash = hash * 31 * highestBoardCardIsInHandCombination;	
-		hash = hash * 31 * highestBoardCard;
 		hash = hash * 31 * potSize;
 		return hash; 
 	}
