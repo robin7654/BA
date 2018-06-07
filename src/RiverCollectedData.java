@@ -7,9 +7,9 @@ public class RiverCollectedData {
 	private int action;
 	private int cardCombination;
 	private int playerBB;
-	private int highestBoardCard;
 	private int wasRaisedBySomeoneElse;
 	private int highestBoardCardIsInHandCombination;
+	private int highestBoardCard;
 	private int potSize;
 	
 
@@ -19,9 +19,9 @@ public class RiverCollectedData {
 	public int getAction() { return action; }
 	public int getcardCombination() { return cardCombination; }
 	public int getPlayerBB() { return playerBB; }
-	public int getHighestBoardCard() { return highestBoardCard; }
 	public int getWasRaisedBySomeoneElse() { return wasRaisedBySomeoneElse; }
 	public int getHighestBoardCardIsInHandCombination() { return highestBoardCardIsInHandCombination; }
+	public int getHighestBoardCard() { return highestBoardCard; }
 	public int getPotSizeAtRiver() { return potSize; }
 
 	
@@ -29,9 +29,9 @@ public class RiverCollectedData {
 		this.action = a;
 		this.cardCombination = b;
 		this.playerBB = c;
-		this.highestBoardCard = d;
 		this.wasRaisedBySomeoneElse = e;
 		this.highestBoardCardIsInHandCombination = f;
+		this.highestBoardCard = d;
 		this.potSize = g;
 	}
 	
@@ -67,9 +67,9 @@ public class RiverCollectedData {
 			boolean propertyA = action == dataObj.getAction();
 			boolean propertyB = cardCombination == dataObj.getcardCombination();
 			boolean propertyC = playerBB == dataObj.getPlayerBB();
-			boolean propertyD = highestBoardCard == dataObj.getHighestBoardCard();
-			boolean propertyE = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
-			boolean propertyF = highestBoardCardIsInHandCombination == dataObj.getHighestBoardCardIsInHandCombination();
+			boolean propertyD = wasRaisedBySomeoneElse == dataObj.getWasRaisedBySomeoneElse();
+			boolean propertyE = highestBoardCardIsInHandCombination == dataObj.getHighestBoardCardIsInHandCombination();
+			boolean propertyF = highestBoardCard == dataObj.getHighestBoardCard();
 			boolean propertyG =	potSize == dataObj.getPotSizeAtRiver();
 
 			return propertyA && propertyB && propertyC && propertyD && propertyE && propertyF && propertyG ;
@@ -83,9 +83,9 @@ public class RiverCollectedData {
 		hash = hash * 31 * action;
 		hash = hash * 31 * cardCombination;
 		hash = hash * 31 * playerBB;
-		hash = hash * 31 * highestBoardCard;
 		hash = hash * 31 * wasRaisedBySomeoneElse;
-		hash = hash * 31 * highestBoardCardIsInHandCombination;			
+		hash = hash * 31 * highestBoardCardIsInHandCombination;	
+		hash = hash * 31 * highestBoardCard;
 		hash = hash * 31 * potSize;
 		return hash; 
 	}
