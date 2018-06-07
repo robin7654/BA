@@ -177,6 +177,7 @@ public class Player {
 					wasRaisedBySomeoneElse,
 					hasButton,
 					potSizeInBBThird);
+			System.out.println(n);
 			if(n > max) {
 				max = n;
 				j = i;
