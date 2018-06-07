@@ -239,7 +239,10 @@ public class PokerKI {
 		btnPlayX = new JButton("Play X Games");
 		btnPlayX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				long tStart = System.currentTimeMillis();
 				GameController.playX(10000);
+				long tEnd = System.currentTimeMillis();
+				System.out.println(((tEnd-tStart)/1000) + " s");
 			}
 		});
 		btnPlayX.setBounds(frame.getWidth() - 200, 0, 200, 48);
@@ -254,8 +257,11 @@ public class PokerKI {
 		btnLoadFromTxt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					long tStart = System.currentTimeMillis();
 					GameController.readFromTxt();
 					System.out.println("Everything alright");
+					long tEnd = System.currentTimeMillis();
+					System.out.println(((tEnd - tStart)/1000) + "s");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -408,10 +414,21 @@ public class PokerKI {
 	protected void updatePot() {
 		lblPot.setText("$" + Integer.toString(GameController.mainPot));
 	}
+	protected void updateBotCards() {
+		if(!GameController.player[1].activeInHand) {
+			setCardLabel(7, 53);
+			setCardLabel(8, 53);
+		}
+		if(!GameController.player[2].activeInHand) {
+			setCardLabel(9,53);
+			setCardLabel(10,53);
+		}
+	}
 	public void updateAll() {
 		updatePlayerBet();
 		updatePlayerBalance();
 		updatePot();
+		updateBotCards();
 	}
 	public void addToLog(String s) {
 		

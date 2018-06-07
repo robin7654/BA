@@ -95,7 +95,7 @@ public class GameController {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		
-		while(activeHand && player[activePlayer].bot) getNextMove();
+		while((activeHand && player[activePlayer].bot)) getNextMove();
 		if(player[activePlayer].acted == true) {
 			changeGameState();
 		}

@@ -167,6 +167,19 @@ public class Player {
 		}
 	}
 	
+	public void printOutSituationFound(int n) {
+		String state = "";
+		if(GameController.gameState == 0) state = "PreFlop";
+		else if(GameController.gameState == 1) state = "Flop";
+		else if(GameController.gameState == 2) state = "Turn";
+		else if(GameController.gameState == 3) state = "River";
+		
+		
+		if(n != 0) {
+			System.out.println("Situation found on " + state);
+		}else System.out.println("Situation not found on " + state );
+	}
+	
 	public void findBestMovePreFlop() {
 		int max = 0;
 		int n = 0;
@@ -193,6 +206,7 @@ public class Player {
 				j = i;
 			}
 		}
+		printOutSituationFound(max);
 		if(j == 0) {
 			if(GameController.highestBet > bet) fold();
 			else call();
@@ -237,6 +251,7 @@ public class Player {
 				j = i;
 			}
 		}
+		printOutSituationFound(max);
 		if(j == 0) {
 			if(GameController.highestBet > bet) fold();
 			else call();
@@ -280,6 +295,7 @@ public class Player {
 				j = i;
 			}
 		}
+		printOutSituationFound(max);
 		if(j == 0) {
 			if(GameController.highestBet > bet) fold();
 			else call();
@@ -319,6 +335,7 @@ public class Player {
 				j = i;
 			}
 		}
+		printOutSituationFound(max);
 		if(j == 0) {
 			if(GameController.highestBet > bet) fold();
 			else call();
