@@ -132,9 +132,7 @@ public class Player {
 	}
 	
 	public void decideMove() {
-		
 		saveVar();
-		
 		if(!rand && GameController.gameState == 0) {
 			findBestMovePreFlop();
 		}else if(!rand && GameController.gameState == 1) {
