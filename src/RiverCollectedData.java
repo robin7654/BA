@@ -49,7 +49,7 @@ public class RiverCollectedData {
 		}
 	}
 	
-	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f, int g){
+	public RewardEntry getEntry(int a, int b, int c, int d, int e, int f){
 			RewardEntry mapValue = map.get(new RiverCollectedData(a,b,c,d,e,f));
 			return mapValue;
 	}

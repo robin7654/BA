@@ -100,7 +100,7 @@ public class GameController {
 			changeGameState();
 		}
 		
-		if(!player[0].bot) player[0].saveSituation();
+		//if(!player[0].bot) player[0].saveSituation();
 		
 		//System.out.println("Fin " + player[0].balance +" "+ player[1].balance +" "+ player[2].balance);
 		//System.out.println("Hand finished\n");
@@ -162,8 +162,7 @@ public class GameController {
 			else player[i].activeInHand = false;
 			player[i].allIn = false;
 			player[i].playsForSidePot = false;
-			player[i].bbPreFlopFifth = player[i].balance/blind/5;
-			player[i].balancePreFlop = player[i].balance;
+			//player[i].balancePreFlop = player[i].balance;
 		}
 	}
 	
@@ -328,7 +327,7 @@ public class GameController {
 			changeGameState();
 		}	
 		if(activeHand && player[activePlayer].activeInHand) {
-			if(!player[activePlayer].bot) player[activePlayer].saveSituation();
+			//if(!player[activePlayer].bot) player[activePlayer].saveSituation();
 			if(player[activePlayer].bot && player[activePlayer].acted == false) {
 				if(!player[activePlayer].allIn) {
 					player[activePlayer].decideMove();

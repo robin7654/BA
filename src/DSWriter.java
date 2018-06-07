@@ -37,13 +37,13 @@ public class DSWriter {
 	int [] turn = new int[4];
 	int [] river = new int[5];
 	
-	public static int cardCombination(int[] boardCards, int card1, int card2){
+	public int cardCombination(int[] boardCards, int card0, int card1){
 		int[] cardsToCheck = new int [boardCards.length + 2];
 		for (int i = 0; i < boardCards.length; i++){
 			cardsToCheck[i] = boardCards[i];
 		}
-		cardsToCheck[cardsToCheck.length -1] = card2;
-		cardsToCheck[cardsToCheck.length -2] = card1;
+		cardsToCheck[cardsToCheck.length -1] = card1;
+		cardsToCheck[cardsToCheck.length -2] = card0;
 		return DetermineWinner.playersHand(cardsToCheck)[0];
 	}
 	public int highestBoardCard(int[] cards){
@@ -51,14 +51,15 @@ public class DSWriter {
 		Arrays.sort(cards);
 		return cards[0]/4;	
 	}
-	public static int highestCardInHandCombination(int[] boardCards, int card1, int card2){
+	public int highestBoardCardIsInHandCombination(int[] boardCards, int card1, int card2){
 		int[] cardsToCheck = new int [boardCards.length + 2];
 		for (int i = 0; i < boardCards.length; i++){
 			cardsToCheck[i] = boardCards[i];
 		}
 		cardsToCheck[cardsToCheck.length -1] = card2;
 		cardsToCheck[cardsToCheck.length -2] = card1;
-		return DetermineWinner.playersHand(cardsToCheck)[1]/4;
+		if(DetermineWinner.playersHand(cardsToCheck)[1]/4 < highestBoardCard(boardCards)) return 0;
+		else return 1;
 	}
 	
 	public int getRating(int i, int j) {
@@ -132,7 +133,7 @@ public class DSWriter {
 			int cardCombination = cardCombination(flop, holeCards[i*2], holeCards[i*2 +1]); 
 			int playerBB = stacksOnFlop[i];
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnFlop);
-			int highestBoardCardIsInHandCombination = highestCardInHandCombination(flop, holeCards[i*2], holeCards[i*2 +1]);
+			int highestBoardCardIsInHandCombination = highestBoardCardIsInHandCombination(flop, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop))/(blind*3);
 			int flushDraw = DetermineWinner.isFlushDraw(holeCards[i*2], holeCards[i*2+1], flop);
 			int straightDraw = DetermineWinner.isStraightDraw(holeCards[i*2], holeCards[i*2+1], flop);
@@ -160,7 +161,7 @@ public class DSWriter {
 			int cardCombination = cardCombination(turn, holeCards[i*2], holeCards[i*2 +1]); 
 			int playerBB = stacksOnTurn[i];
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnTurn);
-			int highestBoardCardIsInHandCombination = highestCardInHandCombination(turn, holeCards[i*2], holeCards[i*2 +1]);
+			int highestBoardCardIsInHandCombination = highestBoardCardIsInHandCombination(turn, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn))/(blind*3);
 			int flushDraw = DetermineWinner.isFlushDraw(holeCards[i*2], holeCards[i*2+1], turn);
 			int straightDraw = DetermineWinner.isStraightDraw(holeCards[i*2], holeCards[i*2+1], turn);
@@ -188,7 +189,7 @@ public class DSWriter {
 			int cardCombination = cardCombination(river, holeCards[i*2], holeCards[i*2 +1]); 
 			int playerBB = stacksOnRiver[i];
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnRiver);
-			int highestBoardCardIsInHandCombination = highestCardInHandCombination(river, holeCards[i*2], holeCards[i*2 +1]);
+			int highestBoardCardIsInHandCombination = highestBoardCardIsInHandCombination(river, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn) + potSize(betsOnRiver))/(blind*3);
 			
 			GameController.cDR.createEntry(value, action, cardCombination, playerBB, wasRaisedBySomeoneElse, highestBoardCardIsInHandCombination, potSize);
