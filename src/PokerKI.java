@@ -240,7 +240,7 @@ public class PokerKI {
 		btnPlayX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				long tStart = System.currentTimeMillis();
-				GameController.playX(10000);
+				GameController.playX(100);
 				long tEnd = System.currentTimeMillis();
 				System.out.println(((tEnd-tStart)/1000) + " s");
 			}

@@ -153,7 +153,7 @@ public class Player {
 				fold();
 				return;
 			}
-			else if(rand < 6) {
+			else if(rand < 0) {
 				if(balance + bet <= GameController.highestBet) call();
 				else if(GameController.highestBet == 0) raise(GameController.blind);
 				else {
@@ -168,7 +168,7 @@ public class Player {
 	}
 	
 	public void printOutSituationFound(int n) {
-		String state = "";
+		/*String state = "";
 		if(GameController.gameState == 0) state = "PreFlop";
 		else if(GameController.gameState == 1) state = "Flop";
 		else if(GameController.gameState == 2) state = "Turn";
@@ -177,7 +177,7 @@ public class Player {
 		
 		if(n != 0) {
 			System.out.println("Situation found on " + state);
-		}else System.out.println("Situation not found on " + state );
+		}else System.out.println("Situation not found on " + state);*/
 	}
 	
 	public void findBestMovePreFlop() {
@@ -207,16 +207,28 @@ public class Player {
 			}
 		}
 		printOutSituationFound(max);
-		if(j == 0) {
-			if(GameController.highestBet > bet) fold();
-			else call();
-		}
-		else if(j == 1) {
-			call();
+		if(max == 0) {
+			Random randomGenerator = new Random();
+			int rand = randomGenerator.nextInt(2);
+			if(rand < 1) {
+				call();
+			}else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 		else {
-			if(GameController.highestBet == 0) raise(GameController.blind*2);
-			else raise(GameController.highestBet*2);
+			if(j == 0) {
+				if(GameController.highestBet > bet) fold();
+				else call();
+			}
+			else if(j == 1) {
+				call();
+			}
+			else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 	}
 	
@@ -252,16 +264,28 @@ public class Player {
 			}
 		}
 		printOutSituationFound(max);
-		if(j == 0) {
-			if(GameController.highestBet > bet) fold();
-			else call();
-		}
-		else if(j == 1) {
-			call();
+		if(max == 0) {
+			Random randomGenerator = new Random();
+			int rand = randomGenerator.nextInt(2);
+			if(rand < 1) {
+				call();
+			}else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 		else {
-			if(GameController.highestBet == 0) raise(GameController.blind*2);
-			else raise(GameController.highestBet*2);
+			if(j == 0) {
+				if(GameController.highestBet > bet) fold();
+				else call();
+			}
+			else if(j == 1) {
+				call();
+			}
+			else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 	}
 	
@@ -296,16 +320,28 @@ public class Player {
 			}
 		}
 		printOutSituationFound(max);
-		if(j == 0) {
-			if(GameController.highestBet > bet) fold();
-			else call();
-		}
-		else if(j == 1) {
-			call();
+		if(max == 0) {
+			Random randomGenerator = new Random();
+			int rand = randomGenerator.nextInt(2);
+			if(rand < 1) {
+				call();
+			}else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 		else {
-			if(GameController.highestBet == 0) raise(GameController.blind*2);
-			else raise(GameController.highestBet*2);
+			if(j == 0) {
+				if(GameController.highestBet > bet) fold();
+				else call();
+			}
+			else if(j == 1) {
+				call();
+			}
+			else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 	}
 	
@@ -336,16 +372,28 @@ public class Player {
 			}
 		}
 		printOutSituationFound(max);
-		if(j == 0) {
-			if(GameController.highestBet > bet) fold();
-			else call();
-		}
-		else if(j == 1) {
-			call();
+		if(max == 0) {
+			Random randomGenerator = new Random();
+			int rand = randomGenerator.nextInt(2);
+			if(rand < 1) {
+				call();
+			}else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 		else {
-			if(GameController.highestBet == 0) raise(GameController.blind*2);
-			else raise(GameController.highestBet*2);
+			if(j == 0) {
+				if(GameController.highestBet > bet) fold();
+				else call();
+			}
+			else if(j == 1) {
+				call();
+			}
+			else {
+				if(GameController.highestBet == 0) raise(GameController.blind*4);
+				else raise(GameController.highestBet*4);
+			}
 		}
 	}
 	
