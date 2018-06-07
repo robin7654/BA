@@ -321,7 +321,7 @@ public class GameController {
 	}	
 	
 	static public void getNextMove() {
-		System.out.print(activePlayer + " " +player[activePlayer].acted + " ");
+		//System.out.print(activePlayer + " " +player[activePlayer].acted + " ");
 		
 		if(player[activePlayer].acted == true) {
 			changeGameState();

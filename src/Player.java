@@ -66,7 +66,7 @@ public class Player {
 		this.acted = true;
 		action = 2;
 		GameController.highestBet = bet;
-		System.out.println(playerName + " raised to " + bet);
+		//System.out.println(playerName + " raised to " + bet);
 		
 		GameController.changeActivePlayer();
 	}
@@ -76,7 +76,7 @@ public class Player {
 			balance += bet;
 			bet = GameController.highestBet;
 			balance -= bet;
-			System.out.println(playerName + " called " + bet);
+			//System.out.println(playerName + " called " + bet);
 			
 		}else if(balance + bet <= GameController.highestBet) {
 			bet += balance;
@@ -84,7 +84,7 @@ public class Player {
 			allIn = true;
 			
 		}else {
-			System.out.println(playerName + " checked");
+			//System.out.println(playerName + " checked");
 		}
 		
 		this.acted = true;
@@ -95,7 +95,7 @@ public class Player {
 	public void fold(){
 		activeInHand = false;
 		this.acted = true;
-		System.out.println(playerName + " folded");
+		//System.out.println(playerName + " folded");
 		int[] bets = new int[3];
 		for(int i = 0; i < GameController.player.length; i++) {
 			bets[i] = GameController.player[i].bet;

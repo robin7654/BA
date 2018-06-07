@@ -115,13 +115,13 @@ public class DSWriter {
 			
 			GameController.cD.createEntry(value, action, playerBBThird, cardRating, wasRaisedBySomeoneElse, button, potSizeInBBThird);
 			
-			System.out.println(value);
+			/*System.out.println(value);
 			System.out.println(action);
 			System.out.println(playerBBThird);
 			System.out.println(cardRating);
 			System.out.println(wasRaisedBySomeoneElse);
 			System.out.println(button);
-			System.out.println(potSizeInBBThird);
+			System.out.println(potSizeInBBThird);*/
 			
 		}
 
@@ -140,7 +140,7 @@ public class DSWriter {
 			
 			GameController.cDF.createEntry(value, action, cardCombination, playerBB, wasRaisedBySomeoneElse, highestBoardCardIsInHandCombination, potSize, flushDraw, straightDraw);
 			
-			System.out.println(value);
+			/*System.out.println(value);
 			System.out.println(action);
 			System.out.println(cardCombination);
 			System.out.println(playerBB);
@@ -149,7 +149,7 @@ public class DSWriter {
 
 			System.out.println(potSize);
 			System.out.println(flushDraw);
-			System.out.println(straightDraw);
+			System.out.println(straightDraw);*/
 			
 		}
 		//TODO
@@ -168,7 +168,7 @@ public class DSWriter {
 			
 			GameController.cDT.createEntry(value, action, cardCombination, playerBB, wasRaisedBySomeoneElse, highestBoardCardIsInHandCombination, potSize, flushDraw, straightDraw);
 			
-			System.out.println(value);
+			/*System.out.println(value);
 			System.out.println(action);
 			System.out.println(cardCombination);
 			System.out.println(playerBB);
@@ -176,7 +176,7 @@ public class DSWriter {
 			System.out.println(highestBoardCardIsInHandCombination);
 			System.out.println(potSize);
 			System.out.println(flushDraw);
-			System.out.println(straightDraw);
+			System.out.println(straightDraw);*/
 			
 		}
 		
@@ -195,13 +195,13 @@ public class DSWriter {
 			GameController.cDR.createEntry(value, action, cardCombination, playerBB, wasRaisedBySomeoneElse, highestBoardCardIsInHandCombination, potSize);
 			
 			
-			System.out.println(value);
+			/*System.out.println(value);
 			System.out.println(action);
 			System.out.println(cardCombination);
 			System.out.println(playerBB);
 			System.out.println(wasRaisedBySomeoneElse);
 			System.out.println(highestBoardCardIsInHandCombination);
-			System.out.println(potSize);
+			System.out.println(potSize);*/
 			
 		}
 		
