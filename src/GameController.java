@@ -45,7 +45,7 @@ public class GameController {
 	
 	
 	public static void startNewGame() {
-		player[0] = new Player(false, true, "Player", 0);
+		player[0] = new Player(false, false, "Player", 0);
 		player[1] = new Player(true, false, "Bot1", 1);
 		player[2] = new Player(true, false, "Bot2", 2);
 		
@@ -100,7 +100,7 @@ public class GameController {
 			changeGameState();
 		}
 		
-		//if(!player[0].bot) player[0].saveSituation();
+		if(!player[0].bot) player[0].saveVar();
 		
 		//System.out.println("Fin " + player[0].balance +" "+ player[1].balance +" "+ player[2].balance);
 		//System.out.println("Hand finished\n");
@@ -114,7 +114,7 @@ public class GameController {
 			
 			
 			player[0].bot = true;
-			player[0].rand = true;
+			//player[0].rand = true;
 			
 			//startNewGame();
 			
@@ -327,7 +327,7 @@ public class GameController {
 			changeGameState();
 		}	
 		if(activeHand && player[activePlayer].activeInHand) {
-			//if(!player[activePlayer].bot) player[activePlayer].saveSituation();
+			if(!player[activePlayer].bot) player[activePlayer].saveVar();
 			if(player[activePlayer].bot && player[activePlayer].acted == false) {
 				if(!player[activePlayer].allIn) {
 					player[activePlayer].decideMove();

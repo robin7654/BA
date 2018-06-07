@@ -132,7 +132,9 @@ public class Player {
 	}
 	
 	public void decideMove() {
+		
 		saveVar();
+		
 		if(!rand && GameController.gameState == 0) {
 			findBestMovePreFlop();
 		}else if(!rand && GameController.gameState == 1) {
@@ -183,9 +185,9 @@ public class Player {
 			System.out.println(GameController.dsW.getRating(card0, card1));
 			System.out.println(wasRaisedBySomeoneElse);
 			System.out.println(hasButton);
-			System.out.println(potSizeInBBThird);
+			System.out.println(potSizeInBBThird);*/
 			
-			System.out.println(n);*/
+			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
@@ -199,7 +201,8 @@ public class Player {
 			call();
 		}
 		else {
-			raise(GameController.highestBet*2);
+			if(GameController.highestBet == 0) raise(GameController.blind*2);
+			else raise(GameController.highestBet*2);
 		}
 	}
 	
@@ -217,6 +220,18 @@ public class Player {
 					potSizeInBBThird,
 					flushDrawOnFlop,
 					straightDrawOnFlop);
+			
+			/*System.out.println("i " + i + " num " + playerNum);
+			System.out.println(flopCombination);
+			System.out.println(bbThird);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(highestFlopCardIsInHandCombination);
+			System.out.println(potSizeInBBThird);
+			System.out.println(flushDrawOnFlop);
+			System.out.println(straightDrawOnFlop);*/
+			
+			
+			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
@@ -230,7 +245,8 @@ public class Player {
 			call();
 		}
 		else {
-			raise(GameController.highestBet*2);
+			if(GameController.highestBet == 0) raise(GameController.blind*2);
+			else raise(GameController.highestBet*2);
 		}
 	}
 	
@@ -248,6 +264,17 @@ public class Player {
 					potSizeInBBThird,
 					flushDrawOnTurn,
 					straightDrawOnTurn);
+			
+			/*System.out.println(i);
+			System.out.println(turnCombination);
+			System.out.println(bbThird);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(highestFlopCardIsInHandCombination);
+			System.out.println(potSizeInBBThird);
+			System.out.println(flushDrawOnFlop);
+			System.out.println(straightDrawOnFlop);*/
+			
+			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
@@ -261,7 +288,8 @@ public class Player {
 			call();
 		}
 		else {
-			raise(GameController.highestBet*2);
+			if(GameController.highestBet == 0) raise(GameController.blind*2);
+			else raise(GameController.highestBet*2);
 		}
 	}
 	
@@ -277,6 +305,15 @@ public class Player {
 					wasRaisedBySomeoneElse,
 					highestRiverCardIsInHandCombination,
 					potSizeInBBThird);
+			
+			/*System.out.println(i);
+			System.out.println(riverCombination);
+			System.out.println(bbThird);
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(highestFlopCardIsInHandCombination);
+			System.out.println(potSizeInBBThird);*/
+			
+			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
@@ -290,7 +327,8 @@ public class Player {
 			call();
 		}
 		else {
-			raise(GameController.highestBet*2);
+			if(GameController.highestBet == 0) raise(GameController.blind*2);
+			else raise(GameController.highestBet*2);
 		}
 	}
 	
@@ -369,8 +407,8 @@ public class Player {
 	
 	public int getSimilarPotSituationAverageOnRiver(int a, int b, int c, int d, int e, int f) {
 		for(int i = 0; i < 3; i++) {
-			if(GameController.cDR.getEntry(a, b, c, d, e, f+i) != null) return GameController.cDR.getEntry(a, b, c, d, e, f).getRewardAverage();
-			if(GameController.cDR.getEntry(a, b, c, d, e, f-i) != null) GameController.cDR.getEntry(a, b, c, d, e, f).getRewardAverage();
+			if(GameController.cDR.getEntry(a, b, c, d, e, f+i) != null) return GameController.cDR.getEntry(a, b, c, d, e, f+i).getRewardAverage();
+			if(GameController.cDR.getEntry(a, b, c, d, e, f-i) != null) GameController.cDR.getEntry(a, b, c, d, e, f-i).getRewardAverage();
 		}
 		return Integer.MIN_VALUE;
 	}
@@ -393,8 +431,12 @@ public class Player {
 				turn[i] = GameController.cardDeck[i];
 				river[i] = GameController.cardDeck[i];
 			}
+			
+			//System.out.println(card0 + " " + card1);
+			
 			turn[3] = GameController.cardDeck[3];
 			river[3] = GameController.cardDeck[3];
+			
 			river[4] = GameController.cardDeck[4];
 			
 			flopCombination = GameController.dsW.cardCombination(flop, card0, card1);

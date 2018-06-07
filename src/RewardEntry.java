@@ -12,6 +12,7 @@ public class RewardEntry {
 	public RewardEntry(int v){
 		this.rewardCount = 1;
 		this.rewardValue = v;
+		this.rewardAverage = v;
 		this.rewardVariance = 0;
 		this.individualRewards = new ArrayList<>();
 	}

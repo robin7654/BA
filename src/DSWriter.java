@@ -122,6 +122,7 @@ public class DSWriter {
 			System.out.println(wasRaisedBySomeoneElse);
 			System.out.println(button);
 			System.out.println(potSizeInBBThird);*/
+			//System.out.println(GameController.cD.getEntry(action, playerBBThird, cardRating, wasRaisedBySomeoneElse, button, potSizeInBBThird).getRewardAverage());
 			
 		}
 
@@ -131,7 +132,7 @@ public class DSWriter {
 			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsOnFlop[i];
 			int cardCombination = cardCombination(flop, holeCards[i*2], holeCards[i*2 +1]); 
-			int playerBB = stacksOnFlop[i];
+			int playerBB = stacksOnFlop[i]/(blind * 3);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnFlop);
 			int highestBoardCardIsInHandCombination = highestBoardCardIsInHandCombination(flop, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop))/(blind*3);
@@ -140,7 +141,7 @@ public class DSWriter {
 			
 			GameController.cDF.createEntry(value, action, cardCombination, playerBB, wasRaisedBySomeoneElse, highestBoardCardIsInHandCombination, potSize, flushDraw, straightDraw);
 			
-			/*System.out.println(value);
+			/*System.out.println("v " + value);
 			System.out.println(action);
 			System.out.println(cardCombination);
 			System.out.println(playerBB);
@@ -159,7 +160,7 @@ public class DSWriter {
 			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsOnTurn[i];
 			int cardCombination = cardCombination(turn, holeCards[i*2], holeCards[i*2 +1]); 
-			int playerBB = stacksOnTurn[i];
+			int playerBB = stacksOnTurn[i]/(blind * 3);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnTurn);
 			int highestBoardCardIsInHandCombination = highestBoardCardIsInHandCombination(turn, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn))/(blind*3);
@@ -187,7 +188,7 @@ public class DSWriter {
 			int value = stacksPostHand[i] - stacksPreHand[i];
 			int action = actionsOnRiver[i];
 			int cardCombination = cardCombination(river, holeCards[i*2], holeCards[i*2 +1]); 
-			int playerBB = stacksOnRiver[i];
+			int playerBB = stacksOnRiver[i]/(blind * 3);
 			int wasRaisedBySomeoneElse = getWasRaisedBySomeoneElse(i, actionsOnRiver);
 			int highestBoardCardIsInHandCombination = highestBoardCardIsInHandCombination(river, holeCards[i*2], holeCards[i*2 +1]);
 			int potSize = (potSize(betsPreFlop) + potSize(betsOnFlop) + potSize(betsOnTurn) + potSize(betsOnRiver))/(blind*3);
