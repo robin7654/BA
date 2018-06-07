@@ -177,7 +177,15 @@ public class Player {
 					wasRaisedBySomeoneElse,
 					hasButton,
 					potSizeInBBThird);
-			System.out.println(n);
+			
+			/*System.out.println(i);
+			System.out.println(bbThird);
+			System.out.println(GameController.dsW.getRating(card0, card1));
+			System.out.println(wasRaisedBySomeoneElse);
+			System.out.println(hasButton);
+			System.out.println(potSizeInBBThird);
+			
+			System.out.println(n);*/
 			if(n > max) {
 				max = n;
 				j = i;
@@ -412,6 +420,7 @@ public class Player {
 			for(int i = 0; i < 3; i++) {
 				potSizeInBBThird += GameController.player[i].bet;
 			}
+			potSizeInBBThird = potSizeInBBThird/(GameController.blind*3);
 			
 			if(GameController.highestBet > bet) wasRaisedBySomeoneElse = 1;
 			else wasRaisedBySomeoneElse = 0;
