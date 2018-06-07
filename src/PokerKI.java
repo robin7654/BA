@@ -415,11 +415,11 @@ public class PokerKI {
 		lblPot.setText("$" + Integer.toString(GameController.mainPot));
 	}
 	protected void updateBotCards() {
-		if(!GameController.player[1].activeInHand) {
+		if(!GameController.player[1].activeInHand && GameController.gameState < 4) {
 			setCardLabel(7, 53);
 			setCardLabel(8, 53);
 		}
-		if(!GameController.player[2].activeInHand) {
+		if(!GameController.player[2].activeInHand && GameController.gameState < 4) {
 			setCardLabel(9,53);
 			setCardLabel(10,53);
 		}
