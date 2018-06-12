@@ -168,7 +168,7 @@ public class Player {
 	}
 	
 	public void printOutSituationFound(int n) {
-		/*String state = "";
+		String state = "";
 		if(GameController.gameState == 0) state = "PreFlop";
 		else if(GameController.gameState == 1) state = "Flop";
 		else if(GameController.gameState == 2) state = "Turn";
@@ -177,35 +177,10 @@ public class Player {
 		
 		if(n != 0) {
 			System.out.println("Situation found on " + state);
-		}else System.out.println("Situation not found on " + state);*/
+		}else System.out.println("Situation not found on " + state);
 	}
 	
-	public void findBestMovePreFlop() {
-		int max = 0;
-		int n = 0;
-		int j = 0;
-		for(int i = 0; i < 3; i++) {
-			n = getSimilarSituationAveragePreFlop(
-					i,
-					bbThird,
-					GameController.dsW.getRating(card0, card1),
-					wasRaisedBySomeoneElse,
-					hasButton,
-					potSizeInBBThird);
-			
-			/*System.out.println(i);
-			System.out.println(bbThird);
-			System.out.println(GameController.dsW.getRating(card0, card1));
-			System.out.println(wasRaisedBySomeoneElse);
-			System.out.println(hasButton);
-			System.out.println(potSizeInBBThird);*/
-			
-			//System.out.println(i + " " + n);
-			if(n > max) {
-				max = n;
-				j = i;
-			}
-		}
+	public void decideMove(int max, int j) {
 		printOutSituationFound(max);
 		if(max == 0) {
 			Random randomGenerator = new Random();
@@ -232,8 +207,30 @@ public class Player {
 		}
 	}
 	
+	public void findBestMovePreFlop() {
+		int max = Integer.MIN_VALUE;
+		int n = 0;
+		int j = 0;
+		for(int i = 0; i < 3; i++) {
+			n = getSimilarSituationAveragePreFlop(
+					i,
+					bbThird,
+					GameController.dsW.getRating(card0, card1),
+					wasRaisedBySomeoneElse,
+					hasButton,
+					potSizeInBBThird);
+			
+			if(n > max) {
+				max = n;
+				j = i;
+			}
+		}
+		decideMove(max, j);
+		
+	}
+	
 	public void findBestMoveOnFlop() {
-		int max = 0;
+		int max = Integer.MIN_VALUE;
 		int n = 0;
 		int j = 0;
 		for(int i = 0; i < 3; i++) {
@@ -247,50 +244,16 @@ public class Player {
 					flushDrawOnFlop,
 					straightDrawOnFlop);
 			
-			/*System.out.println("i " + i + " num " + playerNum);
-			System.out.println(flopCombination);
-			System.out.println(bbThird);
-			System.out.println(wasRaisedBySomeoneElse);
-			System.out.println(highestFlopCardIsInHandCombination);
-			System.out.println(potSizeInBBThird);
-			System.out.println(flushDrawOnFlop);
-			System.out.println(straightDrawOnFlop);*/
-			
-			
-			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
 			}
 		}
-		printOutSituationFound(max);
-		if(max == 0) {
-			Random randomGenerator = new Random();
-			int rand = randomGenerator.nextInt(2);
-			if(rand < 1) {
-				call();
-			}else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
-		}
-		else {
-			if(j == 0) {
-				if(GameController.highestBet > bet) fold();
-				else call();
-			}
-			else if(j == 1) {
-				call();
-			}
-			else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
-		}
+		decideMove(max, j);
 	}
 	
 	public void findBestMoveOnTurn() {
-		int max = 0;
+		int max = Integer.MIN_VALUE;
 		int n = 0;
 		int j = 0;
 		for(int i = 0; i < 3; i++) {
@@ -304,49 +267,16 @@ public class Player {
 					flushDrawOnTurn,
 					straightDrawOnTurn);
 			
-			/*System.out.println(i);
-			System.out.println(turnCombination);
-			System.out.println(bbThird);
-			System.out.println(wasRaisedBySomeoneElse);
-			System.out.println(highestFlopCardIsInHandCombination);
-			System.out.println(potSizeInBBThird);
-			System.out.println(flushDrawOnFlop);
-			System.out.println(straightDrawOnFlop);*/
-			
-			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
 			}
 		}
-		printOutSituationFound(max);
-		if(max == 0) {
-			Random randomGenerator = new Random();
-			int rand = randomGenerator.nextInt(2);
-			if(rand < 1) {
-				call();
-			}else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
-		}
-		else {
-			if(j == 0) {
-				if(GameController.highestBet > bet) fold();
-				else call();
-			}
-			else if(j == 1) {
-				call();
-			}
-			else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
-		}
+		decideMove(max, j);
 	}
 	
 	public void findBestMoveOnRiver() {
-		int max = 0;
+		int max = Integer.MIN_VALUE;
 		int n = 0;
 		int j = 0;
 		for(int i = 0; i < 3; i++) {
@@ -358,46 +288,16 @@ public class Player {
 					highestRiverCardIsInHandCombination,
 					potSizeInBBThird);
 			
-			/*System.out.println(i);
-			System.out.println(riverCombination);
-			System.out.println(bbThird);
-			System.out.println(wasRaisedBySomeoneElse);
-			System.out.println(highestFlopCardIsInHandCombination);
-			System.out.println(potSizeInBBThird);*/
-			
-			//System.out.println(i + " " + n);
 			if(n > max) {
 				max = n;
 				j = i;
 			}
 		}
-		printOutSituationFound(max);
-		if(max == 0) {
-			Random randomGenerator = new Random();
-			int rand = randomGenerator.nextInt(2);
-			if(rand < 1) {
-				call();
-			}else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
-		}
-		else {
-			if(j == 0) {
-				if(GameController.highestBet > bet) fold();
-				else call();
-			}
-			else if(j == 1) {
-				call();
-			}
-			else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
-		}
+		decideMove(max, j);
 	}
 	
 	public int getSimilarSituationAveragePreFlop(int a, int b, int c, int d, int e, int f) {
+		if(getSimilarButtonSituationAveragePreFlop(a, b, c, d, e, f) == Integer.MIN_VALUE) return 0;
 		return getSimilarButtonSituationAveragePreFlop(a, b, c, d, e, f);
 	}
 	
@@ -422,6 +322,7 @@ public class Player {
 	
 	
 	public int getSimilarSituationAverageOnFlop(int a, int b, int c, int d, int e, int f, int g, int h) {
+		if(getSimilarPotSituationAverageOnFlop(a,b,c,d,e,f,g,h) == Integer.MIN_VALUE) return 0;
 		return getSimilarPotSituationAverageOnFlop(a,b,c,d,e,f,g,h);
 	}
 	
@@ -445,6 +346,7 @@ public class Player {
 	
 	
 	public int getSimilarSituationAverageOnTurn(int a, int b, int c, int d, int e, int f, int g, int h) {
+		if(getSimilarPotSituationAverageOnTurn(a,b,c,d,e,f,g,h) == Integer.MIN_VALUE) return 0;
 		return getSimilarPotSituationAverageOnTurn(a,b,c,d,e,f,g,h);
 	}
 	
@@ -467,6 +369,7 @@ public class Player {
 	}
 	
 	public int getSimilarSituationAverageOnRiver(int a, int b, int c, int d, int e, int f) {
+		if(getSimilarPotSituationAverageOnRiver(a,b,c,d,e,f) == Integer.MIN_VALUE) return 0;
 		return getSimilarPotSituationAverageOnRiver(a,b,c,d,e,f);
 	}
 	
