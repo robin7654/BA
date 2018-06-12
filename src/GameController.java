@@ -46,8 +46,8 @@ public class GameController {
 	
 	public static void startNewGame() {
 		player[0] = new Player(false, false, "Player", 0);
-		player[1] = new Player(true, true, "Bot1", 1);
-		player[2] = new Player(true, true, "Bot2", 2);
+		player[1] = new Player(true, false, "Bot1", 1);
+		player[2] = new Player(true, false, "Bot2", 2);
 		
 		setGameState(5);
 		
@@ -307,7 +307,11 @@ public class GameController {
 		else if(blind == 80) blind = 120;
 		else if(blind == 120) blind = 160;
 		else if(blind == 160) blind = 200;
-		
+		else if(blind == 200) blind = 300;
+		else if(blind == 200) blind = 400;
+		else if(blind == 400) blind = 600;
+		else if(blind == 600) blind = 800;
+		else if(blind == 800) blind = 1200;
 		gamesTillLvChangeCount = 0;
 	}
 	

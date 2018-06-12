@@ -176,8 +176,8 @@ public class Player {
 		
 		
 		if(n != 0) {
-			System.out.println("Situation found on " + state);
-		}else System.out.println("Situation not found on " + state);
+			//System.out.println("Situation found on " + state);
+		}//else System.out.println("Situation not found on " + state);
 	}
 	
 	public void decideMove(int max, int j) {
@@ -185,7 +185,7 @@ public class Player {
 		
 		Random randomGenerator = new Random();
 		int rand = randomGenerator.nextInt(100);
-		if(rand < 6) {
+		if(rand < 70) {
 			j = ((j+1) + (rand%2))%3;
 		}
 		if(j == 0) {
