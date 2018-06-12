@@ -304,14 +304,24 @@ public class GameController {
 		else if(blind == 30) blind = 40;
 		else if(blind == 40) blind = 60;
 		else if(blind == 60) blind = 80;
-		else if(blind == 80) blind = 120;
-		else if(blind == 120) blind = 160;
-		else if(blind == 160) blind = 200;
-		else if(blind == 200) blind = 300;
-		else if(blind == 200) blind = 400;
-		else if(blind == 400) blind = 600;
-		else if(blind == 600) blind = 800;
-		else if(blind == 800) blind = 1200;
+		else if(blind == 80) blind = 100;
+		else if(blind == 100) blind = 120;
+		else if(blind == 120) blind = 150;
+		else if(blind == 150) blind = 180;
+		else if(blind == 180) blind = 210;
+		else if(blind == 210) blind = 250;
+		else if(blind == 250) blind = 300;
+		else if(blind == 300) blind = 350;
+		else if(blind == 350) blind = 400;
+		else if(blind == 400) blind = 450;
+		else if(blind == 450) blind = 500;
+		else if(blind == 500) blind = 600;
+		else if(blind == 600) blind = 700;
+		else if(blind == 700) blind = 800;
+		else if(blind == 800) blind = 1000;
+		else if(blind == 1000) blind = 1200;
+		else if(blind == 1200) blind = 1500;
+		
 		gamesTillLvChangeCount = 0;
 	}
 	
