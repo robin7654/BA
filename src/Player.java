@@ -182,28 +182,22 @@ public class Player {
 	
 	public void decideMove(int max, int j) {
 		printOutSituationFound(max);
-		if(max == 0) {
-			Random randomGenerator = new Random();
-			int rand = randomGenerator.nextInt(2);
-			if(rand < 1) {
-				call();
-			}else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
+		
+		Random randomGenerator = new Random();
+		int rand = randomGenerator.nextInt(100);
+		if(rand < 6) {
+			j = ((j+1) + (rand%2))%3;
+		}
+		if(j == 0) {
+			if(GameController.highestBet > bet) fold();
+			else call();
+		}
+		else if(j == 1) {
+			call();
 		}
 		else {
-			if(j == 0) {
-				if(GameController.highestBet > bet) fold();
-				else call();
-			}
-			else if(j == 1) {
-				call();
-			}
-			else {
-				if(GameController.highestBet == 0) raise(GameController.blind*4);
-				else raise(GameController.highestBet*4);
-			}
+			if(GameController.highestBet == 0) raise(GameController.blind*4);
+			else raise(GameController.highestBet*4);
 		}
 	}
 	
